@@ -1,0 +1,1369 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>نقشه راه رتبه‌یار</title>
+<meta name="description" content="سند جامع تحقیق، طراحی محصول، معماری فنی، هوش مصنوعی، هزینه و کسب‌وکار برای پلتفرم هوشمند مشاوره کنکور">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@300;400;500;600;700;800;900&family=Markazi+Text:wght@500;600;700&display=swap">
+<style>
+/* Layout: fixed right-hand sidebar (RTL), one reading column ~72ch, wide tables scroll inside their own frame.
+   Identity: "دفتر برنامه‌ریزی" — the counselor's planning notebook, rendered as a modern product spec.
+   Accent = Persian blue (لاجورد), secondary = saffron (زعفران), neutrals biased cool. */
+:root{
+  --bg:#f4f6f9; --surface:#ffffff; --surface-2:#eef2f7; --line:#d9e0ea; --line-strong:#b9c4d4;
+  --fg:#111827; --fg-2:#3f4a5c; --muted:#6b7688;
+  --accent:#1d4fd7; --accent-fg:#ffffff; --accent-soft:#e3eafd; --accent-2:#b57500; --accent-2-soft:#fff2d6;
+  --good:#0ca30c; --warn:#fab219; --serious:#ec835a; --crit:#d03b3b;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a; --s4:#eda100; --s5:#e87ba4; --s6:#008300; --s7:#4a3aa7; --s8:#e34948;
+  --grid:#e1e0d9; --axis:#c3c2b7;
+  --shadow:0 1px 2px rgba(17,24,39,.06),0 8px 24px -12px rgba(17,24,39,.18);
+  --font-body:"Vazirmatn",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --font-display:"Markazi Text","Vazirmatn",serif;
+  --font-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --radius:12px; --sidebar:272px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0e1218; --surface:#161c25; --surface-2:#1d2531; --line:#28323f; --line-strong:#3a4757;
+    --fg:#eef2f7; --fg-2:#c3cbd8; --muted:#8a96a8;
+    --accent:#6b93ff; --accent-fg:#0b1220; --accent-soft:#1a2745; --accent-2:#f0b13a; --accent-2-soft:#3a2d10;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+    --grid:#2c2c2a; --axis:#383835;
+    --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0e1218; --surface:#161c25; --surface-2:#1d2531; --line:#28323f; --line-strong:#3a4757;
+  --fg:#eef2f7; --fg-2:#c3cbd8; --muted:#8a96a8;
+  --accent:#6b93ff; --accent-fg:#0b1220; --accent-soft:#1a2745; --accent-2:#f0b13a; --accent-2-soft:#3a2d10;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70; --s4:#c98500; --s5:#d55181; --s6:#008300; --s7:#9085e9; --s8:#e66767;
+  --grid:#2c2c2a; --axis:#383835;
+  --shadow:0 1px 2px rgba(0,0,0,.4),0 8px 24px -12px rgba(0,0,0,.6);
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{animation:none!important;transition:none!important}}
+html,body{margin:0;direction:rtl}
+body{overflow-x:clip}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.9;-webkit-font-smoothing:antialiased;font-feature-settings:"ss01"}
+a{color:var(--accent);text-decoration:none}
+a:hover{text-decoration:underline}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+code,kbd,pre{font-family:var(--font-mono);font-size:.86em}
+pre{background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;direction:ltr;text-align:left;line-height:1.6}
+code:not(pre code){background:var(--surface-2);border:1px solid var(--line);padding:1px 6px;border-radius:6px;direction:ltr;unicode-bidi:embed}
+
+/* ---------- shell ---------- */
+.shell{display:grid;grid-template-columns:var(--sidebar) minmax(0,1fr);min-height:100%}
+.sidebar{position:sticky;top:env(safe-area-inset-top,0px);height:100vh;overflow-y:auto;border-inline-start:1px solid var(--line);background:var(--surface);padding:22px 18px;display:flex;flex-direction:column;gap:14px}
+.brand{display:flex;align-items:center;gap:10px}
+.brand .logo{width:38px;height:38px;border-radius:10px;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center;font-weight:900;font-size:20px;flex:none}
+.brand b{font-size:17px;font-weight:800;display:block;line-height:1.3}
+.brand small{color:var(--muted);font-size:12px}
+.toc{display:flex;flex-direction:column;gap:2px;margin:0;padding:0;list-style:none}
+.toc a{display:flex;gap:10px;align-items:baseline;padding:7px 10px;border-radius:8px;color:var(--fg-2);font-size:14px;line-height:1.5}
+.toc a:hover{background:var(--surface-2);text-decoration:none}
+.toc a.active{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.toc a .n{font-variant-numeric:tabular-nums;color:var(--muted);font-size:12px;min-width:20px}
+.side-foot{margin-top:auto;font-size:12px;color:var(--muted);line-height:1.7}
+.main{min-width:0;padding-block:28px 96px;padding-inline:clamp(16px,4vw,56px)}
+.topbar{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:26px;flex-wrap:wrap}
+.topbar .meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;color:var(--muted);font-size:13px}
+.chip{display:inline-flex;align-items:center;gap:6px;padding:3px 10px;border-radius:999px;background:var(--surface-2);border:1px solid var(--line);font-size:12.5px;color:var(--fg-2);white-space:nowrap}
+.chip.acc{background:var(--accent-soft);border-color:transparent;color:var(--accent);font-weight:700}
+.chip.sun{background:var(--accent-2-soft);border-color:transparent;color:var(--accent-2);font-weight:700}
+.btn{appearance:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--fg);padding:8px 14px;border-radius:10px;font:inherit;font-size:14px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.btn:hover{background:var(--surface-2)}
+.btn.primary{background:var(--accent);color:var(--accent-fg);border-color:transparent;font-weight:700}
+.menu-btn{display:none}
+
+/* ---------- typography ---------- */
+.hero{padding:34px 0 10px;max-width:78ch}
+.hero .eyebrow{color:var(--accent-2);font-weight:700;letter-spacing:.06em;font-size:13px;text-transform:uppercase}
+h1{font-family:var(--font-display);font-weight:700;font-size:clamp(38px,5vw,60px);line-height:1.15;margin:8px 0 12px;text-wrap:balance}
+.lede{font-size:18px;color:var(--fg-2);max-width:66ch;line-height:1.95}
+section.sec{scroll-margin-top:24px;padding-top:48px;border-top:1px solid var(--line);margin-top:48px}
+section.sec>header{display:flex;flex-direction:column;gap:6px;margin-bottom:22px;max-width:78ch}
+section.sec>header .num{color:var(--accent);font-weight:800;font-variant-numeric:tabular-nums;font-size:13px;letter-spacing:.08em}
+h2{font-family:var(--font-display);font-size:clamp(30px,3.4vw,42px);font-weight:700;line-height:1.2;margin:0;text-wrap:balance}
+h3{font-size:21px;font-weight:800;margin:36px 0 12px;line-height:1.4;text-wrap:balance}
+h4{font-size:16.5px;font-weight:800;margin:22px 0 8px;color:var(--fg)}
+p{margin:0 0 14px;max-width:78ch}
+ul,ol{padding-inline-start:24px;margin:0 0 14px;max-width:78ch}
+li{margin-bottom:5px}
+li::marker{color:var(--accent)}
+.sub{color:var(--muted);font-size:14px}
+strong{font-weight:800}
+.lead-p{font-size:17px}
+hr{border:0;border-top:1px solid var(--line);margin:26px 0}
+
+/* ---------- components ---------- */
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px 20px;min-width:0}
+.card h4{margin-top:0}
+.card.acc{border-color:transparent;background:var(--accent-soft)}
+.card .k{font-size:12.5px;color:var(--muted);font-weight:700;letter-spacing:.04em}
+.card .v{font-size:30px;font-weight:800;line-height:1.2;margin:4px 0 2px}
+.card .d{font-size:13px;color:var(--fg-2)}
+.callout{border-inline-start:4px solid var(--accent);background:var(--accent-soft);padding:14px 18px;border-radius:10px;margin:18px 0;max-width:78ch}
+.callout.sun{border-color:var(--accent-2);background:var(--accent-2-soft)}
+.callout.crit{border-color:var(--crit);background:color-mix(in srgb,var(--crit) 10%,var(--surface))}
+.callout p:last-child{margin-bottom:0}
+.tag{display:inline-block;padding:1px 8px;border-radius:6px;font-size:12px;font-weight:700;background:var(--surface-2);border:1px solid var(--line);color:var(--fg-2);margin-inline-end:4px;white-space:nowrap}
+.tag.t1{background:var(--accent-soft);color:var(--accent);border-color:transparent}
+.tag.t2{background:var(--accent-2-soft);color:var(--accent-2);border-color:transparent}
+.tag.ok{background:color-mix(in srgb,var(--good) 14%,var(--surface));color:var(--good);border-color:transparent}
+.tag.no{background:color-mix(in srgb,var(--crit) 12%,var(--surface));color:var(--crit);border-color:transparent}
+.tag.mid{background:color-mix(in srgb,var(--warn) 18%,var(--surface));color:#8a5a00;border-color:transparent}
+:root[data-theme="dark"] .tag.mid{color:#f0b13a}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]) .tag.mid{color:#f0b13a}}
+.tbl-wrap{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);margin:14px 0 22px;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:560px}
+th,td{padding:10px 12px;border-bottom:1px solid var(--line);vertical-align:top;text-align:right}
+th{background:var(--surface-2);font-weight:800;font-size:13px;color:var(--fg-2);white-space:nowrap;position:sticky;top:0}
+tr:last-child td{border-bottom:0}
+td.num,th.num{font-variant-numeric:tabular-nums;direction:ltr;text-align:left;white-space:nowrap}
+.tbl-wrap.compact th,.tbl-wrap.compact td{padding:7px 10px;font-size:13px}
+.steps{counter-reset:s;list-style:none;padding:0;max-width:78ch}
+.steps li{counter-increment:s;position:relative;padding-inline-start:44px;margin-bottom:14px}
+.steps li::before{content:counter(s);position:absolute;inset-inline-start:0;top:2px;width:30px;height:30px;border-radius:50%;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center;font-weight:800;font-size:13px}
+.kv{display:grid;grid-template-columns:max-content 1fr;gap:6px 16px;font-size:14.5px;max-width:78ch}
+.kv dt{color:var(--muted);font-weight:700}
+.kv dd{margin:0}
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px;overflow-x:auto;margin:14px 0 22px}
+.diagram svg{display:block;max-width:100%;height:auto;margin:auto;direction:ltr}
+.flow{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin:10px 0 18px}
+.flow .node{background:var(--surface);border:1px solid var(--line-strong);border-radius:10px;padding:8px 12px;font-size:13.5px;font-weight:700;min-width:0}
+.flow .node.acc{background:var(--accent);color:var(--accent-fg);border-color:transparent}
+.flow .arrow{color:var(--muted);font-size:18px}
+.persona{display:grid;grid-template-columns:56px 1fr;gap:14px;align-items:start}
+.persona .av{width:56px;height:56px;border-radius:14px;display:grid;place-items:center;font-size:26px;background:var(--surface-2);border:1px solid var(--line)}
+.persona ul{font-size:14px;margin:6px 0 0;padding-inline-start:18px}
+.tier{position:relative;overflow:hidden}
+.tier .price{font-size:26px;font-weight:900;line-height:1.2}
+.tier .price small{font-size:13px;color:var(--muted);font-weight:600}
+.tier.hi{border-color:var(--accent);box-shadow:var(--shadow)}
+.tier ul{font-size:14px;padding-inline-start:18px;margin-top:10px}
+.check li{list-style:none;position:relative;padding-inline-start:22px}
+.check li::before{content:"✓";position:absolute;inset-inline-start:0;color:var(--good);font-weight:900}
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px 10px;margin:14px 0 22px;max-width:100%}
+.chart h5{margin:0 0 2px;font-size:15px;font-weight:800}
+.chart .cap{font-size:12.5px;color:var(--muted);margin-bottom:8px}
+.chart svg{width:100%;height:auto;display:block;overflow:visible;direction:ltr}
+.chart .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:12.5px;color:var(--fg-2);margin-top:6px}
+.chart .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-inline-end:6px;vertical-align:middle}
+.chart text{font-family:var(--font-body);font-size:11.5px;fill:var(--muted)}
+.chart .gl{stroke:var(--grid);stroke-width:1}
+.chart .ax{stroke:var(--axis);stroke-width:1}
+.chart .lbl{fill:var(--fg);font-weight:700;font-size:11.5px}
+.chart .tip{position:absolute;pointer-events:none;background:var(--fg);color:var(--bg);font-size:12px;padding:6px 9px;border-radius:8px;white-space:nowrap;transform:translate(-50%,-120%);opacity:0;transition:opacity .12s}
+.chart .wrap{position:relative;overflow-x:clip}
+details{border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:0 16px;margin:10px 0;max-width:78ch}
+details summary{cursor:pointer;padding:12px 0;font-weight:800;list-style:none;display:flex;justify-content:space-between;align-items:center}
+details summary::after{content:"+";color:var(--muted);font-size:20px}
+details[open] summary::after{content:"−"}
+details>*:not(summary){margin-bottom:14px}
+.timeline{list-style:none;padding:0;margin:0;position:relative;max-width:78ch}
+.timeline::before{content:"";position:absolute;inset-inline-start:11px;top:8px;bottom:8px;width:2px;background:var(--line-strong)}
+.timeline li{position:relative;padding-inline-start:40px;margin-bottom:22px}
+.timeline li::before{content:"";position:absolute;inset-inline-start:5px;top:8px;width:14px;height:14px;border-radius:50%;background:var(--accent);border:3px solid var(--surface)}
+.timeline li b{display:block;font-size:16px}
+.timeline li .when{color:var(--accent-2);font-weight:700;font-size:13px}
+.timeline .tag{white-space:normal;display:inline;line-height:1.8}
+.src-list{font-size:13.5px;columns:2;column-gap:28px;padding-inline-start:20px}
+.src-list li{break-inside:avoid;direction:ltr;text-align:left;margin-bottom:4px;word-break:break-all}
+.src-list li a{color:var(--fg-2)}
+.foot{margin-top:60px;padding-top:20px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+.two{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr));gap:20px 32px}
+.pill-row{display:flex;flex-wrap:wrap;gap:6px;margin:6px 0 14px}
+.role-matrix td:not(:first-child){text-align:center}
+.wide{max-width:none}
+@media (max-width:980px){
+  .shell{grid-template-columns:1fr}
+  .sidebar{position:fixed;right:0;left:auto;top:0;height:100dvh;width:min(86vw,320px);transform:translateX(100%);transition:transform .2s;z-index:50;box-shadow:var(--shadow);padding-top:calc(22px + env(safe-area-inset-top,0px))}
+  .sidebar.open{transform:none}
+  .menu-btn{display:inline-flex}
+  .backdrop{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:40}
+  .src-list{columns:1}
+}
+@media print{.sidebar,.topbar .btn{display:none}.shell{display:block}}
+</style>
+</head>
+<body>
+<div class="shell">
+<aside class="sidebar" id="sidebar" aria-label="فهرست سند">
+  <div class="brand"><div class="logo">ر</div><div><b>رتبه‌یار</b><small>نقشه راه محصول · نسخه ۱.۰</small></div></div>
+  <ul class="toc" id="toc">
+    <li><a href="#s0"><span class="n">۰</span>خلاصه مدیریتی</a></li>
+    <li><a href="#s1"><span class="n">۱</span>کنکور ایران؛ ریز به ریز</a></li>
+    <li><a href="#s2"><span class="n">۲</span>بازار و رقبا</a></li>
+    <li><a href="#s3"><span class="n">۳</span>الگوهای جهانی</a></li>
+    <li><a href="#s4"><span class="n">۴</span>پرسوناها و سفر کاربر</a></li>
+    <li><a href="#s5"><span class="n">۵</span>محصول: چهار پنل</a></li>
+    <li><a href="#s6"><span class="n">۶</span>مغز سیستم: هوش مصنوعی</a></li>
+    <li><a href="#s7"><span class="n">۷</span>موتور تحلیل (دیتاساینتیست)</a></li>
+    <li><a href="#s8"><span class="n">۸</span>معماری فنی</a></li>
+    <li><a href="#s9"><span class="n">۹</span>طراحی دیتابیس</a></li>
+    <li><a href="#s10"><span class="n">۱۰</span>امنیت و انطباق</a></li>
+    <li><a href="#s11"><span class="n">۱۱</span>زیرساخت ایران و هزینه‌ها</a></li>
+    <li><a href="#s12"><span class="n">۱۲</span>هزینه هوش مصنوعی</a></li>
+    <li><a href="#s13"><span class="n">۱۳</span>مدل درآمد و قیمت‌گذاری</a></li>
+    <li><a href="#s14"><span class="n">۱۴</span>مارکتینگ و رشد</a></li>
+    <li><a href="#s15"><span class="n">۱۵</span>نقشه راه و تیم</a></li>
+    <li><a href="#s16"><span class="n">۱۶</span>ریسک‌ها</a></li>
+    <li><a href="#s17"><span class="n">۱۷</span>UI/UX و سیستم طراحی</a></li>
+    <li><a href="#s18"><span class="n">۱۸</span>منابع</a></li>
+  </ul>
+  <div class="side-foot">تهیه‌شده برای علی و آرشان · مهر ۱۴۰۵<br>همه ارقام ریالی تخمینی و مبتنی بر منابع بخش ۱۸ هستند.</div>
+</aside>
+<main class="main">
+  <div class="topbar">
+    <div class="meta">
+      <button class="btn menu-btn" id="menuBtn" aria-controls="sidebar" aria-expanded="false">☰ فهرست</button>
+      <span class="chip acc">سند برنامه‌ریزی و تحقیق</span>
+      <span class="chip">بدون کد · فقط طراحی</span>
+      <span class="chip">به‌روزرسانی: ۶ مهر ۱۴۰۵</span>
+    </div>
+    <button class="btn" id="themeBtn" aria-label="تغییر حالت روشن/تاریک"><span id="themeIcon">◐</span><span id="themeLabel">حالت تاریک</span></button>
+  </div>
+
+  <div class="hero">
+    <div class="eyebrow">Konkur Intelligence Platform</div>
+    <h1>رتبه‌یار؛ پلتفرم هوشمند مشاوره کنکور با «کلونِ هوش مصنوعی مشاور»</h1>
+    <p class="lede">این سند، نتیجهٔ تحقیق چندلایه دربارهٔ کنکور ایران، رقبای داخلی، بهترین الگوهای جهانی، زیرساخت‌های قابل‌استفاده در ایران و هزینه‌های واقعی هوش مصنوعی است و روی آن یک طراحی کامل محصول، معماری فنی، دیتابیس، امنیت، مدل درآمدی، مارکتینگ و نقشه‌راه اجرا بنا شده. هدف: ساختن بی‌رقیب‌ترین سیستم مشاوره کنکور، جایی که هر دانش‌آموز حس کند یک مشاور رتبهٔ برتر و یک دیتاساینتیست، ۲۴ ساعته کنارش هستند.</p>
+    <div class="pill-row">
+      <span class="chip sun">۴ پنل: مدیر · مشاور · دانش‌آموز · والدین</span>
+      <span class="chip">۲ تیر اصلی + ۱ تیر پیشنهادی</span>
+      <span class="chip">RAG + ارزیابی مستمر ≥ ۹۰٪</span>
+      <span class="chip">چندمستأجره (Multi-tenant)</span>
+    </div>
+  </div>
+
+<section class="sec" id="s0" style="border-top:0;margin-top:20px;padding-top:24px">
+<header><div class="num">بخش ۰</div><h2>خلاصهٔ مدیریتی</h2></header>
+<div class="grid g4">
+  <div class="card"><div class="k">داوطلب کنکور ۱۴۰۵</div><div class="v">۱٫۰۷ م</div><div class="d">۶۵٪ دختر؛ یک نوبت (۲۹–۳۰ مرداد)</div></div>
+  <div class="card"><div class="k">سهم سوابق تحصیلی ۱۴۰۵</div><div class="v">۶۰٪</div><div class="d">دوازدهم قطعی، یازدهم مثبت؛ ۱۴۰۶ هر دو قطعی</div></div>
+  <div class="card"><div class="k">قیمت بازار مشاوره</div><div class="v">۰٫۸ تا ۳ م</div><div class="d">تومان/ماه؛ VIP تا ۱۲ م؛ کلاسینو ۴۰٪ کمیسیون</div></div>
+  <div class="card"><div class="k">هزینهٔ AI هر دانش‌آموز</div><div class="v">۲ تا ۴ $</div><div class="d">در ماه با Sonnet 5.5 و ۱۰ پیام/روز؛ هدف ≤ ۱۵٪ قیمت تیر</div></div>
+</div>
+
+<h3>تز محصول در یک پاراگراف</h3>
+<p class="lead-p">بازار مشاورهٔ کنکور ایران سه بازیگر دارد که هیچ‌کدام کامل نیستند: مؤسسات آزمون (کانون، گزینه‌دو) <b>داده دارند اما هوش ندارند</b>؛ مشاوران رتبه‌برتر <b>انسان دارند اما مقیاس ندارند</b> (تلگرام + اکسل + ده‌ها پشتیبان دانشجو)؛ اپ‌های AI <b>نه داده دارند نه حلقهٔ انسانی</b>. رتبه‌یار هر سه ضلع را یک‌جا می‌آورد: کلونِ هوش مصنوعیِ هر مشاور که با دانش و لحن خودش آموزش می‌بیند (RAG + ارزیابی مستمر ≥ ۹۰٪)، موتور تحلیلی که مثل یک دیتاساینتیست هر گزارش‌کار و کارنامه را همان لحظه به اقدام تبدیل می‌کند، و چهار پنل (مدیر، مشاور، دانش‌آموز، والدین) روی یک دیتابیس چندمستأجرهٔ تمیز. دو تیر اصلی علی (هوشمند ۱–۲ میلیون و حرفه‌ای ۵–۶ میلیون) با یک لایهٔ رایگان برای جذب، یک لایهٔ الیت برای حاشیه و یک لایهٔ B2B برای جذب ارزان کامل می‌شوند.</p>
+
+<h3>ده تصمیم کلیدی این سند</h3>
+<ol class="steps">
+  <li><b>کلون = RAG + پرامپت‌کشینگ + حافظهٔ ساختاریافته + بازبینی انسانی؛ نه فاین‌تیون.</b> به‌روزرسانی لحظه‌ای، هزینهٔ ۶۰ تا ۸۰٪ کمتر، قابل‌اندازه‌گیری.</li>
+  <li><b>مدل پیش‌فرض کلاس Sonnet 5.5</b> با روتینگ هیبرید (Haiku برای طبقه‌بندی، مدل داخلی برای تکراری‌ها، Opus فقط تحلیل عمیق تیر حرفه‌ای). هزینه ۲ تا ۴ دلار/دانش‌آموز/ماه.</li>
+  <li><b>همه‌چیزِ مسیر بحرانی داخل شبکهٔ ملی</b> (لیارا/هم‌روش + آروان)؛ LLM خارجی پشت Router با ۳ واسط ایرانی و fallback روی GPU داخلی. درسِ قطعی ۲۰۹۰ ساعتهٔ ۱۴۰۴–۱۴۰۵.</li>
+  <li><b>یک دیتابیس:</b> PostgreSQL + pgvector + FTS + RLS؛ ۴۲ جدول در ۹ حوزه؛ موتور قوانین نسخه‌دار برای تغییرات سالانهٔ کنکور.</li>
+  <li><b>نقطهٔ قوت = موتور تحلیل:</b> BKT/Elo/FSRS + پیش‌بینی رتبه با فاصلهٔ اطمینان + تحلیل آزمون ۶۰ ثانیه‌ای + رادار فرسودگی؛ داشبورد «Power BI شخصی» مشاور با فیلتر سراسری.</li>
+  <li><b>سهم پلتفرم:</b> ۳۰٪ در تیر حرفه‌ای (کلاسینو ۴۰٪)، ۶۰٪ در تیر هوشمند؛ استدلال فروش به مشاور: مقیاس ۱ به ۱۵۰ به‌جای ۱ به ۲۰.</li>
+  <li><b>موضع حقوقی:</b> «پلتفرم برنامه‌ریزی تحصیلی و پشتیبان هوشمند»؛ نه آموزشگاه، نه مشاورهٔ روانشناختی؛ اینماد قبل از اولین ریال؛ رضایت والد برای زیر ۱۸.</li>
+  <li><b>امنیت از روز اول:</b> OWASP ASVS 5.0 سطح ۲، RBAC+ABAC+RLS، ناشناس‌سازی پرامپت، لاگ ممیزی تغییرناپذیر، بکاپ ۳-۲-۱.</li>
+  <li><b>رشد مشاورمحور:</b> هر مشاور یک کانال؛ افیلیت ۲۰–۳۰٪؛ قیف رایگان با آزمون تشخیصی و شبیه‌ساز رتبه؛ B2B مدارس با CAC ۲۰–۶۰ هزار تومان.</li>
+  <li><b>MVP در ۴ ماه با شاگردهای واقعی علی؛</b> سربه‌سر در ماه ۶ تا ۱۰؛ سرمایهٔ لازم ۳ تا ۴ میلیارد تومان.</li>
+</ol>
+
+<h3>چطور این سند را بخوانید</h3>
+<div class="grid g3">
+  <div class="card"><h4>اگر علی هستید</h4><p class="sub">بخش‌های ۱، ۲، ۵ (پنل مشاور)، ۶ (ویزارد آموزش کلون) و ۱۳ (قیمت و سهم). بعد ۱۵ (نقشه راه) تا بدانید از شما چه می‌خواهیم: ۱۰۰ سوال طلایی و قوانین طلایی در ماه اول.</p></div>
+  <div class="card"><h4>اگر آرشان هستید</h4><p class="sub">همه‌چیز؛ به‌ویژه ۸ تا ۱۲ (فنی و هزینه) و ۱۶ (ریسک). ماشین‌حساب بخش ۱۲ را با نرخ دلار روز بازی کنید.</p></div>
+  <div class="card"><h4>اگر سرمایه‌گذار یا مشاور جدید هستید</h4><p class="sub">۰، ۲، ۳، ۱۳ و ۱۵. اعداد ریالی تخمینی و مبتنی بر منابع بخش ۱۸ هستند.</p></div>
+</div>
+</section>
+
+<section class="sec" id="s1">
+<header><div class="num">بخش ۱</div><h2>کنکور ایران؛ ریز به ریز (۱۴۰۴ تا ۱۴۰۶)</h2><p class="sub">همهٔ منطق برنامه‌ریزی، تحلیل و چت‌بات روی این قواعد سوار می‌شود. قواعد سریع عوض می‌شوند؛ به همین دلیل در محصول یک «موتور قوانین» نسخه‌دار داریم (بخش ۹) نه عددهای هاردکد. موارد با علامت ⚠ باید پیش از انتشار با دفترچهٔ رسمی سازمان سنجش تطبیق داده شوند.</p></header>
+
+<h3>۱.۱ ساختار نمرهٔ کل: سوابق تحصیلی + آزمون اختصاصی</h3>
+<div class="tbl-wrap"><table><thead><tr><th>کنکور</th><th>سهم سوابق (نهایی)</th><th>سهم آزمون</th><th>پایه‌های مؤثر</th><th>نوع تأثیر</th><th>نوبت</th></tr></thead><tbody>
+<tr><td>۱۴۰۴</td><td class="num">50%</td><td class="num">50%</td><td>فقط دوازدهم</td><td>قطعی</td><td>۲ نوبت (۱۱–۱۲ اردیبهشت و ۵–۶ تیر ۱۴۰۴)؛ ملاک بالاترین نمرهٔ کل</td></tr>
+<tr><td>۱۴۰۵ (گروه‌های اصلی)</td><td class="num">60%</td><td class="num">40%</td><td>دوازدهم (~۴۳٪) + یازدهم (~۱۷٪) ⚠</td><td>دوازدهم قطعی، یازدهم مثبت (مصوبهٔ جلسهٔ ۹۲۷ شورا)</td><td>۱ نوبت: ۲۹–۳۰ مرداد ۱۴۰۵ (از ۱۱–۱۲ تیر جابه‌جا شد)</td></tr>
+<tr><td>۱۴۰۵ (هنر و زبان)</td><td class="num">30%</td><td class="num">70%</td><td>دوازدهم + یازدهم</td><td>مطابق بالا</td><td>عصر پنجشنبه ۲۹ مرداد</td></tr>
+<tr><td>۱۴۰۶ (مصوب)</td><td class="num">60%</td><td class="num">40%</td><td>یازدهم + دوازدهم</td><td>هر دو قطعی</td><td>۱ نوبت (پیش‌بینی)</td></tr>
+</tbody></table></div>
+<ul>
+  <li><b>دروس عمومی</b> (فارسی، عربی، دینی، زبان) از ۱۴۰۲ به بعد از خودِ آزمون حذف شده‌اند و فقط از طریق امتحان نهایی اثر می‌گذارند. این یعنی «وزن پنهان» عمومی‌ها بالاست: مثلاً در تجربی ۱۴۰۵، فارسی دوازدهم ضریب سوابق ~۱۱٫۰۹ و دینی دوازدهم ~۸٫۴۷ دارد ⚠.</li>
+  <li><b>«تأثیر مثبت»</b> یعنی نمرهٔ کل یک‌بار با و یک‌بار بدون سوابق یازدهم محاسبه و بیشترین مقدار لحاظ می‌شود.</li>
+  <li><b>پایهٔ دهم</b> در دی ۱۴۰۳ از فرمول ۱۴۰۵ حذف شد؛ بازگشت آن در مصوبات بلندمدت مبهم است.</li>
+  <li>در خرداد ۱۴۰۵ اعتراضات دانش‌آموزی به تأثیر قطعی یازدهم رخ داد و شورا آن را برای ۱۴۰۵ به «مثبت» تغییر داد؛ برای ۱۴۰۶ دوباره «قطعی» تصویب شده است. <b>نتیجه برای محصول:</b> بخش «خبر و قوانین» باید هفته‌ای به‌روز شود و هر قانون تاریخ اعتبار داشته باشد.</li>
+</ul>
+
+<h3>۱.۲ گروه‌های آزمایشی، تعداد سوال، زمان و ضرایب (۱۴۰۵)</h3>
+<div class="tbl-wrap"><table><thead><tr><th>گروه</th><th class="num">سوال</th><th class="num">زمان</th><th>دروس (تعداد سوال · ضریب آزمون ⚠)</th><th class="num">داوطلب ۱۴۰۵</th></tr></thead><tbody>
+<tr><td>علوم تجربی</td><td class="num">155</td><td class="num">180 min</td><td>زمین‌شناسی ۱۵ (۱) · ریاضی ۳۰ (۳) · زیست ۴۵ (۴) · فیزیک ۳۰ (۲) · شیمی ۳۵ (۳)</td><td class="num">451,522</td></tr>
+<tr><td>ریاضی و فنی</td><td class="num">105</td><td class="num">145 min</td><td>ریاضیات ۴۰ (۴) · فیزیک ۳۰ (۳) · شیمی ۳۵ (۲)</td><td class="num">135,813</td></tr>
+<tr><td>علوم انسانی</td><td class="num">160</td><td class="num">160 min</td><td>ریاضی ۲۰ (۲) · علوم و فنون ادبی ۳۰ (۴) · علوم اجتماعی ۱۵ (۲) · روان‌شناسی ۱۵ (۱) · اقتصاد ۱۵ (۱) · عربی ۲۰ (۲) · تاریخ ۱۵ (۱) · جغرافیا ۱۵ (۱) · فلسفه و منطق ۱۵ (۳)</td><td class="num">327,734</td></tr>
+<tr><td>هنر</td><td class="num">100</td><td class="num">115 min</td><td>درک عمومی هنر، درک ریاضی–فیزیک، ترسیم فنی، خلاقیت تصویری، نمایشی، موسیقی، خواص مواد ⚠</td><td class="num">64,199</td></tr>
+<tr><td>زبان‌های خارجی</td><td class="num">70</td><td class="num">105 min</td><td>زبان تخصصی (انگلیسی/فرانسه/آلمانی/…)</td><td class="num">90,173</td></tr>
+</tbody></table></div>
+<p>جمع داوطلبان کنکور ۱۴۰۵: <b>۱٬۰۷۰٬۲۴۱ نفر</b> (۶۵٪ دختر). نوبت دوم ۱۴۰۴: ۸۲۲٬۹۵۳ نفر (تجربی ۳۹۹٬۴۵۹؛ انسانی ۲۱۲٬۹۳۰؛ ریاضی ۱۱۴٬۶۸۳؛ زبان ۵۷٬۴۰۴؛ هنر ۳۸٬۴۷۷). ظرفیت پذیرش ۱۴۰۴: ۴۵۴ هزار (بخش بزرگی «صرفاً با سوابق»). رقابت واقعی تجربی روی حدود ۸۷ هزار صندلی «با آزمون» و به‌ویژه پزشکی/دندان/دارو است.</p>
+
+<h3>۱.۳ فرمول‌هایی که در موتور تحلیل پیاده می‌شوند</h3>
+<div class="grid g3">
+  <div class="card"><h4>درصد با نمرهٔ منفی</h4><pre>P = (3×C − W) / (3×N) × 100</pre><p class="sub">C درست، W غلط، N کل سوال. هر ۳ غلط اثر ۱ درست را خنثی می‌کند؛ نزده صفر است.</p></div>
+  <div class="card"><h4>تراز هر درس</h4><pre>T = 5000 + 1000 × (x − μ) / σ</pre><p class="sub">۵۰۰۰ = برابر میانگین. تراز ۵۵۰۰–۶۰۰۰ خوب، ۷۰۰۰+ در حد رتبه‌های سه‌رقمی (قاعدهٔ رایج کانون).</p></div>
+  <div class="card"><h4>نمرهٔ کل نهایی ۱۴۰۵</h4><pre>Total = 0.4 × Exam + 0.6 × Record
+(هنر/زبان: 0.7 / 0.3)</pre><p class="sub">Exam و Record هرکدام میانگین وزنی ترازها با ضرایب خودشان؛ بعد رتبهٔ کشوری و رتبه در سهمیه.</p></div>
+</div>
+
+<h3>۱.۴ سهمیه‌ها و رتبه</h3>
+<ul>
+  <li><b>مناطق ۱/۲/۳</b> بر اساس محل تحصیل سه سال آخر؛ پس از کسر ایثارگران، ظرفیت باقی‌مانده ۲۵٪ / ۳۵٪ / ۴۰٪ تقسیم می‌شود.</li>
+  <li><b>ایثارگران ۲۵٪ و ۵٪</b> با حدنصاب ۷۰٪ نمرهٔ آخرین فرد پذیرفته‌شدهٔ آزاد. سایر: رزمندگان، بهیاری، بومی‌گزینی ⚠.</li>
+  <li>کارنامه دو رتبه می‌دهد: <b>کشوری</b> و <b>در سهمیه</b>؛ مبنای پذیرش، رتبه در سهمیه است. شبیه‌ساز رتبهٔ ما باید هر دو را بدهد.</li>
+</ul>
+
+<h3>۱.۵ امتحانات نهایی (سوابق تحصیلی)</h3>
+<ul>
+  <li>دوازدهم: هماهنگ کشوری با تصحیح الکترونیکی. یازدهم: از ۱۴۰۳–۱۴۰۴ برای دروس مؤثر، هماهنگ ⚠.</li>
+  <li>سه نوبت: <b>خرداد</b> (اصلی)، <b>شهریور</b> (تجدیدی/ترمیم)، <b>دی</b> (بزرگسالان/ترمیم معدل). «ترمیم معدل» یک‌بار امتحان مجدد با لحاظ نمرهٔ بالاتر ⚠؛ وعدهٔ «ترمیم تک‌درس» داده شده.</li>
+  <li>تقویم ۱۴۰۵: نهایی دوازدهم ۲۱ تیر تا ۱۲ مرداد (یک هفته تعویق)، یعنی فقط ~۲ هفته قبل از کنکور ۲۹ مرداد. <b>پیامد محصول:</b> پلنر باید «مود ترکیبی نهایی + کنکور» با اولویت‌بندی پویا داشته باشد.</li>
+  <li>ورود به نمره: نمرهٔ ۰–۲۰ → استاندارد (تراز) → × ضریب سوابق → نمرهٔ کل سوابق → ترکیب ۶۰/۴۰.</li>
+</ul>
+
+<h3>۱.۶ تقویم عملیاتی که در محصول باید باشد</h3>
+<div class="tbl-wrap compact"><table><thead><tr><th>رویداد</th><th>۱۴۰۴ (واقعی)</th><th>۱۴۰۵ (واقعی/اعلام‌شده)</th><th>کاربرد در محصول</th></tr></thead><tbody>
+<tr><td>ثبت‌نام کنکور</td><td>—</td><td>۲۷ اردیبهشت تا ۸ خرداد (با تمدید)</td><td>یادآوری به والد و دانش‌آموز، چک‌لیست مدارک</td></tr>
+<tr><td>امتحان نهایی دوازدهم</td><td>خرداد</td><td>۲۱ تیر تا ۱۲ مرداد</td><td>مود «نهایی» در پلنر</td></tr>
+<tr><td>کنکور</td><td>۱۱–۱۲ اردیبهشت و ۵–۶ تیر</td><td>۲۹–۳۰ مرداد</td><td>شمارش معکوس؛ تعلیق پاسخ درسی کلون در روز آزمون</td></tr>
+<tr><td>نتایج اولیه</td><td>نیمهٔ دوم مرداد</td><td>۲۶–۲۷ شهریور (هدف)</td><td>ماژول «کارنامه‌خوان» نتایج رسمی</td></tr>
+<tr><td>انتخاب رشته</td><td>۱۱–۱۵ شهریور (۵۶۰ هزار نفر، تا ۱۵۰ کدرشته)</td><td>~۱ هفته بعد از نتایج</td><td>دستیار انتخاب رشته (V3)</td></tr>
+<tr><td>نتایج نهایی</td><td>نیمهٔ دوم مهر</td><td>آبان</td><td>جشن نتیجه، درخواست نظر/ویدئوی موفقیت</td></tr>
+<tr><td>کارت ورود به جلسه</td><td colspan="2">یک هفته قبل از آزمون</td><td>یادآوری + راهنمای روز آزمون</td></tr>
+</tbody></table></div>
+
+<h3>۱.۷ قواعد کاری مشاوران و آزمون‌های آزمایشی</h3>
+<div class="two">
+  <div><h4>عادت‌های برنامه‌ریزی</h4><ul>
+    <li>ساعت مطالعهٔ توصیه‌شده برای دوازدهمی: ~۸ ساعت/روز؛ رتبه‌های برتر ۸–۱۱ ساعت عادی و ۱۲–۱۴ ساعت در تعطیلات؛ تأکید بر «ساعت مفید» با کرنومتر.</li>
+    <li>برنامهٔ هفتگی با مجموع ساعت و تعداد تست هفته؛ الگوی رایج: ۲ اختصاصی + ۱ عمومی در روز، مرور شبانه، جمعه آزمون.</li>
+    <li>دفتر برنامه‌ریزی (الگوی کانون): ساعت هر درس، تعداد تست، «چند از ده»، امضای هفتگی مشاور.</li>
+    <li>تحلیل آزمون: درصد و تراز هر درس vs هدف، سوال‌های نزده/غلط/شک‌دار، نقاط ضعف مبحثی.</li>
+    <li>«گزارش‌کار شبانه» در تلگرام/واتساپ: ساعت مطالعهٔ هر درس + تعداد تست + درصد.</li></ul></div>
+  <div><h4>آزمون‌های آزمایشی که باید ایمپورت شوند</h4><ul>
+    <li><b>قلم‌چی (کانون):</b> هر ۲ (گاهی ۳) هفته جمعه صبح؛ برنامهٔ راهبردی سالانه؛ کارنامه با درصد، تراز، «چند از ده»؛ ~۴۵۰ هزار دانش‌آموز؛ دوازدهم ~۳ تا ۳٫۵ میلیون تومان/سال.</li>
+    <li><b>گزینه دو:</b> ۲۴ مرحله + ۲ هدیه؛ ۱۵۳ هزار تومان هر مرحله (۱۴۰۴)؛ بانک ۲۵۰ هزار سوال؛ قوی در مدارس.</li>
+    <li><b>گاج:</b> دوازدهم ۲٫۵ میلیون (۲۰ مرحله + پشتیبان)؛ تقریباً هر ۳ هفته.</li>
+    <li><b>ماز:</b> ۱۱۰ هزار شرکت‌کنندهٔ فعال؛ اشتراک الماس ۱۰ میلیون/سال.</li>
+    <li><b>سنجش آزمایشی:</b> ۲ تابستانه + ۸ مرحله‌ای + ۴ جامع؛ حضوری ۱۹۰ هزار، آنلاین ۱۰۰ هزار تومان هر مرحله (جامع ۳۰۰/۱۵۰).</li></ul></div>
+</div>
+<div class="callout"><p><b>پیامد طراحی:</b> «کارنامه‌خوان» باید قالب کارنامهٔ حداقل ۵ مؤسسه را بشناسد و همه را به یک مدل داخلی (درس × درصد × تراز × تاریخ × مؤسسه) نگاشت کند. چون تراز هر مؤسسه با جامعهٔ آماری خودش محاسبه می‌شود، در تحلیل، ترازها را «به ازای هر مؤسسه» نرمال می‌کنیم و برای پیش‌بینی رتبه از درصدها و توزیع تاریخی استفاده می‌کنیم.</p></div>
+</section>
+
+<section class="sec" id="s2">
+<header><div class="num">بخش ۲</div><h2>بازار و رقبا در ایران</h2><p class="sub">بازار سه لایه دارد: مؤسسات آزمون‌محور (داده دارند، AI ندارند)، مشاوران اینستاگرامی (انسان دارند، مقیاس ندارند) و اپ‌های AI (نه داده دارند نه حلقهٔ انسانی). هیچ‌کس هر سه ضلع را ندارد.</p></header>
+
+<h3>۲.۱ اندازهٔ بازار</h3>
+<div class="grid g4">
+  <div class="card"><div class="k">داوطلب کنکور ۱۴۰۵</div><div class="v">۱٫۰۷ میلیون</div><div class="d">۶۵٪ دختر؛ تجربی ۴۵۱ هزار</div></div>
+  <div class="card"><div class="k">بازار قابل‌آدرس‌دهی (SAM)</div><div class="v">~۳ میلیون</div><div class="d">دهم تا دوازدهم + پشت‌کنکوری‌ها؛ نهایی از دهم اثر دارد</div></div>
+  <div class="card"><div class="k">قیمت مشاورهٔ ماهانه</div><div class="v">۰٫۸ تا ۳ م</div><div class="d">تومان؛ VIP تا ۱۲ م/ماه؛ پکیج سالانهٔ رتبه‌ساز ۴۰–۵۰ م</div></div>
+  <div class="card"><div class="k">انتخاب رشته</div><div class="v">۵ تا ۸ م</div><div class="d">تومان برای ۲ ساعت (مرداد ۱۴۰۴)</div></div>
+</div>
+<p>تخمین محافظه‌کارانه: اگر فقط ۱۰٪ داوطلبان کنکور خدمات مشاورهٔ پولی بگیرند (~۱۰۰ هزار نفر) با میانگین ۱٫۵ میلیون تومان/ماه به مدت ۸ ماه، بازار سالانه حدود <b>۱٫۲ هزار میلیارد تومان</b> است؛ لایهٔ آزمون آزمایشی و کلاس، چند برابر این است. ۸۰٪ رتبه‌های برتر از دهک ۸ تا ۱۰ هستند؛ دهک‌های ۳ تا ۷ بازار دست‌نخوردهٔ تیر هوشمند ماست.</p>
+
+<h3>۲.۲ نقشهٔ رقبا</h3>
+<div class="tbl-wrap"><table><thead><tr><th>رقیب</th><th>مدل</th><th>قیمت (تومان)</th><th>قوت</th><th>ضعف</th><th>درس برای ما</th></tr></thead><tbody>
+<tr><td><b>کانون قلم‌چی</b></td><td>آزمون + پشتیبان + دفتر برنامه‌ریزی + نمایندگی شهری</td><td>دوازدهم ~۳–۳٫۵ م/سال؛ قسطی/بورسیه</td><td>بزرگ‌ترین جامعهٔ آماری، برند والدین، «کارنامهٔ پروژه‌ای»، پنل اولیا</td><td>پشتیبان کم‌تجربه با حقوق پایه بسیار کم و کمیسیون فروش کتاب؛ برنامهٔ یکسان؛ اپ با امتیاز ۳٫۴؛ UX قدیمی</td><td>کارنامهٔ پروژه‌ای (روند بلندمدت)، پیامک شفاف مالی به والدین</td></tr>
+<tr><td><b>گاج / گاجینو</b></td><td>کتاب‌محور؛ آزمون قیف فروش کتاب</td><td>دوازدهم ۲٫۵ م (۲۰ مرحله + مشاور)</td><td>بانک محتوای عظیم، قیمت پایین‌تر</td><td>مشاوره سطحی تلفنی؛ مشکلات سامانه؛ پلمب موقت ۱۴۰۱</td><td>ویدئوی پاسخ تشریحی برای هر سوال</td></tr>
+<tr><td><b>گزینه دو</b></td><td>آزمون + بانک سوال هوشمند + B2B مدارس</td><td>۱۵۳ هزار/مرحله (~۳٫۷ م کل)</td><td>ارزشیابی تشریحی (مهم با وزن نهایی)، بانک ۲۵۰ هزار سوال، ثبت‌نام مرحله‌ای</td><td>بدون مشاور اختصاصی؛ خطای آزمون آنلاین با قطعی نت</td><td>مدل امتیازی (هر ثبت‌نام → اعتبار بانک سوال)</td></tr>
+<tr><td><b>ماز</b></td><td>اشتراک همه‌چیزشمول + نمایندگی</td><td>الماس ۱۰ م/سال؛ پکیج تا ۲۴ م با ۶۰–۷۰٪ تخفیف دائمی</td><td>برند نسل Z، پشتیبانی ۷ صبح تا ۱۱ شب، رتبه‌های برتر</td><td>مشاورهٔ فردی هسته نیست؛ گران؛ تخفیف دائمی اعتبار قیمت را می‌کشد</td><td>لحن «رفیق‌گونه»؛ بسته‌بندی خلاق (کمپ ۴۴، CPR)</td></tr>
+<tr><td><b>کلاسینو</b></td><td>کلاس زنده + مارکت‌پلیس مشاوران سلبریتی (۴۰٪ کمیسیون)</td><td>مشاوره ۳٫۶ تا ۱۲٫۹ م/سال</td><td>برند مشاوران، زیرساخت لایو</td><td>«مشاور تولید انبوه»، فشار فروش طرح اضافه، پشتیبانی ضعیف</td><td>کمیسیون ۴۰٪ نقطهٔ ضعف؛ ما با ۲۰–۳۰٪ + ابزار AI رایگان مشاور را جذب می‌کنیم</td></tr>
+<tr><td><b>آلاء</b></td><td>غیرتجاری، ۶۰۰۰ ساعت ویدئوی رایگان، فروم آلاخونه، تایمر زمان‌کوب</td><td>رایگان</td><td>اعتماد و جامعهٔ فعال، &gt; ۱ میلیون دانلود</td><td>بدون مشاورهٔ فردی</td><td>لینک‌دادن مباحث ضعیف به ویدئوهای رایگان آلاء (همکاری)</td></tr>
+<tr><td><b>استادبانک</b></td><td>مارکت‌پلیس جلسه‌ای</td><td>۳۵۳ هزار تا ۵٫۳ م/جلسه</td><td>انتخاب آزاد، رتبه‌بندی</td><td>بدون پیگیری مستمر؛ کیفیت ناهمگون</td><td>رتبه‌بندی مبتنی بر نتیجهٔ واقعی شاگردها</td></tr>
+<tr><td><b>مشاوران اینستاگرامی</b> (دورخیز، الورتبه، سبطی، …)</td><td>پیج + تعیین سطح رایگان + فروش تلفنی + تلگرام/اکسل</td><td>۸۰۰ هزار تا ۲٫۵ م/ماه؛ الورتبه ۷۹۰–۸۹۰ هزار قابل‌لغو</td><td>اعتماد شخصی، رتبهٔ واقعی</td><td>یک مشاور برند + ده‌ها پشتیبان دانشجو؛ برنامهٔ قالبی؛ قیمت مخفی؛ کلاهبرداری «رتبهٔ اجاره‌ای»</td><td><b>مشتری B2B اصلی ما:</b> ابزاری که تلگرام + اکسل را جایگزین می‌کند و مقیاس ۱ به ۱۵۰ می‌دهد</td></tr>
+<tr><td><b>کنکور پلاس</b></td><td>دستیار AI + بانک سوال تطبیقی + ۲ جلسهٔ انسانی/ماه</td><td>اعلام‌نشده</td><td>ثبت روزانهٔ درصد/ساعت، آزمون از نقاط ضعف (سقف ۸۰ سوال/روز)</td><td>حلقهٔ انسانی ضعیف؛ بدون پنل والد</td><td>نزدیک‌ترین رقیب مفهومی به تیر هوشمند</td></tr>
+<tr><td><b>اسکای‌فای</b></td><td>چت‌بات RAG روی منابع آموزشی/خبری + مشاوران رتبهٔ برتر؛ Gemini</td><td>اشتراک ماهانه</td><td>حضور در پیام‌رسان داخلی (گپ)</td><td>عمومی؛ بدون کلون شخصی مشاور و بدون تحلیل آزمون</td><td>کانال پیام‌رسان داخلی</td></tr>
+<tr><td><b>مشاورسرا</b> (B2B)</td><td>پنل مشاور + «مستر هوشمند» تحلیل کارنامه + اپ دانش‌آموز</td><td>۸۵ تا ۱۰۰ هزار/دانش‌آموز/ماه؛ لایسنس مدرسه</td><td>مهم‌ترین رقیب مستقیم لایهٔ ابزار مشاور</td><td>بدون AI مکالمه‌ای، بدون کلون، UX سازمانی</td><td>لنگر قیمت B2B: ما باید در ۱۵۰ تا ۲۵۰ هزار/دانش‌آموز/ماه ارزش بیشتری بدهیم</td></tr>
+<tr><td><b>اپ‌های برنامه‌ریزی</b> (تراز، هدف‌پلاس، خروس، تیکه)</td><td>رایگان/ارزان؛ قیف مشاورهٔ انسانی</td><td>رایگان</td><td>هدف‌پلاس ۷۰ هزار کاربر با سالن مطالعهٔ آنلاین</td><td>بدون AI، بدون تحلیل کارنامه، بدون والد</td><td>«سالن مطالعهٔ آنلاین» را کپی کنیم</td></tr>
+</tbody></table></div>
+
+<h3>۲.۳ شکایت‌های واقعی دانش‌آموزان و والدین</h3>
+<div class="grid g3">
+  <div class="card"><h4>«پولم هدر رفت»</h4><p class="sub">ارزش نامشخص؛ «چند جلسه بگیر بعد خودت برنامه بریز». → ما: قیمت شفاف، پرداخت ماهانهٔ قابل‌لغو، ضمانت بازگشت ۷ روزه، نمایش عینی پیشرفت.</p></div>
+  <div class="card"><h4>«برنامه‌ام کپی بود»</h4><p class="sub">مشاور «تولید انبوه». → ما: برنامهٔ تولیدشده از دادهٔ خودِ شاگرد + قوانین شخصی مشاور، با توضیح «چرا این برنامه».</p></div>
+  <div class="card"><h4>«فشار فروش»</h4><p class="sub">پشتیبانِ بازاریاب کتاب، تخفیف‌های دروغین. → ما: هیچ آپ‌سلِ محتوایی؛ درآمد مشاور به نتیجه و تمدید گره می‌خورد نه به فروش کتاب.</p></div>
+  <div class="card"><h4>«استرس گزارش شبانه»</h4><p class="sub">مقایسه و شب‌بیداری اضطراب‌زا. → ما: لحن حمایتی، مقایسهٔ ناشناس و اختیاری، رادار فرسودگی.</p></div>
+  <div class="card"><h4>«مشاور جعلی»</h4><p class="sub">پیج‌های جعلی رتبه، فروش سوال. → ما: احراز هویت مشاور با کارنامهٔ سنجش، نشان تأیید، نظرات تأییدشده.</p></div>
+  <div class="card"><h4>«اپ کار نمی‌کند»</h4><p class="sub">خطای آزمون آنلاین با قطعی نت؛ اپ کانون ۳٫۴. → ما: PWA آفلاین‌فرست، میزبانی داخلی، تست بار قبل از فصل کنکور.</p></div>
+</div>
+
+<h3>۲.۴ شکاف‌های بازار (فرصت‌های ما)</h3>
+<div class="tbl-wrap compact"><table><thead><tr><th>#</th><th>شکاف</th><th>وضعیت رقبا</th><th>پاسخ رتبه‌یار</th></tr></thead><tbody>
+<tr><td>۱</td><td>مشاورهٔ شخصی و روزانه</td><td>تماس هفتگی + برنامهٔ قالبی؛ AIهای عمومی</td><td>عامل AI که هر شب گزارش‌کار را تحلیل و فردا را بازتنظیم می‌کند؛ انسان فقط استثناها</td></tr>
+<tr><td>۲</td><td>قیمت برای دهک ۳ تا ۷</td><td>۸۰۰ هزار تا ۲٫۵ م/ماه</td><td>تیر هوشمند ۱ تا ۲ م/ماه با کلون شخصی مشاور (نه بات عمومی)</td></tr>
+<tr><td>۳</td><td>تجمیع کارنامه‌های چند برند</td><td>هر برند فقط دادهٔ خودش</td><td>کارنامه‌خوان چندبرندی + تحلیل یکپارچه</td></tr>
+<tr><td>۴</td><td>پنل والدین معنادار</td><td>فقط کانون (مالی/کارنامه)</td><td>گزارش هفتگی ساده + «چه بگویم/چه نگویم» + خبر شخصی‌سازی‌شده</td></tr>
+<tr><td>۵</td><td>سلامت روان</td><td>گزارش شبانهٔ اضطراب‌زا</td><td>رادار فرسودگی، لحن حمایتی، ارجاع امن</td></tr>
+<tr><td>۶</td><td>ابزار مشاور با AI</td><td>مشاورسرا/برنامه۳۶۰ بدون AI قوی</td><td>پیش‌نویس پاسخ، خلاصهٔ خودکار، اولویت‌بندی ریسک؛ مقیاس ۱:۱۵۰</td></tr>
+<tr><td>۷</td><td>مارکت‌پلیس شفاف</td><td>کلاسینو ۴۰٪ کمیسیون، قیمت مخفی</td><td>قیمت شفاف، رتبه‌بندی نتیجه‌محور، کمیسیون ۲۰–۳۰٪</td></tr>
+<tr><td>۸</td><td>اعتماد و ضدکلاهبرداری</td><td>رتبهٔ اجاره‌ای</td><td>احراز هویت با کارنامهٔ سنجش، پرداخت ماهانهٔ قابل‌لغو</td></tr>
+<tr><td>۹</td><td>امتحان نهایی</td><td>تمرکز روی تست</td><td>پلنر ترکیبی نهایی + کنکور با ارزیابی تشریحی AI</td></tr>
+<tr><td>۱۰</td><td>UX نسل Z و اینترنت ملی</td><td>اپ‌های قدیمی، وب‌محور</td><td>PWA موبایل‌اول، مینی‌اپ بله/ایتا، حالت آفلاین</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s3">
+<header><div class="num">بخش ۳</div><h2>الگوهای جهانی که کپی می‌کنیم</h2><p class="sub">نزدیک‌ترین آنالوگ کنکور، JEE/NEET هند و گائوکائوی چین است. از هرکدام دقیقاً یک مکانیزم برمی‌داریم، نه ظاهرشان را.</p></header>
+<div class="grid g2">
+  <div class="card"><h4>🇮🇳 Physics Wallah / Vedantu / BYJU'S</h4><ul class="sub">
+    <li>PW: دورهٔ سالانه ۲ تا ۵ هزار روپیه + <b>منتورشیپ ۱:۱ «DISHA»</b> ۱۴۹ روپیه/جلسه (SKU جداگانه برای انسان). اپ والدین با آمار حضور، تمرین روزانه و آزمون؛ سوئیچ چند فرزند.</li>
+    <li>BYJU'S Parent Connect: پیشرفت فصل‌به‌فصل، زمان مصرفی هر درس، دستاوردهای اخیر.</li>
+    <li>Vedantu: منتور AI «Ved» برنامه می‌سازد + بازبینی مستمر والد–دانش‌آموز.</li>
+    <li>الگوی «منتور رتبه‌برتر» (Exprto, MentorPrep): تماس روزانه، پلنر هفتگی، تماس با والد، جلسهٔ گروهی رایگان به‌عنوان قیف.</li>
+    <li><b>برداشت:</b> انسان = SKU کمیاب و گران؛ تحلیل و پنل والد = رایگان/باندل برای نگه‌داشت.</li></ul></div>
+  <div class="card"><h4>🇨🇳 Zuoyebang / Squirrel AI / Yuanfudao</h4><ul class="sub">
+    <li>Zuoyebang: <b>دفتر اشتباهات الکترونیکی (错题本)</b>؛ عکس از سوال غلط → تگ خودکار → مرور زمان‌بندی‌شده → چاپ کاربرگ. ۱۰۶ میلیون کاربر.</li>
+    <li>Squirrel AI: تجزیهٔ درس به «نانو-دانش» (ریاضی متوسطه &gt; ۱۰ هزار اتم)؛ آزمون تشخیصی → مسیر با Knowledge Tracing.</li>
+    <li>در روز گائوکائو ۲۰۲۵، LLMهای چینی پاسخ به سوال درسی را معلق کردند.</li>
+    <li><b>برداشت:</b> دفتر اشتباهات + درخت دانش ریز = هستهٔ تحلیل ما.</li></ul></div>
+  <div class="card"><h4>🦉 Duolingo (موتور نگه‌داشت)</h4><ul class="sub">
+    <li>۴۷٫۷ میلیون DAU، ۹٪ MAU پولی. معیار اصلی: <b>نرخ ساخت استریک ۷ روزه</b> (پیش‌بین رتنشن بلندمدت).</li>
+    <li>«بخشش» استریک (freeze/repair)؛ نوتیف با زمان استنتاج‌شده از رفتار و متن انتخاب‌شده با bandit؛ لیگ‌های کوچک.</li>
+    <li>ریفرال = هفتهٔ رایگان (نه پول نقد).</li>
+    <li><b>برداشت:</b> استریک مطالعه با بخشش روز آزمون/بیماری؛ لیدربورد داخل کوهورت مشاور نه کشوری؛ نوتیف در بازهٔ مطالعهٔ واقعی هر نفر.</li></ul></div>
+  <div class="card"><h4>🎓 Khanmigo / UWorld / Magoosh</h4><ul class="sub">
+    <li>Khanmigo: ۴ دلار/ماه؛ سقراطی؛ معیارهای گاردریل: نرخ «جواب لو دادن»، خطای ریاضی؛ <b>Next-item correctness</b>.</li>
+    <li>UWorld: گزارش به تفکیک درس/مبحث، صدک نسبت به همه، زمان هر سوال vs همتایان؛ مربیان با همین گزارش مشاوره می‌دهند.</li>
+    <li>Magoosh: پیش‌بین نمره از دادهٔ هزاران دانش‌آموز که با تمرین به‌روز می‌شود.</li>
+    <li>Quizlet در ژوئن ۲۰۲۵ چت‌بات Q-Chat را حذف کرد: <b>چتِ خالی ارزش نداشت؛ مصنوعات AI (فلش‌کارت، آزمون) ماندند.</b> کلون ما باید «کار» تولید کند، نه فقط حرف.</li></ul></div>
+  <div class="card"><h4>🇹🇷🇰🇷 Doping Hafıza / QANDA / Megastudy</h4><ul class="sub">
+    <li>Doping Hafıza: دستیار «Dopi» برنامهٔ روزانه از زمان آزاد می‌سازد؛ توضیح چندحالته (اینفوگرافیک، نقشهٔ ذهنی)؛ نودج انگیزشی روزانه.</li>
+    <li>QANDA: OCR سوال + MathGPT + تیوتر تبلتی.</li>
+    <li>Megastudy: مدرس‌های ستاره + مشاورهٔ داده‌محور شانس قبولی.</li></ul></div>
+  <div class="card"><h4>📐 علم یادگیری که در پلنر می‌نشیند</h4><ul class="sub">
+    <li>فقط دو تکنیک «سودمندی بالا» در Dunlosky 2013: <b>بازیابی فعال</b> (g≈۰٫۵) و <b>فاصله‌گذاری</b> (g≈۰٫۲۸). هر بلوک برنامه با ۵ سوال تمام شود؛ هرگز «مرورخوانی خالی» برنامه‌ریزی نشود.</li>
+    <li>FSRS: ۲۰–۳۰٪ مرور کمتر از SM-2 با همان نگه‌داشت.</li>
+    <li>بازدهی نزولی ساعت مطالعه (منحنی خمیده): به «کیفیت» پاداش بدهیم.</li>
+    <li>BKT → DKT با &gt; ۱ میلیون تعامل؛ Elo برای سختی سوال (ارزان، خودتصحیح).</li>
+    <li>فرسودگی: قواعد قطعی + حداقل داده + ارجاع به انسان، بدون ادعای بالینی (RIACT 2026).</li></ul></div>
+</div>
+</section>
+
+<section class="sec" id="s4">
+<header><div class="num">بخش ۴</div><h2>پرسوناها و سفر کاربر</h2><p class="sub">قبل از هر فیچر، باید بدانیم دقیقاً برای چه کسی و در چه لحظه‌ای طراحی می‌کنیم. پنج پرسونای اصلی و سفر هرکدام از «اولین تماس» تا «وفاداری».</p></header>
+
+<div class="grid g2">
+  <div class="card persona"><div class="av">👑</div><div><h4>علی؛ مدیر کل و مشاور ارشد (Owner / Super-admin)</h4>
+    <p class="sub">رتبه ۱۰ کشوری، ۲–۳ سال مشاوره حرفه‌ای، شبکه‌ای از رتبه‌های برتر. دو کلاه دارد: صاحب پلتفرم و خودش یک مشاور.</p>
+    <ul><li><b>می‌خواهد:</b> دید کامل روی درآمد، سهم پلتفرم، عملکرد هر مشاور، رضایت شاگردها؛ ابزار آن‌بورد کردن مشاور جدید در ۱۰ دقیقه.</li><li><b>درد:</b> پراکندگی کار در تلگرام/اکسل/واتساپ، نداشتن معیار عینی برای قضاوت مشاورها، اتلاف وقت روی سوالات تکراری.</li><li><b>معیار موفقیت:</b> نرخ تمدید ماهانه، NPS، سهم پلتفرم، زمان صرف‌شده به ازای هر شاگرد.</li></ul></div></div>
+  <div class="card persona"><div class="av">🎓</div><div><h4>مشاور رتبه‌برتر (Counselor)</h4>
+    <p class="sub">۲۰ تا ۲۶ ساله، دانشجوی پزشکی/مهندسی، ۱۵ تا ۶۰ شاگرد، وقت محدود، برند شخصی در اینستاگرام/تلگرام.</p>
+    <ul><li><b>می‌خواهد:</b> شاگرد بیشتر بدون فرسودگی، ابزار برنامه‌ریزی سریع، گزارش‌های آماده برای ارسال به والدین، درآمد شفاف.</li><li><b>درد:</b> ۷۰٪ وقتش صرف پیام‌های تکراری («این تست رو بزنم یا نه؟») می‌شود؛ برنامه‌نویسی هفتگی دستی؛ پیگیری گزارش‌کار روزانه.</li><li><b>معیار موفقیت:</b> تعداد شاگرد فعال، ساعت ذخیره‌شده در هفته، میانگین پیشرفت تراز شاگردها.</li></ul></div></div>
+  <div class="card persona"><div class="av">📘</div><div><h4>دانش‌آموز تیر «هوشمند» (AI-first)</h4>
+    <p class="sub">دهم تا دوازدهم یا پشت‌کنکوری، بودجه محدود (۱–۲ میلیون/ماه)، به‌شدت موبایلی، شب‌ها فعال، حواس‌پرت با شبکه‌های اجتماعی.</p>
+    <ul><li><b>می‌خواهد:</b> برنامهٔ واقعی و قابل‌اجرا، جواب فوری به سوال‌های ریز، حس اینکه کسی حواسش به او هست.</li><li><b>درد:</b> پول مشاور خصوصی ندارد؛ برنامه‌های آماده اینترنتی برایش شخصی نیست؛ بعد از هر آزمون نمی‌داند دقیقاً چه کند.</li><li><b>معیار موفقیت:</b> پایبندی به برنامه (adherence)، روند تراز، استریک روزانه.</li></ul></div></div>
+  <div class="card persona"><div class="av">🏅</div><div><h4>دانش‌آموز تیر «حرفه‌ای» (Counselor-led)</h4>
+    <p class="sub">خانواده‌ای که ۵–۶ میلیون/ماه برای مشاور می‌دهد؛ هدف رتبهٔ زیر ۳ هزار؛ توقع بالا؛ والدین دخیل.</p>
+    <ul><li><b>می‌خواهد:</b> تماس هفتگی منظم، پاسخ سریع مشاور، برنامهٔ دقیق و اصلاح‌شونده، تحلیل عمیق آزمون‌ها.</li><li><b>درد:</b> مشاور دیر جواب می‌دهد؛ برنامه در یک عکس واتساپی گم می‌شود؛ والدین بی‌خبرند و مدام می‌پرسند.</li><li><b>معیار موفقیت:</b> رتبهٔ نهایی؛ رضایت والدین؛ حس «دیده‌شدن».</li></ul></div></div>
+  <div class="card persona"><div class="av">👨‍👩‍👧</div><div><h4>والدین (Guardian)</h4>
+    <p class="sub">۴۰ تا ۵۵ ساله، پرداخت‌کنندهٔ اصلی، مضطرب، کم‌تکنولوژی، نیاز به اطمینان و خبرِ به‌روز از قوانین.</p>
+    <ul><li><b>می‌خواهد:</b> بداند پولش کجا می‌رود؛ فرزندش دارد درس می‌خواند یا نه؛ قوانین جدید کنکور چه معنایی برای فرزندش دارد.</li><li><b>درد:</b> بی‌خبری؛ دعوای خانگی سر «چقدر خوندی؟»؛ اخبار ضدونقیض.</li><li><b>معیار موفقیت:</b> گزارش هفتگی ساده و صادقانه؛ کاهش تنش خانه.</li></ul></div></div>
+</div>
+
+<h3>سفر کاربر دانش‌آموز (تیر هوشمند)</h3>
+<ol class="steps">
+  <li><b>کشف:</b> ویدئوی کوتاه مشاور در اینستاگرام/یوتیوب → لینک به صفحهٔ فرود اختصاصی مشاور (هر مشاور یک زیردامنه یا صفحهٔ برند دارد).</li>
+  <li><b>آزمون تشخیصی رایگان (۱۵ دقیقه):</b> سوالات پایه، پرسشنامهٔ سبک مطالعه، تعیین اهداف. خروجی: «نقشهٔ قوت/ضعف» + پیش‌بینی اولیهٔ بازهٔ رتبه. این خروجی خودش ابزار تبدیل است.</li>
+  <li><b>ثبت‌نام با شمارهٔ موبایل + OTP؛</b> کدِ والد اختیاری. انتخاب مشاور (یا پیشنهاد خودکار بر اساس رشته/پایه/سبک).</li>
+  <li><b>هفتهٔ اول («Onboarding Week»):</b> برنامهٔ سبک، آموزش ثبت گزارش‌کار، اولین گفت‌وگو با «کلونِ مشاور»؛ روز سوم یک نوتیفیکیشن شخصی از طرف مشاور (نیمه‌خودکار).</li>
+  <li><b>حلقهٔ هفتگی:</b> شنبه برنامه → روزانه گزارش‌کار (۲ دقیقه) → آزمون آزمایشی → آپلود کارنامه (عکس/PDF/ورود دستی) → تحلیل خودکار → بازنویسی برنامهٔ هفتهٔ بعد → تأیید (خودکار در تیر ۱، دستی مشاور در تیر ۲).</li>
+  <li><b>لحظه‌های وفاداری:</b> جشن استریک، نمودار پیشرفت ماهانه، پیام صوتی مشاور، مقایسهٔ ناشناس با همتایان.</li>
+  <li><b>تمدید/ارتقا:</b> یادآوری ۵ روز قبل از پایان دوره + پیشنهاد ارتقا به تیر حرفه‌ای هنگام نزدیک‌شدن به کنکور (ماه‌های اسفند تا خرداد).</li>
+</ol>
+
+<h3>ماتریس نقش‌ها و دسترسی (RBAC)</h3>
+<div class="tbl-wrap"><table class="role-matrix"><thead><tr><th>قابلیت</th><th>مدیر کل</th><th>مشاور</th><th>دستیار مشاور</th><th>دانش‌آموز</th><th>والد</th></tr></thead><tbody>
+<tr><td>مشاهدهٔ همهٔ مشاوران و مالی کل</td><td>✔</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+<tr><td>آموزش/ویرایش پایگاه دانش کلون AI</td><td>✔ (همه)</td><td>✔ (خودش)</td><td>پیشنهاد، بدون انتشار</td><td>—</td><td>—</td></tr>
+<tr><td>نوشتن/تأیید برنامهٔ هفتگی</td><td>✔</td><td>✔</td><td>پیش‌نویس</td><td>مشاهده + درخواست تغییر</td><td>مشاهده</td></tr>
+<tr><td>گفت‌وگو با کلون AI</td><td>✔</td><td>✔ (تست)</td><td>✔</td><td>✔</td><td>✔ (نسخهٔ والد)</td></tr>
+<tr><td>ثبت گزارش‌کار و آزمون</td><td>—</td><td>به‌جای شاگرد</td><td>به‌جای شاگرد</td><td>✔</td><td>—</td></tr>
+<tr><td>داشبورد تحلیلی شاگرد</td><td>✔</td><td>✔ (شاگردهای خودش)</td><td>✔ محدود</td><td>✔ (خودش)</td><td>✔ خلاصه</td></tr>
+<tr><td>گزارش هفتگی والدین</td><td>✔</td><td>✔ تنظیم/ارسال</td><td>—</td><td>مشاهده</td><td>✔</td></tr>
+<tr><td>پرداخت و صورتحساب</td><td>✔ همه</td><td>✔ خودش</td><td>—</td><td>✔ خودش</td><td>✔ پرداخت برای فرزند</td></tr>
+<tr><td>تنظیمات پلتفرم، تیرها، درصد سهم</td><td>✔</td><td>—</td><td>—</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+<p class="sub">دسترسی‌ها به‌صورت RBAC + ABAC پیاده می‌شوند: نقش پایه (RBAC) + شرط‌های ویژگی‌محور مثل «فقط شاگردهایی که counselor_id آن‌ها با کاربر برابر است» (ABAC). جزئیات در بخش ۱۰.</p>
+</section>
+
+<section class="sec" id="s5">
+<header><div class="num">بخش ۵</div><h2>محصول: چهار پنل، یک مغز مشترک</h2><p class="sub">هر پنل یک «نما» روی همان دادهٔ مرکزی است. فیچرها با برچسب اولویت: <span class="tag t1">MVP</span> نسخهٔ اول (۳ تا ۴ ماه)، <span class="tag t2">V2</span> نسخهٔ رشد، <span class="tag">V3</span> تمایز بلندمدت.</p></header>
+
+<h3>۵.۱ پنل مدیر کل (علی) — «برج مراقبت»</h3>
+<div class="grid g2">
+  <div class="card"><h4>داشبورد اجرایی <span class="tag t1">MVP</span></h4><ul>
+    <li>KPIهای زنده: دانش‌آموز فعال، درآمد ماه (MRR)، سهم پلتفرم، نرخ تمدید، churn، NPS، هزینهٔ AI به ازای هر کاربر.</li>
+    <li>قیف فروش: بازدید صفحهٔ مشاور → آزمون تشخیصی → ثبت‌نام → پرداخت → تمدید.</li>
+    <li>هشدارها: مشاورِ کم‌پاسخ (میانگین زمان پاسخ &gt; ۱۲ ساعت)، شاگرد در معرض ریزش (۳ روز بدون گزارش‌کار)، اوج مصرف توکن.</li></ul></div>
+  <div class="card"><h4>مدیریت مشاوران <span class="tag t1">MVP</span></h4><ul>
+    <li>آن‌بوردینگ: دعوت‌نامه، احراز هویت (کارنامهٔ کنکور + کارت ملی)، قرارداد الکترونیک، تعیین درصد سهم (پیش‌فرض ۲۰–۳۰٪ در تیر حرفه‌ای، ۴۰–۵۰٪ در تیر هوشمند).</li>
+    <li>کارت عملکرد هر مشاور: تعداد شاگرد، میانگین پیشرفت تراز شاگردها، زمان پاسخ، امتیاز رضایت، نرخ تمدید، درآمد ناخالص/خالص، سهم پلتفرم.</li>
+    <li>رتبه‌بندی داخلی مشاوران (Leaderboard) + «نشان‌های کیفیت» برای صفحهٔ عمومی.</li></ul></div>
+  <div class="card"><h4>مالی و تسویه <span class="tag t1">MVP</span></h4><ul>
+    <li>دفتر کل تراکنش‌ها، تفکیک درآمد به ازای تیر/مشاور، تسویهٔ ماهانه با مشاورها (گزارش PDF + واریز)، کسر مالیات/کارمزد درگاه.</li>
+    <li>کوپن، کد معرف، تخفیف فصلی (عید، تابستان)، پرداخت قسطی.</li>
+    <li>صورتحساب خودکار برای والدین + پیامک رسید.</li></ul></div>
+  <div class="card"><h4>کیفیت AI و ناظر انسانی <span class="tag t2">V2</span></h4><ul>
+    <li>نمای «ممیزی گفت‌وگوها»: نمونه‌گیری تصادفی مکالمات کلون هر مشاور، امتیازدهی، فلگ پاسخ‌های اشتباه.</li>
+    <li>داشبورد دقت: امتیاز ارزیابی هر کلون (هدف ≥ ۹۰٪)، نرخ ارجاع به انسان، موضوعات پرتکرار بی‌پاسخ.</li>
+    <li>کنترل هزینه: سقف توکن روزانه به ازای هر کاربر/مشاور، سوئیچ مدل (ارزان/دقیق).</li></ul></div>
+  <div class="card"><h4>محتوا و اخبار <span class="tag t1">MVP</span></h4><ul>
+    <li>CMS اخبار کنکور با برچسب «تأیید شده توسط تیم» و منبع رسمی (سنجش/آموزش‌وپرورش).</li>
+    <li>بانک قوانین (سهمیه‌ها، ضرایب، تأثیر معدل) که هم به کاربر نمایش داده می‌شود و هم به‌عنوان منبع مشترک به همهٔ کلون‌های AI تزریق می‌شود.</li></ul></div>
+  <div class="card"><h4>ابزارهای پیشرفته <span class="tag">V3</span></h4><ul>
+    <li>A/B تست پیام‌های نگه‌داشت، «Cohort Explorer» برای مقایسهٔ گروه‌ها، صادرات داده به اکسل/CSV، وبهوک برای CRM.</li>
+    <li>White-label برای آموزشگاه‌ها (لوگو/دامنهٔ اختصاصی) و مدیریت چند «سازمان».</li></ul></div>
+</div>
+
+<h3>۵.۲ پنل مشاور — «میز کار مشاور»</h3>
+<div class="grid g2">
+  <div class="card"><h4>آموزش کلونِ خودم (AI Studio) <span class="tag t1">MVP</span></h4><ul>
+    <li><b>ویزارد ۵ مرحله‌ای:</b> ۱) پروفایل و لحن (رسمی/صمیمی، مثال جملات)، ۲) قوانین طلایی (قواعد قطعی: «پشت‌کنکوری‌ها تابستان زیست را از صفر شروع نکنند»)، ۳) بانک پرسش‌وپاسخ (پرتکرارها)، ۴) آپلود اسناد (PDF جزوه‌های مشاوره، صدای وویس‌های قبلی که به متن تبدیل می‌شود، اسکرین‌شات چت‌های تلگرام با حذف اطلاعات شخصی)، ۵) تست و ارزیابی.</li>
+    <li><b>«۱۰۰ سوال طلایی»:</b> سیستم ۱۰۰ سوال پرتکرار کنکوری‌ها را می‌پرسد و مشاور به هرکدام جواب می‌دهد (متنی یا صوتی). این مجموعه هستهٔ پایگاه دانش است.</li>
+    <li><b>یادگیری از مکالمات:</b> هر بار که مشاور به شاگرد جواب می‌دهد، با یک کلیک به دانش کلون اضافه می‌شود («این جواب را یاد بگیر»).</li>
+    <li><b>Playground:</b> مشاور با کلون خودش چت می‌کند، پاسخ اشتباه را اصلاح می‌کند و اصلاح به‌صورت خودکار به «قوانین» یا «Q&amp;A» افزوده می‌شود.</li>
+    <li><b>Eval Panel:</b> امتیاز دقت روی مجموعهٔ آزمون خود مشاور، آخرین ۲۰ پاسخ کم‌اطمینان، موضوعاتی که کلون در آن‌ها «نمی‌دانم» گفته.</li></ul></div>
+  <div class="card"><h4>برنامه‌ریز هوشمند (Planner) <span class="tag t1">MVP</span></h4><ul>
+    <li>مشاور به زبان طبیعی دستور می‌دهد: «برای علیرضا، هفتهٔ بعد: زیست فصل ۳ و ۴ با تست‌های خط ویژه، ریاضی مشتق ۴ روز، هر روز ۱ ساعت مرور، جمعه آزمون قلم‌چی» → AI برنامهٔ ساختاریافته (جدول روز/ساعت/منبع/تعداد تست) می‌سازد → مشاور با درگ‌ودراپ ویرایش → «تأیید نهایی» → به پنل شاگرد ارسال می‌شود.</li>
+    <li>الگوها (Templates): برنامهٔ تابستان، برنامهٔ جمع‌بندی، برنامهٔ سه‌روزهٔ قبل از آزمون؛ قابل‌کپی برای چند شاگرد با شخصی‌سازی خودکار.</li>
+    <li>بودجه‌بندی خودکار بر اساس ضرایب دروس، فاصلهٔ تا کنکور، نقاط ضعف آزمون‌های اخیر.</li>
+    <li>در تیر هوشمند: برنامه توسط AI ساخته و به‌صورت خودکار تأیید می‌شود؛ مشاور فقط نمونه‌ها را بازبینی می‌کند (Sampling review).</li></ul></div>
+  <div class="card"><h4>«Power BI شخصی» مشاور <span class="tag t1">MVP</span></h4><ul>
+    <li>فیلترهای سراسری بالای صفحه: جنسیت، پایه، رشته، تیر، مدرسه، شهر، آزمون، بازهٔ زمانی، درس، مبحث.</li>
+    <li>کارت‌ها: میانگین ساعت مطالعه، پایبندی به برنامه، روند تراز، توزیع درصدها به تفکیک درس، نقشهٔ حرارتی مبحث×شاگرد.</li>
+    <li>جدول شاگردها با ستون‌های قابل‌مرتب‌سازی + «چراغ وضعیت» (سبز/زرد/قرمز) + قابلیت ذخیرهٔ «نما»های شخصی (Saved views).</li>
+    <li>گزارش‌ساز: انتخاب ویجت‌ها → خروجی PDF برندشده برای والدین.</li></ul></div>
+  <div class="card"><h4>صندوق پیام و جلسات <span class="tag t1">MVP</span></h4><ul>
+    <li>اینباکس یکپارچه: چت متنی/صوتی با شاگرد، پیشنهاد پاسخ توسط AI (Draft reply) که مشاور فقط تأیید یا ویرایش می‌کند (این قابلیت ۶۰ تا ۷۰٪ زمان پاسخ‌دهی را کم می‌کند).</li>
+    <li>تقویم جلسات هفتگی تیر حرفه‌ای، لینک تماس (تلفنی / Google Meet / اسکایروم داخلی)، یادآوری خودکار، ثبت خلاصهٔ جلسه (AI از روی صدا خلاصه می‌نویسد).</li>
+    <li>اقدامات پس از جلسه (Action items) که مستقیم به برنامهٔ شاگرد اضافه می‌شوند.</li></ul></div>
+  <div class="card"><h4>مالی مشاور <span class="tag t1">MVP</span></h4><ul>
+    <li>درآمد ماه، سهم پلتفرم، تسویه‌های انجام‌شده، شاگردهایی که اشتراکشان رو به پایان است، لینک پرداخت اختصاصی برای فروش مستقیم.</li></ul></div>
+  <div class="card"><h4>ابزارهای V2/V3 <span class="tag t2">V2</span></h4><ul>
+    <li>ضبط ویدئوهای کوتاه آموزشی داخل پلتفرم و اتصال به مباحث ضعیف (Micro-lessons).</li>
+    <li>«کلاس گروهی» و لایو هفتگی برای همهٔ شاگردهای تیر هوشمند.</li>
+    <li>دستیار مشاور (Assistant role) برای مشاورهایی که تیم دارند.</li>
+    <li>صفحهٔ عمومی مشاور با رزومه، ویدئوی معرفی، نظرات، و دکمهٔ خرید.</li></ul></div>
+</div>
+
+<h3>۵.۳ پنل دانش‌آموز — «دفتر برنامه‌ریزی زنده»</h3>
+<div class="grid g2">
+  <div class="card"><h4>امروز (Home) <span class="tag t1">MVP</span></h4><ul>
+    <li>برنامهٔ امروز به شکل چک‌لیست با تایمر پومودورو داخلی، منبع و تعداد تست هر آیتم.</li>
+    <li>استریک، ساعت مطالعهٔ امروز/هفته، پیام کوتاه انگیزشی از «مشاور» (تولیدشده توسط کلون با لحن او).</li>
+    <li>دکمهٔ بزرگ «گزارش‌کار امروز» (زمان مطالعه به تفکیک درس، تعداد تست، درصد، حال روحی ۱ تا ۵).</li></ul></div>
+  <div class="card"><h4>چت با مشاور / کلون <span class="tag t1">MVP</span></h4><ul>
+    <li>تیر هوشمند: چت بی‌محدودیت با کلون (با سقف منصفانه)، پاسخ در چند ثانیه، امکان ارسال عکس سوال/کارنامه.</li>
+    <li>تیر حرفه‌ای: چت با خود مشاور + کلون به‌عنوان «پاسخ فوری» تا مشاور جواب بدهد (پاسخ AI با برچسب مشخص).</li>
+    <li>حالت‌های آماده: «آزمونم بد شد»، «برنامه رو نرسیدم»، «قانون جدید یعنی چی؟»، «انتخاب رشته».</li>
+    <li>ارجاع هوشمند: وقتی کلون مطمئن نیست یا موضوع حساس است (اضطراب شدید، افکار آسیب به خود) → به انسان ارجاع + منابع کمک.</li></ul></div>
+  <div class="card"><h4>تحلیل من (Analytics) <span class="tag t1">MVP</span></h4><ul>
+    <li>روند تراز و درصد هر درس در آزمون‌های آزمایشی (قلم‌چی/گاج/گزینه‌دو/ماز) با ورود دستی، عکس کارنامه (OCR) یا فایل.</li>
+    <li>نقشهٔ مباحث: هر مبحث با رنگ تسلط (Mastery) + توصیهٔ اقدام.</li>
+    <li>«پیش‌بینی بازهٔ رتبه» با فاصلهٔ اطمینان و نمودار سناریو («اگر زیست را ۱۰٪ بالا ببری…»).</li>
+    <li>مقایسهٔ ناشناس با همتایان (همان پایه/رشته/تیر).</li></ul></div>
+  <div class="card"><h4>تکالیف و منابع <span class="tag t1">MVP</span></h4><ul>
+    <li>تکلیف‌های مشاور با مهلت، آپلود عکس/فایل، بازخورد؛ دفتر اشتباهات (Error log) با مرور فاصله‌دار.</li>
+    <li>کتابخانهٔ منابع پیشنهادی مشاور به تفکیک درس و سطح.</li></ul></div>
+  <div class="card"><h4>انگیزه و سلامت <span class="tag t2">V2</span></h4><ul>
+    <li>چالش‌های هفتگی، نشان‌ها، «هم‌تیمی مطالعه» (جفت‌شدن ناشناس)، اتاق مطالعهٔ مجازی با تایمر مشترک.</li>
+    <li>سنجش هفتگی خستگی/اضطراب (۳ سوال) → هشدار به مشاور در صورت روند منفی.</li></ul></div>
+  <div class="card"><h4>ابزارهای کنکوری <span class="tag t2">V2</span></h4><ul>
+    <li>ماشین‌حساب درصد/تراز، شبیه‌ساز رتبه، تقویم رسمی کنکور و امتحانات نهایی، شمارش معکوس.</li>
+    <li>دستیار انتخاب رشته (V3): بر اساس رتبه، سهمیه، علاقه و ظرفیت رشته‌ها.</li></ul></div>
+</div>
+
+<h3>۵.۴ پنل والدین — «آرامش خاطر»</h3>
+<div class="grid g2">
+  <div class="card"><h4>خلاصهٔ هفتگی <span class="tag t1">MVP</span></h4><ul>
+    <li>یک صفحهٔ ساده: ساعت مطالعهٔ هفته، پایبندی به برنامه، روند تراز، ۳ نقطهٔ قوت، ۳ نقطهٔ نیازمند توجه، پیام مشاور.</li>
+    <li>ارسال خودکار پیامک/تلگرام/بله با لینک گزارش، پنج‌شنبه‌ها.</li>
+    <li>«چه کاری از دست من برمی‌آید؟»: توصیه‌های رفتاری برای والدین (تولیدشده از منابع مشاور).</li></ul></div>
+  <div class="card"><h4>اخبار و قوانین <span class="tag t1">MVP</span></h4><ul>
+    <li>فید اخبار تأییدشده + «معنی این خبر برای فرزند شما» (شخصی‌سازی بر اساس پایه/رشته).</li>
+    <li>تقویم مهلت‌ها: ثبت‌نام کنکور، امتحانات نهایی، اعلام نتایج، انتخاب رشته.</li></ul></div>
+  <div class="card"><h4>ارتباط و پرداخت <span class="tag t1">MVP</span></h4><ul>
+    <li>درخواست جلسه با مشاور (تیر حرفه‌ای)، چت با «کلون والدین» (پاسخ به سوالات عمومی)، پرداخت و تمدید، دانلود رسید.</li>
+    <li>کنترل حریم خصوصی: دانش‌آموز بالای ۱۸ می‌تواند سطح اشتراک‌گذاری را تنظیم کند.</li></ul></div>
+</div>
+
+<h3>۵.۵ ایده‌های تمایز (آن ۸۰٪ که گفته نشده بود)</h3>
+<div class="grid g3">
+  <div class="card"><h4>۱. کارنامه‌خوان هوشمند</h4><p class="sub">عکس کارنامهٔ قلم‌چی/گاج/گزینه‌دو → OCR + مدل بینایی → ثبت خودکار درصدها و تراز. ورود داده بدون اصطکاک، بزرگ‌ترین مانع تحلیل را حذف می‌کند.</p></div>
+  <div class="card"><h4>۲. صدای مشاور</h4><p class="sub">پیام‌های انگیزشی و خلاصهٔ هفتگی با صدای کلون‌شدهٔ مشاور (TTS با رضایت) → حس ارتباط انسانی در تیر هوشمند.</p></div>
+  <div class="card"><h4>۳. مرور فاصله‌دار مباحث</h4><p class="sub">الگوریتم FSRS روی «مباحث» (نه فلش‌کارت): سیستم می‌گوید امروز کدام مبحث را باید مرور کنی تا فراموش نشود.</p></div>
+  <div class="card"><h4>۴. برنامهٔ خوداصلاح‌گر</h4><p class="sub">اگر ۲ روز از برنامه عقب افتادی، AI خودش برنامه را بازتوزیع می‌کند و توضیح می‌دهد چرا؛ بدون احساس گناه.</p></div>
+  <div class="card"><h4>۵. تحلیل آزمون در ۶۰ ثانیه</h4><p class="sub">بعد از هر آزمون آزمایشی، گزارش صوتی/متنی ۶۰ ثانیه‌ای: چه شد، چرا، هفتهٔ بعد چه کنیم.</p></div>
+  <div class="card"><h4>۶. مقایسهٔ همتایان ناشناس</h4><p class="sub">«دانش‌آموزان مشابه تو که هفته‌ای ۴۵ ساعت خواندند، به‌طور میانگین ۳۰۰ تراز بالا رفتند.» انگیزه از داده، نه از شعار.</p></div>
+  <div class="card"><h4>۷. شبیه‌ساز رتبه</h4><p class="sub">اسلایدر درصد هر درس → بازهٔ رتبهٔ تخمینی بر اساس ضرایب و دادهٔ سال‌های قبل؛ به‌روزشونده با قوانین جدید.</p></div>
+  <div class="card"><h4>۸. حالت امتحان نهایی</h4><p class="sub">چون سوابق تحصیلی وزن بالایی دارد، پلنر دو مود دارد: «کنکور» و «نهایی» با تقویم و منابع جدا.</p></div>
+  <div class="card"><h4>۹. رادار سلامت روان</h4><p class="sub">سنجش سبک هفتگی + تحلیل احساس مکالمات → هشدار زودهنگام به مشاور و منابع کمک؛ با پروتکل ایمنی مشخص.</p></div>
+  <div class="card"><h4>۱۰. بازار مشاوران</h4><p class="sub">صفحهٔ عمومی هر مشاور با رتبه، تخصص، نظرات، ظرفیت. پلتفرم به‌تدریج به «دیجی‌کالای مشاوره کنکور» تبدیل می‌شود.</p></div>
+  <div class="card"><h4>۱۱. مینی‌اپ بله/روبیکا</h4><p class="sub">دسترسی بدون فیلترشکن به گزارش‌کار و چت از داخل پیام‌رسان داخلی؛ کانال توزیع ارزان.</p></div>
+  <div class="card"><h4>۱۲. لایهٔ B2B مدارس</h4><p class="sub">پنل مدرسه/آموزشگاه: مدیر می‌بیند کدام کلاس عقب است؛ فروش لایسنس جمعی (۲۰۰ تا ۲۰۰۰ دانش‌آموز) با هزینهٔ جذب پایین.</p></div>
+</div>
+</section>
+
+<section class="sec" id="s6">
+<header><div class="num">بخش ۶</div><h2>مغز سیستم: کلونِ هوش مصنوعی مشاور</h2><p class="sub">هدف: دانش‌آموزی که با کلون چت می‌کند، حس کند دارد با خود مشاور حرف می‌زند؛ با دقت قابل‌اندازه‌گیری ≥ ۹۰٪ روی سوال‌های واقعی، بدون توهم (hallucination) روی قوانین کنکور، و با ارجاع امن به انسان.</p></header>
+
+<div class="callout"><p><b>تصمیم معماری کلیدی:</b> «فاین‌تیون» نمی‌کنیم. کلون مشاور = <b>RAG + پرامپت‌کشینگ + حافظهٔ ساختاریافته + بازبینی انسانی</b>. فاین‌تیون یک مدل ۷۰ میلیاردی ۵۰ تا ۲۰۰ هزار دلار هزینه دارد و دانشش در لحظهٔ آموزش منجمد می‌شود؛ RAG همان لحظه که مشاور یک جواب جدید ثبت می‌کند به‌روز می‌شود. فقط اگر بعد از A/B تست، لحن کلون به‌اندازهٔ کافی «شبیه مشاور» نبود، یک LoRA سبک روی مدل کوچک صرفاً برای سبک نگارش اضافه می‌کنیم.</p></div>
+
+<h3>۶.۱ سه لایهٔ دانش کلون</h3>
+<div class="grid g3">
+  <div class="card"><h4>لایهٔ ۱ · دانش مشترک پلتفرم</h4><p class="sub">قوانین رسمی کنکور و امتحانات نهایی (ضرایب، سهمیه‌ها، تأثیر معدل، تقویم)، ساختار هر آزمون آزمایشی، منابع معروف. یک‌بار توسط تیم محتوا نگه‌داری می‌شود و همهٔ کلون‌ها از آن می‌خوانند. هر تغییر قانون → به‌روزرسانی یک‌جا.</p></div>
+  <div class="card acc"><h4>لایهٔ ۲ · دانش شخصی مشاور</h4><p class="sub">قوانین طلایی، «۱۰۰ سوال طلایی»، پاسخ‌های واقعی به شاگردها، متنِ وویس‌ها، جزوه‌های مشاوره، الگوهای برنامه. این لایه «شخصیت» کلون است و فقط توسط خودِ مشاور (یا مدیر) ویرایش می‌شود.</p></div>
+  <div class="card"><h4>لایهٔ ۳ · حافظهٔ دانش‌آموز</h4><p class="sub">حقایق ساختاریافته: پایه، رشته، هدف، درس‌های ضعیف، تاریخ کنکور، ساعت آزاد روزانه، محدودیت‌های خانوادگی، آخرین آزمون‌ها، حال روحی اخیر. به‌صورت ردیف‌های تایپ‌دار ذخیره می‌شود (نه متن آزاد)؛ مشاور آن را می‌بیند و می‌تواند اصلاح کند.</p></div>
+</div>
+
+<h3>۶.۲ خط لولهٔ پاسخ‌گویی (Request pipeline)</h3>
+<div class="flow">
+  <span class="node">پیام دانش‌آموز</span><span class="arrow">←</span>
+  <span class="node">نرمال‌سازی فارسی (نیم‌فاصله، ی/ک عربی، اعداد)</span><span class="arrow">←</span>
+  <span class="node">طبقه‌بندی قصد + ایمنی</span><span class="arrow">←</span>
+  <span class="node">بازیابی هیبرید (BM25 + برداری) از ۳ لایه</span><span class="arrow">←</span>
+  <span class="node">Rerank (bge-reranker-v2-m3)</span><span class="arrow">←</span>
+  <span class="node acc">LLM با پرامپت کش‌شدهٔ پرسونا</span><span class="arrow">←</span>
+  <span class="node">بررسی اطمینان و استناد</span><span class="arrow">←</span>
+  <span class="node">پاسخ / ارجاع به مشاور</span>
+</div>
+<ol class="steps">
+  <li><b>نرمال‌سازی:</b> کتابخانه‌های hazm/parsivar؛ تبدیل «ي» و «ك» عربی، یکسان‌سازی نیم‌فاصله (ZWNJ)، اعداد فارسی/عربی/لاتین، حذف کشیده. بدون این مرحله، بازیابی روی متن فارسی تا ۲۰٪ افت می‌کند.</li>
+  <li><b>طبقه‌بندی قصد (مدل ارزان):</b> ۱۲ کلاس: برنامه‌ریزی، تحلیل آزمون، منبع، انگیزه، قانون/خبر، انتخاب رشته، تکنیک تست‌زنی، سلامت روان، مالی/اداری، خارج از حوزه، حساس، سایر. کلاس «حساس» (آسیب به خود، افسردگی شدید) مستقیم به پروتکل ایمنی می‌رود.</li>
+  <li><b>بازیابی هیبرید:</b> BM25 (Postgres FTS با پیکربندی فارسی) + جست‌وجوی برداری (pgvector, HNSW). امبدینگ پیش‌فرض: <code>bge-m3</code>؛ کاندیدهای بنچمارک: multilingual-e5-large، OpenAI text-embedding-3-large، Cohere embed-multilingual-v3 و مدل فارسی <code>Hakim</code> (برترین در بنچمارک FaMTEB). انتخاب نهایی فقط با بنچمارک روی مجموعهٔ طلایی خودِ ما.</li>
+  <li><b>Chunking:</b> جفت‌های پرسش‌وپاسخ بدون تکه‌کردن (سندِ کامل) و ایندکس روی «سوال» + ۳ تا ۵ بازنویسی مصنوعی سوال؛ اسناد بلند در تکه‌های ۵۱۲ تا ۱۰۲۴ توکن، بدون overlap (تحقیقات ۲۰۲۵ سود overlap را رد می‌کند).</li>
+  <li><b>Rerank:</b> ۵۰ کاندید → ۶ تا ۸ سند نهایی. bge-reranker-v2-m3 خودمیزبان (CPU برای حجم کم) یا Cohere Rerank 3.5 (recall@5 از ۰٫۶۱ به ۰٫۸۳).</li>
+  <li><b>تولید پاسخ:</b> پرامپت سیستم ثابت (پرسونا + قوانین طلایی + نمونه‌جملات مشاور + قوانین ایمنی) در بخش کش‌شده (۵۰ تا ۹۰٪ کاهش هزینهٔ ورودی)، سپس حافظهٔ دانش‌آموز، اسناد بازیابی‌شده و ۱۰ پیام آخر گفت‌وگو.</li>
+  <li><b>گیت خروجی:</b> پاسخ باید به حداقل یک سند استناد کند؛ اگر امتیاز اطمینان کم است یا سوال دربارهٔ «قانون/مقررات» بدون سند رسمی است → «مطمئن نیستم، از مشاورت می‌پرسم» + ایجاد تیکت برای مشاور. هر پاسخ همراه با اسناد بازیابی‌شده لاگ می‌شود (قابل‌ممیزی).</li>
+</ol>
+
+<h3>۶.۳ ویزارد آموزش کلون (آنچه مشاور می‌بیند)</h3>
+<div class="tbl-wrap"><table><thead><tr><th>مرحله</th><th>ورودی مشاور</th><th>خروجی سیستم</th><th>زمان تقریبی</th></tr></thead><tbody>
+<tr><td>۱. هویت و لحن</td><td>معرفی، سبک (رسمی/صمیمی/پرانرژی)، ۱۰ جمله‌ای که زیاد می‌گویی، کلمات ممنوع</td><td>پرامپت پرسونا + نمونه‌های سبک (few-shot)</td><td>۱۵ دقیقه</td></tr>
+<tr><td>۲. قوانین طلایی</td><td>قواعد قطعی به زبان ساده (۲۰ تا ۵۰ مورد)؛ مثلاً «قبل از تسلط بر درسنامه، تست زمان‌دار نزن»</td><td>قوانین ساختاریافته با اولویت؛ در هر پاسخ اجباری</td><td>۳۰ دقیقه</td></tr>
+<tr><td>۳. ۱۰۰ سوال طلایی</td><td>پاسخ متنی یا صوتی به پرتکرارترین سوال‌های کنکوری‌ها (سیستم لیست را می‌دهد)</td><td>۱۰۰ جفت Q&amp;A + بازنویسی‌های مصنوعی؛ هستهٔ مجموعهٔ ارزیابی</td><td>۲ تا ۳ ساعت (قابل تقسیم)</td></tr>
+<tr><td>۴. اسناد</td><td>PDF جزوه‌ها، وویس‌ها (تبدیل به متن با Whisper)، خروجی چت‌های تلگرام (با حذف خودکار اسامی/شماره‌ها)</td><td>ایندکس برداری + استخراج خودکار Q&amp;A از چت‌ها برای تأیید مشاور</td><td>۱ ساعت</td></tr>
+<tr><td>۵. آزمون و انتشار</td><td>چت آزمایشی؛ اصلاح پاسخ‌های اشتباه با یک کلیک</td><td>گزارش دقت روی مجموعهٔ طلایی؛ انتشار وقتی ≥ ۸۵٪ (هدف ۹۰٪ در ماه اول)</td><td>۳۰ دقیقه</td></tr>
+</tbody></table></div>
+<p>بعد از انتشار، هر پاسخ واقعی مشاور در اینباکس، یک دکمهٔ «به کلون یاد بده» دارد. این حلقه (Human-in-the-loop → Golden set) همان چیزی است که کلون را در طول زمان از ۸۵٪ به بالای ۹۰٪ می‌رساند.</p>
+
+<h3>۶.۴ چطور «۹۰٪ دقت» را اندازه می‌گیریم</h3>
+<div class="grid g2">
+  <div class="card"><h4>مجموعهٔ طلایی (Golden set)</h4><ul>
+    <li>حداقل ۱۵۰ تا ۲۵۰ سوال به ازای هر مشاور: ۱۰۰ سوال طلایی + سوال‌های دم‌بلند (long-tail) + سوال‌های «قانون تغییر کرد» + سوال‌های تله (مثلاً قانون منسوخ).</li>
+    <li>هر سوال: پاسخ مرجع مشاور + ۳ نکتهٔ کلیدی که باید در پاسخ باشد + نکاتی که نباید باشد.</li></ul></div>
+  <div class="card"><h4>معیارها</h4><ul>
+    <li><b>Faithfulness (RAGAS):</b> ادعاهای پشتیبانی‌شده ÷ کل ادعاها ≥ ۰٫۹.</li><li><b>Context recall:</b> جداگانه پایش می‌شود؛ می‌تواند بی‌صدا ۳۰٪ افت کند در حالی که faithfulness سالم است.</li><li><b>«مشاور همین را می‌گفت» (داوری LLM + نمونه‌گیری انسانی):</b> ≥ ۹۰٪.</li><li><b>نرخ ارجاع به انسان:</b> ۵ تا ۱۵٪ سالم است؛ صفر یعنی کلون بیش‌ازحد مطمئن است.</li><li><b>Next-item correctness (الگوی Khan Academy):</b> آیا دانش‌آموز بعد از راهنمایی، سوال بعدی همان مبحث را درست می‌زند؟</li></ul></div>
+</div>
+<p>ارزیابی هفتگی خودکار (CI) روی هر کلون؛ افت بیش از ۵ امتیاز → هشدار به مدیر و مشاور. داوری LLM با مدل ارزان، کمتر از ۵ دلار برای هر ۱۰۰ سوال هزینه دارد.</p>
+
+<h3>۶.۵ انتخاب مدل زبانی</h3>
+<div class="tbl-wrap"><table><thead><tr><th>نقش</th><th>مدل پیشنهادی</th><th>چرا</th><th>جایگزین</th></tr></thead><tbody>
+<tr><td>کلون مشاور (پاسخ اصلی)</td><td>Claude Sonnet 5.5 <span class="tag">پیش‌فرض</span> / Claude Opus 5.5 برای تیر حرفه‌ای</td><td>کیفیت فارسی بالا، پیروی دقیق از قوانین، prompt caching، توهم کم روی محتوای فارسی (بنچمارک PerHalluEval: خانوادهٔ Claude قوی‌ترین)</td><td>Gemini 2.5/3 Flash، GPT-5-mini</td></tr>
+<tr><td>طبقه‌بندی قصد، تگ‌زدن اشتباهات، خلاصهٔ جلسه</td><td>Claude Haiku 4.5</td><td>ارزان و سریع؛ کارهای ساختاریافته</td><td>Qwen3-8B/14B خودمیزبان، Dorna (لاما فارسی)</td></tr>
+<tr><td>تولید برنامهٔ هفتگی از دستور مشاور</td><td>Claude Sonnet 5.5 با خروجی ساختاریافته (JSON schema)</td><td>نیاز به رعایت دقیق قیود (ساعت آزاد، ضرایب، منابع)</td><td>—</td></tr>
+<tr><td>OCR کارنامه / عکس سوال</td><td>مدل بینایی (Claude/Gemini) + الگوهای کارنامهٔ هر مؤسسه</td><td>کارنامه‌ها ساختار ثابت دارند؛ دقت بالا با few-shot</td><td>PaddleOCR + قواعد</td></tr>
+<tr><td>امبدینگ</td><td>bge-m3 خودمیزبان</td><td>چندزبانه، رایگان، قابل‌اجرا روی CPU/GPU داخلی؛ بدون وابستگی به تحریم</td><td>Hakim (فارسی)، OpenAI text-embedding-3-large</td></tr>
+<tr><td>گفتار به متن (وویس‌ها)</td><td>Whisper large-v3 خودمیزبان</td><td>فارسی خوب، رایگان، دادهٔ صوتی از کشور خارج نمی‌شود</td><td>API های داخلی STT</td></tr>
+<tr><td>متن به گفتار (صدای مشاور)</td><td>TTS فارسی داخلی یا مدل باز (با رضایت کتبی مشاور)</td><td>حس انسانی در تیر هوشمند</td><td>ElevenLabs (دسترسی محدود)</td></tr>
+</tbody></table></div>
+<div class="callout sun"><p><b>حداقل مدل لازم:</b> برای اینکه کلون «شبیه مشاور» باشد و قوانین را رعایت کند، مدل‌های کلاس Sonnet/GPT-mini/Gemini-Flash کافی‌اند؛ مدل‌های کلاس Opus فقط برای موقعیت‌های پیچیده (تحلیل عمیق آزمون، برنامهٔ چندهفته‌ای) ارزش هزینه دارند. مدل‌های باز ۷ تا ۱۴ میلیاردی روی فارسی محاوره‌ای کنکوری هنوز ناپایدارند و فقط برای کارهای پشت‌صحنه توصیه می‌شوند. برآورد دقیق هزینه در بخش ۱۲.</p></div>
+
+<h3>۶.۶ ایمنی، حریم خصوصی و اخلاق</h3>
+<ul>
+  <li><b>پروتکل سلامت روان:</b> تشخیص کلیدواژه + مدل طبقه‌بندی → پاسخ همدلانهٔ از پیش تأییدشده + شمارهٔ خطوط کمک (اورژانس اجتماعی ۱۲۳، صدای مشاور ۱۴۸۰) + اطلاع فوری به مشاور و (با تنظیم) والد. کلون هرگز تشخیص بالینی نمی‌دهد.</li>
+  <li><b>شفافیت:</b> پاسخ‌های AI همیشه برچسب «پاسخ هوشمند» دارند؛ در تیر حرفه‌ای، دانش‌آموز می‌داند چه زمانی خود مشاور جواب داده.</li>
+  <li><b>حریم خصوصی:</b> چت‌ها فقط برای مشاورِ همان شاگرد و مدیر (نمونه‌گیری ممیزی) قابل‌مشاهده‌اند؛ والدین فقط خلاصه می‌بینند، نه متن چت. حذف داده با درخواست.</li>
+  <li><b>روز کنکور:</b> در روز آزمون، پاسخ به سوال‌های درسی معلق می‌شود (الگوی چین در گائوکائو) تا شائبهٔ تقلب ایجاد نشود.</li>
+  <li><b>ضدسوءاستفاده:</b> سقف پیام روزانه به ازای هر کاربر، تشخیص پرامپت‌اینجکشن، جداسازی سخت داده‌های هر مشاور (tenant isolation) در بازیابی.</li>
+</ul>
+</section>
+
+<section class="sec" id="s7">
+<header><div class="num">بخش ۷</div><h2>موتور تحلیل: دیتاساینتیستی که هرگز نمی‌خوابد</h2><p class="sub">نقطهٔ قوت اصلی محصول. هر داده‌ای که وارد می‌شود (گزارش‌کار، آزمون، چت، تکلیف) باید همان لحظه به «بینش قابل‌اقدام» تبدیل شود؛ برای دانش‌آموز، مشاور، والد و مدیر.</p></header>
+
+<h3>۷.۱ مدل داده‌ای دانش (Knowledge model)</h3>
+<p>همهٔ تحلیل‌ها روی یک «درخت دانش» سوار می‌شوند: <b>رشته → درس → فصل → مبحث → ریزمبحث</b>. برای هر رشتهٔ کنکوری (تجربی، ریاضی، انسانی، هنر، زبان) درخت مطابق کتاب‌های درسی و بودجه‌بندی کنکور ساخته می‌شود (مثلاً زیست دوازدهم فصل ۱ «مولکول‌های اطلاعاتی» → ۴ ریزمبحث). این درخت هم برای برنامه‌ریزی، هم برای تحلیل و هم برای بازیابی RAG استفاده می‌شود.</p>
+
+<h3>۷.۲ الگوریتم‌ها (از ساده به پیشرفته)</h3>
+<div class="tbl-wrap"><table><thead><tr><th>مسئله</th><th>روش</th><th>ورودی</th><th>خروجی برای کاربر</th><th>فاز</th></tr></thead><tbody>
+<tr><td>تسلط بر هر مبحث</td><td>Bayesian Knowledge Tracing (BKT) به ازای مبحث؛ بعداً DKT با &gt; ۱ میلیون تعامل</td><td>نتایج تست‌ها، تکالیف، آزمون‌های آزمایشی</td><td>نقشهٔ رنگی مباحث (تسلط ۰ تا ۱۰۰)</td><td>MVP</td></tr>
+<tr><td>سطح توانایی و سختی سوال</td><td>Elo چندبُعدی (Pelánek): به‌روزرسانی با هر پاسخ؛ ارزان و خودتصحیح</td><td>هر پاسخ درست/غلط + زمان</td><td>«سطح تو در مشتق: ۱۴۲۰»؛ پیشنهاد تست هم‌سطح</td><td>MVP</td></tr>
+<tr><td>پیش‌بینی تراز/رتبه</td><td>رگرسیون روی دادهٔ آزمون‌های آزمایشی (ویژگی‌ها: درصدهای درس × ضرایب، روند، پایبندی) + نگاشت به توزیع تاریخی رتبه</td><td>کارنامه‌های قلم‌چی/گاج/گزینه‌دو</td><td>بازهٔ رتبه با فاصلهٔ اطمینان ۸۰٪</td><td>MVP (ساده) → V2 (مدل یادگیرنده)</td></tr>
+<tr><td>فراموشی مباحث</td><td>FSRS (الگوریتم پیش‌فرض Anki از ۲۰۲۴؛ ۲۰ تا ۳۰٪ مرور کمتر از SM-2)</td><td>تاریخ آخرین مطالعه/مرور هر مبحث + نتیجه</td><td>«این ۳ مبحث امروز نیاز به مرور دارند»</td><td>V2</td></tr>
+<tr><td>پایبندی به برنامه</td><td>نسبت آیتم‌های انجام‌شده وزن‌دار با زمان</td><td>گزارش‌کار روزانه</td><td>درصد پایبندی هفتگی + روند</td><td>MVP</td></tr>
+<tr><td>کارایی مطالعه</td><td>رگرسیون لگاریتمی ساعت مطالعه → درصد (بازدهی نزولی)</td><td>ساعت مطالعه + نتایج</td><td>«بعد از ۹ ساعت، بازدهی‌ات افت می‌کند؛ کیفیت مهم‌تر از کمیت»</td><td>V2</td></tr>
+<tr><td>تشخیص ریزش/فرسودگی</td><td>قواعد قطعی + امتیاز ریسک: ۳ روز بدون گزارش، افت دقت با افزایش ساعت، مطالعهٔ نیمه‌شب، احساس منفی در چت</td><td>همهٔ سیگنال‌ها</td><td>هشدار به مشاور با «اقدام پیشنهادی»</td><td>MVP (قواعد) → V2 (مدل)</td></tr>
+<tr><td>طبقه‌بندی اشتباهات</td><td>تگ‌گذاری با LLM: مفهومی / بی‌دقتی / زمان / بدفهمی سوال</td><td>دفتر اشتباهات</td><td>نقشهٔ حرارتی نوع خطا × درس</td><td>V2</td></tr>
+<tr><td>مقایسهٔ همتایان</td><td>گروه‌بندی بر اساس پایه/رشته/تیر/هدف؛ صدک‌ها</td><td>دادهٔ تجمیعی ناشناس</td><td>«صدک ۷۲ در ساعت مطالعه، صدک ۵۵ در دقت»</td><td>V2</td></tr>
+<tr><td>آزمون تشخیصی تطبیقی</td><td>CAT روی بانک سوال کالیبره‌شده با IRT (2PL)</td><td>پاسخ‌ها</td><td>نقشهٔ قوت/ضعف در ۱۵ دقیقه به‌جای ۳ ساعت</td><td>V3</td></tr>
+</tbody></table></div>
+
+<h3>۷.۳ داشبورد «Power BI شخصی» مشاور</h3>
+<p>یک ردیف فیلتر سراسری بالای صفحه (جنسیت، پایه، رشته، تیر، آزمون، بازهٔ زمانی، درس، مبحث، وضعیت ریسک) که همهٔ ویجت‌ها را هم‌زمان بازتولید می‌کند. رنگ هر شاگرد/سری ثابت است (با فیلتر عوض نمی‌شود). هر نمودار یک «نمای جدولی» دارد و هر عدد به منبع خودش لینک است.</p>
+<div class="grid g3">
+  <div class="card"><h4>ویجت‌های MVP</h4><ul class="sub"><li>کارت‌های خلاصه: شاگرد فعال، میانگین ساعت/روز، پایبندی، تغییر تراز ماه</li><li>جدول شاگردها با چراغ وضعیت و مرتب‌سازی</li><li>روند تراز هر شاگرد (خط) + میانگین گروه</li><li>توزیع درصد هر درس (باکس‌پلات ساده)</li><li>نقشهٔ حرارتی شاگرد × درس</li></ul></div>
+  <div class="card"><h4>ویجت‌های V2</h4><ul class="sub"><li>قیف تبدیل شاگردهای هر مشاور</li><li>Cohort: شاگردهایی که در یک ماه شروع کرده‌اند</li><li>پراکندگی ساعت مطالعه × دقت با منحنی بازدهی</li><li>نقشهٔ حرارتی نوع خطا</li><li>گزارش‌ساز PDF</li></ul></div>
+  <div class="card"><h4>لایهٔ فنی</h4><ul class="sub"><li>لایهٔ معنایی <b>Cube</b> (security context به ازای هر مستأجر → Row-level security رایگان)</li><li>Materialized views شبانه + جداول تجمیعی ساعتی</li><li>ECharts برای نمودارهای سنگین، ویجت‌های ساده با SVG داخلی</li><li>Metabase فقط برای تیم داخلی</li></ul></div>
+</div>
+
+<h3>۷.۴ «تحلیل آزمون در ۶۰ ثانیه»</h3>
+<p>بعد از ثبت کارنامه (دستی/عکس/فایل)، سیستم به ترتیب: (۱) درصدها را با آزمون قبلی و میانگین گروه مقایسه می‌کند، (۲) با درخت دانش، مباحث ضعیف‌شده را پیدا می‌کند، (۳) با قوانین طلایی مشاور، اقدام پیشنهادی هفتهٔ بعد را می‌نویسد، (۴) خروجی را با لحن مشاور به متن و صدا تبدیل می‌کند، (۵) در تیر حرفه‌ای برای تأیید به مشاور می‌فرستد و در تیر هوشمند مستقیم منتشر می‌کند. مشاور با یک کلیک می‌تواند آن را به برنامهٔ هفتهٔ بعد تبدیل کند.</p>
+</section>
+
+<section class="sec" id="s8">
+<header><div class="num">بخش ۸</div><h2>معماری فنی</h2><p class="sub">اصل حاکم: <b>همه‌چیزِ مسیر بحرانی داخل شبکهٔ ملی</b>. قطعی اینترنت بین‌الملل ۱۸ دی ۱۴۰۴ تا ۵ خرداد ۱۴۰۵ (بیش از ۲۰۹۰ ساعت) نشان داد هر وابستگی خارجی در مسیر اصلی یعنی خاموشی محصول. LLM خارجی پشت یک لایهٔ Router با fallback داخلی می‌نشیند.</p></header>
+
+<h3>۸.۱ نمای کلان</h3>
+<div class="diagram"><svg viewBox="0 0 980 560" role="img" aria-label="نمودار معماری سیستم">
+  <defs><marker id="ar" markerWidth="8" markerHeight="8" refX="6" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"/></marker></defs>
+  <style>.bx{fill:var(--surface-2);stroke:var(--line-strong);rx:10}.bx.a{fill:var(--accent-soft);stroke:var(--accent)}.bx.w{fill:var(--accent-2-soft);stroke:var(--accent-2)}.t{font-family:var(--font-body);font-size:13px;fill:var(--fg);font-weight:700;text-anchor:middle}.s{font-size:11px;fill:var(--muted);font-weight:400;text-anchor:middle}.ln{stroke:var(--muted);stroke-width:1.4;fill:none;marker-end:url(#ar)}.zone{fill:none;stroke:var(--line);stroke-dasharray:6 5;rx:14}.zl{font-size:12px;fill:var(--muted);font-weight:700}</style>
+  <rect class="zone" x="10" y="10" width="700" height="540"/><text class="zl" x="690" y="32" text-anchor="end">داخل ایران (شبکهٔ ملی)</text>
+  <rect class="zone" x="730" y="10" width="240" height="540"/><text class="zl" x="960" y="32" text-anchor="end">خارج (فقط پرامپت ناشناس)</text>
+  <!-- clients -->
+  <rect class="bx" x="40" y="50" width="130" height="54"/><text class="t" x="105" y="72">PWA وب/موبایل</text><text class="s" x="105" y="90">Next.js · آفلاین‌فرست</text>
+  <rect class="bx" x="190" y="50" width="130" height="54"/><text class="t" x="255" y="72">مینی‌اپ بله</text><text class="s" x="255" y="90">+ ربات بله/روبیکا</text>
+  <rect class="bx" x="340" y="50" width="130" height="54"/><text class="t" x="405" y="72">اپ اندروید</text><text class="s" x="405" y="90">کافه‌بازار / مایکت</text>
+  <rect class="bx" x="490" y="50" width="190" height="54"/><text class="t" x="585" y="72">CDN + WAF + DDoS</text><text class="s" x="585" y="90">آروان‌کلاد · TLS · Rate limit</text>
+  <path class="ln" d="M105,104 L105,150"/><path class="ln" d="M255,104 L255,150"/><path class="ln" d="M405,104 L405,150"/><path class="ln" d="M585,104 L585,150"/>
+  <!-- api -->
+  <rect class="bx a" x="40" y="150" width="640" height="60"/><text class="t" x="360" y="174">API Gateway + Auth (OTP, JWT, RBAC/ABAC, Tenant context)</text><text class="s" x="360" y="194">FastAPI · OpenAPI · Idempotency · Audit middleware</text>
+  <path class="ln" d="M120,210 L120,250"/><path class="ln" d="M300,210 L300,250"/><path class="ln" d="M480,210 L480,250"/><path class="ln" d="M620,210 L620,250"/>
+  <!-- services -->
+  <rect class="bx" x="40" y="250" width="160" height="70"/><text class="t" x="120" y="274">Core Domain</text><text class="s" x="120" y="292">کاربر، مشاور، شاگرد،</text><text class="s" x="120" y="308">برنامه، گزارش‌کار، آزمون</text>
+  <rect class="bx" x="220" y="250" width="160" height="70"/><text class="t" x="300" y="274">AI Orchestrator</text><text class="s" x="300" y="292">RAG · Router · Guardrails</text><text class="s" x="300" y="308">Eval · Memory</text>
+  <rect class="bx" x="400" y="250" width="160" height="70"/><text class="t" x="480" y="274">Analytics Engine</text><text class="s" x="480" y="292">BKT/Elo/FSRS · پیش‌بینی</text><text class="s" x="480" y="308">Cube semantic layer</text>
+  <rect class="bx" x="580" y="250" width="100" height="70"/><text class="t" x="630" y="274">Billing</text><text class="s" x="630" y="292">درگاه · تسویه</text><text class="s" x="630" y="308">کوپن · قسط</text>
+  <!-- workers -->
+  <rect class="bx" x="40" y="345" width="640" height="46"/><text class="t" x="360" y="364">Workers / Queue (Redis + Celery/Arq)</text><text class="s" x="360" y="382">OCR کارنامه · STT وویس · ایندکس · گزارش شبانه · اعلان‌ها · Eval هفتگی</text>
+  <path class="ln" d="M120,320 L120,345"/><path class="ln" d="M300,320 L300,345"/><path class="ln" d="M480,320 L480,345"/>
+  <!-- data -->
+  <rect class="bx" x="40" y="420" width="150" height="70"/><text class="t" x="115" y="444">PostgreSQL 16</text><text class="s" x="115" y="462">RLS چندمستأجره</text><text class="s" x="115" y="478">pgvector · FTS فارسی</text>
+  <rect class="bx" x="210" y="420" width="120" height="70"/><text class="t" x="270" y="444">Redis</text><text class="s" x="270" y="462">کش · صف · Rate</text>
+  <rect class="bx" x="350" y="420" width="140" height="70"/><text class="t" x="420" y="444">Object Storage</text><text class="s" x="420" y="462">S3 آروان/لیارا</text><text class="s" x="420" y="478">کارنامه، وویس، PDF</text>
+  <rect class="bx w" x="510" y="420" width="170" height="70"/><text class="t" x="595" y="444">GPU داخلی (RTX 4090)</text><text class="s" x="595" y="462">Gemma-3/Qwen3 (vLLM)</text><text class="s" x="595" y="478">bge-m3 · Whisper · Reranker</text>
+  <path class="ln" d="M115,391 L115,420"/><path class="ln" d="M270,391 L270,420"/><path class="ln" d="M420,391 L420,420"/><path class="ln" d="M595,391 L595,420"/>
+  <!-- observability -->
+  <rect class="bx" x="40" y="505" width="640" height="36"/><text class="t" x="360" y="528">Observability: OpenTelemetry · Prometheus / Grafana · Loki · Sentry · Audit log</text>
+  <!-- external -->
+  <rect class="bx" x="750" y="150" width="200" height="60"/><text class="t" x="850" y="174">VPS «پل»</text><text class="s" x="850" y="194">بدون دادهٔ شخصی</text>
+  <rect class="bx a" x="750" y="250" width="200" height="70"/><text class="t" x="850" y="274">LLM Router</text><text class="s" x="850" y="292">AvalAI (اصلی) · متیس / لیارا AI</text><text class="s" x="850" y="308">Claude · Gemini · GPT</text>
+  <rect class="bx" x="750" y="345" width="200" height="46"/><text class="t" x="850" y="365">Telegram Bot API</text><text class="s" x="850" y="382">کانال ثانویه (MTProto proxy)</text>
+  <path class="ln" d="M380,285 C 600,285 600,285 750,285"/>
+  <path class="ln" d="M680,180 L750,180"/>
+</svg></div>
+
+<h3>۸.۲ استک پیشنهادی و دلیل هر انتخاب</h3>
+<div class="tbl-wrap"><table><thead><tr><th>لایه</th><th>انتخاب</th><th>چرا</th><th>جایگزین</th></tr></thead><tbody>
+<tr><td>فرانت وب</td><td>Next.js 15 (App Router) + TypeScript + Tailwind + shadcn/ui (Radix) با <code>DirectionProvider dir="rtl"</code></td><td>RTL بومی (کلاس‌های منطقی ms/me)، SSR برای SEO فارسی، PWA آفلاین‌فرست، استخدام‌پذیر در ایران</td><td>Nuxt 3 + Vue</td></tr>
+<tr><td>موبایل</td><td>PWA در MVP → Flutter در V2 (کافه‌بازار/مایکت)</td><td>گوگل‌پلی از ایران پرداخت ندارد؛ PWA + مینی‌اپ بله MVP را پوشش می‌دهد</td><td>React Native</td></tr>
+<tr><td>بک‌اند</td><td>Python 3.12 · FastAPI · SQLAlchemy 2 · Pydantic v2</td><td>هم‌راستا با اکوسیستم ML/RAG (hazm, sentence-transformers)؛ سریع، تایپ‌دار، OpenAPI رایگان</td><td>Django + DRF (ادمین آماده)، NestJS</td></tr>
+<tr><td>دیتابیس</td><td>PostgreSQL 16 + pgvector + pg_partman + RLS</td><td>یک دیتابیس برای رابطه‌ای، برداری، FTS و JSONB؛ Row-Level Security برای چندمستأجری؛ &lt; ۱۰ میلیون بردار تا سال‌ها</td><td>Qdrant جدا فقط وقتی &gt; ۱۰ میلیون بردار</td></tr>
+<tr><td>کش/صف</td><td>Redis 7 + Celery (یا Arq)</td><td>OCR، STT، ایندکس، اعلان، گزارش شبانه، Eval هفتگی</td><td>RabbitMQ</td></tr>
+<tr><td>لایهٔ AI</td><td>LiteLLM Router → AvalAI (اصلی) / متیس / لیارا AI؛ fallback: vLLM روی GPU داخلی</td><td>Provider-agnostic؛ سوئیچ یک‌خطی وقتی یک واسط قطع شد؛ چت «همیشه‌روشن» در قطعی</td><td>OpenRouter با کارت خارجی (ریسک بستن حساب)</td></tr>
+<tr><td>تحلیل/BI</td><td>Cube (semantic layer با security context) + ECharts؛ Metabase داخلی</td><td>Row-level security به ازای مشاور/مؤسسه رایگان؛ ECharts برای هیت‌مپ و داده‌های بزرگ</td><td>Apache Superset</td></tr>
+<tr><td>پرداخت</td><td>زیبال یا زرین‌پال (پرداخت‌یار) → دایرکت‌دبیت زرین‌پال/وندار برای اشتراک</td><td>فعال‌سازی سریع؛ کارمزد ۰٫۵–۱٪ با سقف؛ کارت داخل سرور ما نمی‌آید</td><td>درگاه مستقیم بانکی بعد از حجم</td></tr>
+<tr><td>اعلان</td><td>کاوه‌نگار (OTP الگویی) + پوشه (پوش) + ربات بله (رسمی) + تلگرام (ثانویه)</td><td>FCM از ایران ناپایدار؛ واتساپ بیزینس در ایران کار نمی‌کند</td><td>SMS.ir</td></tr>
+<tr><td>هاست</td><td>لیارا یا هم‌روش (K8s/PaaS) + Postgres مدیریت‌شده + CDN آروان</td><td>ترافیک نیم‌بها، پینگ &lt; ۳۰ms، الزام میزبانی داخلی، بقا در قطعی</td><td>ستون/پارس‌پک</td></tr>
+<tr><td>مشاهده‌پذیری</td><td>OpenTelemetry → Prometheus/Grafana/Loki؛ Sentry خودمیزبان</td><td>SaaSهای خارجی از ایران ثبت‌نام نمی‌پذیرند</td><td>SigNoz</td></tr>
+<tr><td>CI/CD</td><td>GitHub Actions (یا GitLab خودمیزبان) → رجیستری داخلی → K8s؛ فریز دیپلوی در هفتهٔ کنکور</td><td>—</td><td>—</td></tr>
+</tbody></table></div>
+
+<h3>۸.۳ چندمستأجری (Multi-tenancy)</h3>
+<p>سه سطح: <b>پلتفرم → سازمان (مشاور مستقل یا آموزشگاه/مدرسه) → کاربران</b>. مدل «shared database, shared schema» با ستون <code>tenant_id</code> در هر جدول و <b>Row-Level Security</b> پستگرس: هر کانکشن با <code>SET app.tenant_id</code> شروع می‌شود و هیچ کوئری بدون آن داده‌ای نمی‌بیند. ایندکس برداری هم با فیلتر <code>tenant_id</code> (pgvector + partial index) جدا می‌ماند تا کلون مشاور A هرگز سند مشاور B را نبیند. علی به‌عنوان super-admin با نقش ویژه از RLS عبور می‌کند و هر عبورش لاگ می‌شود.</p>
+
+<h3>۸.۴ الگوهای مقاومت</h3>
+<ul>
+  <li><b>Degraded mode:</b> اگر واسط LLM خارجی قطع شد → مدل داخلی (Gemma-3-12B/Qwen3-14B روی RTX 4090، ~۳۰ تا ۶۰ چت هم‌زمان) با بنر «پاسخ در حالت محلی». اگر GPU هم نبود → پاسخ‌های از پیش تولیدشده برای ۱۰۰ سوال طلایی + صف برای مشاور.</li>
+  <li><b>آفلاین‌فرست:</b> گزارش‌کار و برنامهٔ امروز در IndexedDB؛ همگام‌سازی هنگام اتصال. آزمون‌های داخلی با ذخیرهٔ محلی پاسخ (درس از خطای گزینه‌دو).</li>
+  <li><b>Idempotency</b> برای پرداخت و ثبت گزارش؛ <b>Outbox pattern</b> برای اعلان‌ها.</li>
+  <li><b>تست بار</b> قبل از فصل‌های اوج (مهر، اسفند، مرداد) با هدف ۵ برابر پیک قبلی.</li>
+</ul>
+</section>
+
+<section class="sec" id="s9">
+<header><div class="num">بخش ۹</div><h2>طراحی دیتابیس</h2><p class="sub">۴۲ جدول در ۹ حوزه. همهٔ جدول‌ها <code>id (uuid v7)</code>، <code>tenant_id</code>، <code>created_at</code>، <code>updated_at</code>، <code>deleted_at</code> (soft delete) دارند. تاریخ‌ها همیشه UTC ذخیره و فقط در نمایش جلالی می‌شوند (date-fns-jalali).</p></header>
+
+<h3>۹.۱ نمودار موجودیت‌ها (هسته)</h3>
+<div class="diagram"><svg viewBox="0 0 980 470" role="img" aria-label="ERD هسته">
+  <style>.e{fill:var(--surface-2);stroke:var(--line-strong);rx:8}.e.k{fill:var(--accent-soft);stroke:var(--accent)}.et{font-family:var(--font-body);font-size:13px;font-weight:800;fill:var(--fg);text-anchor:middle}.ef{font-family:var(--font-mono);font-size:10.5px;fill:var(--fg-2);text-anchor:start}.rl{stroke:var(--muted);stroke-width:1.3;fill:none}.rt{font-size:10px;fill:var(--muted)}</style>
+  <g transform="translate(20,20)"><rect class="e k" width="170" height="96"/><text class="et" x="85" y="18">tenant</text><text class="ef" x="8" y="38">id, name, kind</text><text class="ef" x="8" y="54">(counselor|institute)</text><text class="ef" x="8" y="70">commission_pct</text><text class="ef" x="8" y="86">status</text></g>
+  <g transform="translate(230,20)"><rect class="e k" width="170" height="96"/><text class="et" x="85" y="18">user</text><text class="ef" x="8" y="38">id, phone, name</text><text class="ef" x="8" y="54">gender, birth_year</text><text class="ef" x="8" y="70">password_hash?</text><text class="ef" x="8" y="86">last_login_at</text></g>
+  <g transform="translate(440,20)"><rect class="e" width="170" height="96"/><text class="et" x="85" y="18">membership</text><text class="ef" x="8" y="38">user_id, tenant_id</text><text class="ef" x="8" y="54">role (owner|counselor|</text><text class="ef" x="8" y="70">assistant|student|guardian)</text><text class="ef" x="8" y="86">attrs jsonb</text></g>
+  <g transform="translate(650,20)"><rect class="e" width="170" height="96"/><text class="et" x="85" y="18">guardian_link</text><text class="ef" x="8" y="38">guardian_user_id</text><text class="ef" x="8" y="54">student_id</text><text class="ef" x="8" y="70">consent_at</text><text class="ef" x="8" y="86">visibility_level</text></g>
+  <g transform="translate(20,150)"><rect class="e k" width="170" height="112"/><text class="et" x="85" y="18">student_profile</text><text class="ef" x="8" y="38">user_id, counselor_id</text><text class="ef" x="8" y="54">grade, track (تجربی…)</text><text class="ef" x="8" y="70">tier, exam_year, quota</text><text class="ef" x="8" y="86">school, city, goal_major</text><text class="ef" x="8" y="102">daily_free_hours</text></g>
+  <g transform="translate(230,150)"><rect class="e" width="170" height="112"/><text class="et" x="85" y="18">counselor_profile</text><text class="ef" x="8" y="38">user_id, konkur_rank</text><text class="ef" x="8" y="54">verified_at, bio</text><text class="ef" x="8" y="70">capacity, specialties[]</text><text class="ef" x="8" y="86">public_slug, rating</text><text class="ef" x="8" y="102">avg_response_min</text></g>
+  <g transform="translate(440,150)"><rect class="e" width="170" height="112"/><text class="et" x="85" y="18">subscription</text><text class="ef" x="8" y="38">student_id, plan_id</text><text class="ef" x="8" y="54">status, starts_at, ends_at</text><text class="ef" x="8" y="70">price, discount_id</text><text class="ef" x="8" y="86">auto_renew, payer_user_id</text><text class="ef" x="8" y="102">cancel_reason</text></g>
+  <g transform="translate(650,150)"><rect class="e" width="170" height="112"/><text class="et" x="85" y="18">plan (tier)</text><text class="ef" x="8" y="38">code (ai|pro|elite)</text><text class="ef" x="8" y="54">monthly_price</text><text class="ef" x="8" y="70">ai_msg_quota_daily</text><text class="ef" x="8" y="86">human_sessions_monthly</text><text class="ef" x="8" y="102">features jsonb</text></g>
+  <g transform="translate(20,300)"><rect class="e k" width="170" height="112"/><text class="et" x="85" y="18">study_plan</text><text class="ef" x="8" y="38">student_id, week_start</text><text class="ef" x="8" y="54">status (draft|approved)</text><text class="ef" x="8" y="70">source (ai|counselor)</text><text class="ef" x="8" y="86">approved_by, version</text><text class="ef" x="8" y="102">rationale text</text></g>
+  <g transform="translate(230,300)"><rect class="e" width="170" height="112"/><text class="et" x="85" y="18">plan_item</text><text class="ef" x="8" y="38">plan_id, date, order</text><text class="ef" x="8" y="54">topic_id, kind</text><text class="ef" x="8" y="70">(study|test|review|exam)</text><text class="ef" x="8" y="86">minutes, test_count</text><text class="ef" x="8" y="102">resource_id, done_at</text></g>
+  <g transform="translate(440,300)"><rect class="e k" width="170" height="112"/><text class="et" x="85" y="18">daily_report</text><text class="ef" x="8" y="38">student_id, date</text><text class="ef" x="8" y="54">total_minutes, mood (1-5)</text><text class="ef" x="8" y="70">sleep_hours, note</text><text class="ef" x="8" y="86">submitted_at</text><text class="ef" x="8" y="102">→ report_line[]</text></g>
+  <g transform="translate(650,300)"><rect class="e" width="170" height="112"/><text class="et" x="85" y="18">report_line</text><text class="ef" x="8" y="38">report_id, subject_id</text><text class="ef" x="8" y="54">topic_id?, minutes</text><text class="ef" x="8" y="70">tests, correct, wrong</text><text class="ef" x="8" y="86">plan_item_id?</text><text class="ef" x="8" y="102">quality (1-5)</text></g>
+  <path class="rl" d="M190,68 L230,68"/><path class="rl" d="M400,68 L440,68"/><path class="rl" d="M610,68 L650,68"/>
+  <path class="rl" d="M315,116 L315,150"/><path class="rl" d="M105,116 L105,150"/><path class="rl" d="M525,116 L525,150"/><path class="rl" d="M620,206 L650,206"/>
+  <path class="rl" d="M105,262 L105,300"/><path class="rl" d="M190,356 L230,356"/><path class="rl" d="M400,356 L440,356"/><path class="rl" d="M610,356 L650,356"/>
+  <path class="rl" d="M190,206 L230,206"/><path class="rl" d="M400,206 L440,206"/>
+</svg></div>
+
+<h3>۹.۲ فهرست کامل جداول</h3>
+<div class="tbl-wrap compact"><table><thead><tr><th>حوزه</th><th>جدول</th><th>ستون‌های کلیدی</th><th>نکته</th></tr></thead><tbody>
+<tr><td rowspan="5">هویت و مستأجر</td><td><code>tenant</code></td><td>name, kind, commission_pct, settings jsonb, status</td><td>مشاور مستقل یا آموزشگاه</td></tr>
+<tr><td><code>user</code></td><td>phone (unique), name, gender, birth_year, avatar, locale</td><td>ورود با OTP؛ پسورد اختیاری</td></tr>
+<tr><td><code>membership</code></td><td>user_id, tenant_id, role, attrs</td><td>یک کاربر می‌تواند در چند مستأجر نقش داشته باشد (علی: owner + counselor)</td></tr>
+<tr><td><code>guardian_link</code></td><td>guardian_user_id, student_id, consent_at, visibility_level</td><td>رضایت والد برای زیر ۱۸</td></tr>
+<tr><td><code>session / device</code></td><td>refresh_token_hash, device_info, ip, last_seen</td><td>خروج از همهٔ دستگاه‌ها</td></tr>
+<tr><td rowspan="3">پروفایل</td><td><code>student_profile</code></td><td>grade, track, tier, exam_year, quota_type, region, school, goal_major, goal_rank, daily_free_hours, study_style</td><td>فیلترهای Power BI از همین ستون‌ها</td></tr>
+<tr><td><code>counselor_profile</code></td><td>konkur_rank, konkur_year, verified_at, verification_doc, capacity, specialties[], public_slug, rating, avg_response_min</td><td>احراز هویت با کارنامهٔ سنجش</td></tr>
+<tr><td><code>student_memory</code></td><td>student_id, key, value jsonb, source (ai|counselor|student), confidence, updated_at</td><td>حافظهٔ ساختاریافتهٔ کلون (لایهٔ ۳)</td></tr>
+<tr><td rowspan="6">دانش و درس</td><td><code>track</code>, <code>subject</code></td><td>name, konkur_coef, record_coef, question_count, exam_group</td><td>ضرایب نسخه‌دار با <code>rule_version_id</code></td></tr>
+<tr><td><code>topic</code></td><td>subject_id, parent_id, name, grade, order, budget_weight, depth</td><td>درخت دانش (فصل → مبحث → ریزمبحث)</td></tr>
+<tr><td><code>resource</code></td><td>title, publisher, subject_id, kind (book|video|test), url, level</td><td>منابع پیشنهادی مشاور</td></tr>
+<tr><td><code>rule_version</code></td><td>exam_year, record_share, exam_share, grades_included jsonb, effective_from, source_url</td><td><b>موتور قوانین:</b> ۱۴۰۵ = ۶۰/۴۰، ۱۴۰۶ = …</td></tr>
+<tr><td><code>quota_type</code></td><td>code, name, share_pct, threshold_rule</td><td>مناطق ۱/۲/۳، ایثارگران ۵/۲۵</td></tr>
+<tr><td><code>news_item</code></td><td>title, body, source_url, verified_by, tags[], affects_grades[], published_at</td><td>CMS اخبار با «معنی برای تو»</td></tr>
+<tr><td rowspan="4">برنامه‌ریزی</td><td><code>study_plan</code></td><td>student_id, week_start, status, source, approved_by, version, rationale, parent_plan_id</td><td>نسخه‌بندی؛ برنامهٔ بازتوزیع‌شده به قبلی لینک می‌شود</td></tr>
+<tr><td><code>plan_item</code></td><td>plan_id, date, order, topic_id, kind, minutes, test_count, resource_id, done_at, skipped_reason</td><td>واحد اجرایی برنامه</td></tr>
+<tr><td><code>plan_template</code></td><td>tenant_id, name, structure jsonb, for_grade, for_track</td><td>الگوهای مشاور</td></tr>
+<tr><td><code>plan_command</code></td><td>counselor_id, student_id, raw_text, parsed jsonb, resulting_plan_id</td><td>دستور زبان طبیعی مشاور + خروجی؛ برای بهبود مدل</td></tr>
+<tr><td rowspan="3">گزارش و اجرا</td><td><code>daily_report</code></td><td>student_id, date, total_minutes, mood, sleep_hours, note, submitted_at</td><td>یکتا روی (student_id, date)</td></tr>
+<tr><td><code>report_line</code></td><td>report_id, subject_id, topic_id, minutes, tests, correct, wrong, quality, plan_item_id</td><td>پایبندی از join با plan_item</td></tr>
+<tr><td><code>focus_session</code></td><td>student_id, started_at, ended_at, topic_id, kind (pomodoro)</td><td>تایمر داخلی</td></tr>
+<tr><td rowspan="5">آزمون و تحلیل</td><td><code>mock_exam</code></td><td>provider (kanoon|gaj|gozine2|maz|sanjesh|internal), name, date, grade, track</td><td>تقویم آزمون‌های مؤسسات</td></tr>
+<tr><td><code>exam_result</code></td><td>student_id, mock_exam_id, source (manual|ocr|file), raw_file_id, overall_taraz, rank_est, verified</td><td>کارنامه‌خوان</td></tr>
+<tr><td><code>exam_result_line</code></td><td>result_id, subject_id, correct, wrong, blank, pct, taraz, topic_breakdown jsonb</td><td>درصد از فرمول منفی</td></tr>
+<tr><td><code>mistake</code></td><td>student_id, topic_id, question_image_id, error_type, note, next_review_at, fsrs_state jsonb</td><td>دفتر اشتباهات + FSRS</td></tr>
+<tr><td><code>skill_state</code></td><td>student_id, topic_id, mastery (BKT), elo, last_practiced_at, retrievability</td><td>خروجی موتور تحلیل؛ بازمحاسبهٔ رویدادی</td></tr>
+<tr><td rowspan="5">هوش مصنوعی</td><td><code>kb_document</code></td><td>tenant_id, layer (platform|counselor), kind (rule|qa|doc|transcript), title, body, status, version</td><td>پایگاه دانش کلون</td></tr>
+<tr><td><code>kb_chunk</code></td><td>document_id, tenant_id, text, embedding vector(1024), tsv tsvector, meta jsonb</td><td>ایندکس HNSW با partial index روی tenant</td></tr>
+<tr><td><code>conversation</code>, <code>message</code></td><td>student_id, channel, role (student|ai|counselor), text, intent, confidence, citations jsonb, model, tokens_in/out, cost, latency_ms, flagged</td><td>هر پاسخ AI با اسناد بازیابی‌شده لاگ می‌شود</td></tr>
+<tr><td><code>eval_case</code>, <code>eval_run</code></td><td>tenant_id, question, reference, must_include[], must_not[], score, judge_model</td><td>مجموعهٔ طلایی و نتایج هفتگی</td></tr>
+<tr><td><code>escalation</code></td><td>message_id, reason (low_conf|sensitive|policy), assigned_to, resolved_at, resolution_text, learned</td><td>صف ارجاع به انسان</td></tr>
+<tr><td rowspan="4">ارتباط</td><td><code>session_booking</code></td><td>student_id, counselor_id, scheduled_at, channel, status, summary_ai, action_items jsonb</td><td>جلسات هفتگی تیر حرفه‌ای</td></tr>
+<tr><td><code>assignment</code></td><td>student_id, title, due_at, attachments[], feedback, grade</td><td>تکالیف</td></tr>
+<tr><td><code>notification</code></td><td>user_id, channel (push|sms|bale|telegram), template, payload, sent_at, opened_at</td><td>Outbox</td></tr>
+<tr><td><code>parent_digest</code></td><td>student_id, week_start, content jsonb, sent_at, opened_at</td><td>گزارش هفتگی والد</td></tr>
+<tr><td rowspan="5">مالی</td><td><code>plan</code></td><td>code, name, monthly_price, ai_msg_quota_daily, human_sessions_monthly, features</td><td>تیرها</td></tr>
+<tr><td><code>subscription</code></td><td>student_id, plan_id, status, starts_at, ends_at, price, payer_user_id, auto_renew</td><td>—</td></tr>
+<tr><td><code>payment</code></td><td>subscription_id, gateway, authority, ref_id, amount, status, idempotency_key, callback_payload</td><td>زیبال/زرین‌پال</td></tr>
+<tr><td><code>payout</code></td><td>tenant_id, period, gross, platform_fee, tax, net, status, paid_at, statement_pdf</td><td>تسویهٔ ماهانه با مشاور</td></tr>
+<tr><td><code>coupon</code>, <code>referral</code></td><td>code, pct/amount, max_uses, valid_until; referrer_id, referee_id, reward</td><td>ریفرال = روزهای رایگان</td></tr>
+<tr><td rowspan="3">سیستمی</td><td><code>audit_log</code></td><td>actor_id, tenant_id, action, object_type, object_id, before, after, ip, authz_result</td><td>append-only؛ پارتیشن ماهانه</td></tr>
+<tr><td><code>feature_flag</code>, <code>ab_experiment</code></td><td>key, rules jsonb</td><td>—</td></tr>
+<tr><td><code>file</code></td><td>owner_id, bucket, key, mime, size, sha256, scanned_at</td><td>اسکن بدافزار قبل از پردازش</td></tr>
+</tbody></table></div>
+
+<h3>۹.۳ نمونهٔ DDL برای جدول‌های حساس</h3>
+<pre>CREATE TABLE kb_chunk (
+  id            uuid PRIMARY KEY DEFAULT uuidv7(),
+  tenant_id     uuid NOT NULL REFERENCES tenant(id),
+  document_id   uuid NOT NULL REFERENCES kb_document(id) ON DELETE CASCADE,
+  text          text NOT NULL,
+  embedding     vector(1024) NOT NULL,          -- bge-m3
+  tsv           tsvector GENERATED ALWAYS AS (to_tsvector('simple', normalize_fa(text))) STORED,
+  meta          jsonb NOT NULL DEFAULT '{}',
+  created_at    timestamptz NOT NULL DEFAULT now()
+);
+CREATE INDEX kb_chunk_hnsw ON kb_chunk USING hnsw (embedding vector_cosine_ops);
+CREATE INDEX kb_chunk_tsv  ON kb_chunk USING gin (tsv);
+ALTER TABLE kb_chunk ENABLE ROW LEVEL SECURITY;
+CREATE POLICY kb_tenant ON kb_chunk
+  USING (tenant_id = current_setting('app.tenant_id')::uuid
+      OR current_setting('app.role') = 'platform_admin');
+
+CREATE TABLE daily_report (
+  id uuid PRIMARY KEY DEFAULT uuidv7(),
+  tenant_id uuid NOT NULL, student_id uuid NOT NULL,
+  date date NOT NULL, total_minutes int CHECK (total_minutes BETWEEN 0 AND 1200),
+  mood smallint CHECK (mood BETWEEN 1 AND 5), sleep_hours numeric(3,1),
+  note text, submitted_at timestamptz,
+  UNIQUE (student_id, date)
+) PARTITION BY RANGE (date);</pre>
+<p class="sub">قواعد نگه‌داری داده: پیام‌های چت ۲۴ ماه، لاگ ممیزی ۵ سال، فایل کارنامه تا ۱۲ ماه بعد از پایان اشتراک، حذف کامل با درخواست کاربر/والد ظرف ۳۰ روز. بکاپ: PITR پستگرس با RPO ۱۵ دقیقه، اسنپ‌شات روزانه در دو ارائه‌دهندهٔ داخلی (۳-۲-۱)، تست بازیابی ماهانه.</p>
+</section>
+
+<section class="sec" id="s10">
+<header><div class="num">بخش ۱۰</div><h2>امنیت و انطباق</h2><p class="sub">هدف: OWASP ASVS 5.0 سطح ۲ (مناسب پلتفرم‌های دارای دادهٔ نوجوانان) از روز اول؛ نه به‌عنوان چک‌لیست پایانی.</p></header>
+<div class="grid g2">
+  <div class="card"><h4>احراز هویت و نشست</h4><ul class="sub">
+    <li>ورود با OTP پیامکی از خط خدماتی (کاوه‌نگار verify)؛ محدودیت ۵ تلاش/۱۰ دقیقه به ازای شماره و IP؛ کد ۶ رقمی ۲ دقیقه‌ای.</li>
+    <li>JWT کوتاه‌عمر (۱۵ دقیقه) + refresh token چرخشی در httpOnly cookie؛ ابطال سراسری.</li>
+    <li>ورود بدون CAPTCHA (WCAG 2.2) با تشخیص ربات رفتاری + rate limit.</li>
+    <li>۲FA اختیاری برای مشاور و اجباری برای مدیر (TOTP).</li></ul></div>
+  <div class="card"><h4>مجوزدهی</h4><ul class="sub">
+    <li>RBAC + ABAC (نقش + شرط مالکیت) در لایهٔ سرویس؛ RLS در دیتابیس به‌عنوان دفاع دوم.</li>
+    <li>سیاست‌ها به‌صورت کد (Cerbos/OPA یا ماژول داخلی) با تست واحد برای هر ترکیب نقش×منبع.</li>
+    <li>هر تصمیم مجوزدهی (allow/deny) در audit_log.</li></ul></div>
+  <div class="card"><h4>داده و رمزنگاری</h4><ul class="sub">
+    <li>TLS 1.3 در لبه؛ رمزنگاری در حالت سکون (دیسک + ستون‌های حساس مثل شمارهٔ والد با pgcrypto).</li>
+    <li>حداقل‌سازی داده: بدون کد ملی مگر برای احراز مشاور؛ بدون موقعیت مکانی.</li>
+    <li>ناشناس‌سازی پرامپت قبل از ارسال به LLM خارجی: حذف نام، شماره، مدرسه (جایگزینی با توکن).</li>
+    <li>میزبانی همهٔ دادهٔ شخصی داخل ایران (مصوبهٔ شورای عالی فضای مجازی، جلسهٔ ۳۵).</li></ul></div>
+  <div class="card"><h4>امنیت AI</h4><ul class="sub">
+    <li>دفاع در برابر Prompt Injection: جداسازی سخت سیستم/کاربر، عدم اجرای ابزار از روی متن کاربر، فیلتر خروجی.</li>
+    <li>Tenant isolation در بازیابی (فیلتر tenant_id قبل از جست‌وجوی برداری).</li>
+    <li>سقف توکن روزانه به ازای کاربر/مستأجر؛ هشدار هزینه.</li>
+    <li>لاگ کامل پرامپت/پاسخ/اسناد برای ممیزی؛ حذف با درخواست.</li></ul></div>
+  <div class="card"><h4>پرداخت</h4><ul class="sub">
+    <li>کارت هرگز به سرور ما نمی‌آید (شاپرک/پرداخت‌یار)؛ تأیید امضا/HMAC callback، مقایسهٔ زمان‌ثابت، چک مبلغ، idempotency، مغایرت‌گیری روزانه.</li>
+    <li>سقف تراکنش و تشخیص الگوی غیرعادی.</li></ul></div>
+  <div class="card"><h4>عملیات</h4><ul class="sub">
+    <li>WAF + DDoS آروان؛ rate limit به ازای کاربر/IP روی چت و آزمون.</li>
+    <li>اسکن وابستگی‌ها (Dependabot/Trivy)، SAST در CI، تست نفوذ سالانه، برنامهٔ Bug bounty کوچک.</li>
+    <li>Secrets در Vault/K8s secrets؛ چرخش کلید LLM ماهانه.</li>
+    <li>بکاپ ۳-۲-۱ رمزشده؛ RTO ۲ ساعت، RPO ۱۵ دقیقه؛ تمرین بازیابی ماهانه؛ فریز دیپلوی هفتهٔ کنکور.</li></ul></div>
+</div>
+
+<h3>انطباق حقوقی در ایران</h3>
+<div class="tbl-wrap compact"><table><thead><tr><th>موضوع</th><th>الزام</th><th>اقدام ما</th></tr></thead><tbody>
+<tr><td>ثبت شرکت و مالیات</td><td>شرکت (سهامی خاص/مسئولیت محدود)، پروندهٔ مالیاتی، کد اقتصادی</td><td>هفتهٔ اول؛ درگاه = پایانهٔ فروشگاهی متصل به پرونده</td></tr>
+<tr><td>اینماد</td><td>الزامی برای پرداخت‌یار از آذر ۱۴۰۰؛ ~۱۷۵ هزار تومان/۲ سال؛ نیاز به مجوز از mojavez.ir</td><td>ثبت به‌عنوان «خدمات نرم‌افزاری / کسب‌وکار اینترنتی»</td></tr>
+<tr><td>سامانهٔ مودیان</td><td>زیر ۱٫۲ میلیارد تومان فروش در ۱۴۰۵ معاف؛ رسید درگاه = صورتحساب</td><td>اتصال وقتی از سقف عبور کردیم</td></tr>
+<tr><td>VAT</td><td>۱۰٪ عمومی؛ معافیت آموزشی مبهم برای پلتفرم</td><td>مشاور مالیاتی؛ تلاش برای دانش‌بنیان (معافیت درآمد)</td></tr>
+<tr><td>مجوز آموزشی</td><td>«آموزشگاه» نیازمند مجوز آموزش‌وپرورش؛ «مشاورهٔ روانشناختی» نیازمند پروانهٔ نظام روانشناسی</td><td>موضع: <b>«پلتفرم برنامه‌ریزی تحصیلی و پشتیبان هوشمند»</b>؛ نه آموزشگاه، نه مشاورهٔ روانشناختی؛ سلب مسئولیت و ارجاع</td></tr>
+<tr><td>حریم خصوصی</td><td>مواد ۵۸–۵۹ تجارت الکترونیک؛ لایحهٔ حفاظت داده در مجلس</td><td>رضایت صریح، سیاست حریم خصوصی، حذف با درخواست، میزبانی داخلی (GDPR-lite)</td></tr>
+<tr><td>زیر ۱۸ سال</td><td>قانون حمایت از اطفال ۱۳۹۹؛ عرف حضور نمایندهٔ قانونی</td><td>ثبت‌نام با شمارهٔ والد یا تأیید والد؛ بدون تبلیغ رفتاری؛ گزارش به والد</td></tr>
+<tr><td>حق انصراف</td><td>۷ روز در معاملات از راه دور</td><td>ضمانت بازگشت ۷ روزه در همهٔ تیرها</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s11">
+<header><div class="num">بخش ۱۱</div><h2>زیرساخت ایران و هزینه‌های ثابت</h2><p class="sub">ارقام به تومان، بر پایهٔ صفحات قیمت ارائه‌دهندگان در ۱۴۰۴–۱۴۰۵؛ مواردی که با «≈» آمده تخمینی است و پیش از تصمیم مالی باید از صفحهٔ رسمی تأیید شود.</p></header>
+
+<h3>۱۱.۱ هاست و ابر</h3>
+<div class="tbl-wrap"><table><thead><tr><th>ارائه‌دهنده</th><th>مناسب برای</th><th>قیمت نمونه</th><th>نکته</th></tr></thead><tbody>
+<tr><td><b>لیارا</b> (liara.ir)</td><td>PaaS اپ + Postgres مدیریت‌شده + Object Storage + ایمیل + «سرویس AI» با ~۲۰ مدل</td><td>Postgres: ۱CPU/۲GB/۲۰GB = ۵۸۹ هزار/ماه؛ ۲CPU/۴GB/۴۰GB = ۱٫۰۶۹ م؛ ۴CPU/۸GB/۸۰GB = ۱٫۹۷۹ م؛ ۸CPU/۱۶GB = ۳٫۷۳۹ م</td><td>بهترین نقطهٔ شروع MVP: همه‌چیز یک‌جا</td></tr>
+<tr><td><b>هم‌روش</b> (hamravesh.com)</td><td>Kubernetes مدیریت‌شده («دارکوب»)، لودبالانسر، GPU</td><td>ساعتی به ازای CPU/RAM/دیسک (صفحهٔ قیمت)</td><td>انتخاب مرحلهٔ رشد برای چندمستأجری</td></tr>
+<tr><td><b>آروان‌کلاد</b></td><td>CDN + WAF + DDoS، سرور ابری، S3، GPU، VoD</td><td>CDN پایه رایگان (~۱۰۰GB خارجی)؛ حرفه‌ای با DDoS لایهٔ ۷؛ سرور ≈ ۳۰۰–۴۵۰ هزار (۱vCPU/۱GB) تا ≈ ۸۰۰ هزار–۱٫۲ م (۲vCPU/۴GB)</td><td>در فهرست OFAC؛ برای داخل بی‌مشکل</td></tr>
+<tr><td>ستون / پارس‌پک / ایران‌سرور</td><td>VM، DBaaS، GPU ایران و اروپا</td><td>VPS از ~۷۰۰ هزار/ماه؛ ساعتی از ~۴۱۲ تومان/ساعت</td><td>گزینه‌های جایگزین</td></tr>
+<tr><td>GPU داخلی (ایران‌GPU، فردوسی‌کلود، آروان)</td><td>RTX 3090/4090 ساعتی؛ A100 کمیاب و قراردادی</td><td>مرجع جهانی: 4090 ≈ ۰٫۴۲$/ساعت، A100 ≈ ۱٫۷۶$/ساعت؛ داخلی ۱٫۵ تا ۳ برابر معادل ریالی</td><td>یک 4090 = Gemma-3-12B/Qwen3-14B کوانتیزه با ۳۰–۶۰ چت هم‌زمان</td></tr>
+</tbody></table></div>
+<div class="callout crit"><p><b>Hetzner / DigitalOcean / AWS:</b> حساب ساکنان ایران تعلیق می‌شود و ~۱۰٪ IPهای Hetzner به‌خاطر «دور زدن تحریم» بلاک شده‌اند. تنها کاربرد مجاز خارج: یک VPS «پل» بدون هیچ دادهٔ شخصی، صرفاً برای عبور پرامپت‌های ناشناس‌سازی‌شده و Bot API تلگرام.</p></div>
+
+<h3>۱۱.۲ پرداخت</h3>
+<div class="tbl-wrap compact"><table><thead><tr><th>درگاه</th><th>کارمزد</th><th>تسویه</th><th>اشتراک خودکار</th></tr></thead><tbody>
+<tr><td>زرین‌پال</td><td>۱٪ تا سقف ۳٬۰۰۰ تومان</td><td>روز بعد تا ۱۷</td><td>دایرکت‌دبیت: ۱٬۰۰۰ تومان + ۱٪ تا سقف ۶٬۰۰۰</td></tr>
+<tr><td>زیبال</td><td>۰٫۵٪ تا سقف ۴٬۰۰۰ تومان</td><td>صبح روز بعد</td><td>— (تخفیف با &gt; ۱۰۰ تراکنش/روز)</td></tr>
+<tr><td>آیدی‌پی</td><td>۱٪ (حداقل ۱۰۰، حداکثر ۳٬۰۰۰)</td><td>۱۶:۳۰ روز بعد</td><td>—</td></tr>
+<tr><td>پی‌پینگ</td><td>۱٪ تا سقف ۳٬۰۰۰–۵٬۰۰۰ بسته به پلن</td><td>روز بعد</td><td>—</td></tr>
+<tr><td>وندار</td><td>توافقی</td><td>لحظه‌ای</td><td>«حق اشتراک خودکار» + دایرکت‌دبیت</td></tr>
+</tbody></table></div>
+<ul>
+  <li><b>اینماد</b> پیش از اولین ریال الزامی است (از آذر ۱۴۰۰ برای پرداخت‌یارها)؛ ~۱۷۵ هزار تومان برای ۲ سال + مجوز از درگاه ملی مجوزها.</li>
+  <li>کارت‌های شتاب «ذخیرهٔ کارت» ندارند؛ مدل عملی: پیش‌پرداخت ماهانه/سه‌ماهه + یادآوری پیامکی ۵ روز قبل + دایرکت‌دبیت به‌عنوان گزینهٔ دوم. برای تیر حرفه‌ای، پرداخت سه‌ماهه با ۱۰٪ تخفیف churn را کم می‌کند.</li>
+</ul>
+
+<h3>۱۱.۳ اعلان و پیام‌رسان</h3>
+<div class="grid g3">
+  <div class="card"><h4>پیامک / OTP</h4><p class="sub">≈ ۱۰۰ تا ۲۰۰ تومان به ازای هر صفحهٔ فارسی از خط خدماتی (قاصدک: ۱۴۱ تومان با شارژ ۴۰۰ هزار تا ۱٫۵ م؛ +۴۰ ریال عوارض بودجه). کاوه‌نگار <code>verify/lookup</code> برای OTP الگویی؛ SMS.ir «ارسال سریع». OTP را فارسی بفرستید (انگلیسی ۲٫۵ برابر گران‌تر).</p></div>
+  <div class="card"><h4>پوش</h4><p class="sub">پوشه (pushe.co) با سرور داخلی؛ FCM از ایران ناپایدار. پلن رایگان برای شروع.</p></div>
+  <div class="card"><h4>پیام‌رسان</h4><p class="sub"><b>بله:</b> API سازگار با تلگرام (فقط base URL)، مینی‌اپ، ۳۰–۴۰ م کاربر ماهانه، پرداخت درون‌پیام‌رسان → کانال رسمی. <b>روبیکا:</b> ربات توکن‌دار از تیر ۱۴۰۴. <b>تلگرام:</b> کانال ثانویه/غیررسمی (api فیلتر؛ فعالیت صنفی رسماً ممنوع). <b>واتساپ بیزینس:</b> در ایران کار نمی‌کند؛ حذف.</p></div>
+</div>
+
+<h3>۱۱.۴ بودجهٔ ماهانهٔ زیرساخت (بدون LLM و حقوق)</h3>
+<div class="tbl-wrap compact"><table><thead><tr><th>آیتم</th><th class="num">MVP (تا ۵۰۰ کاربر)</th><th class="num">رشد (۵ هزار کاربر)</th><th>توضیح</th></tr></thead><tbody>
+<tr><td>اپ + Postgres مدیریت‌شده + Redis</td><td class="num">2.5–4 M</td><td class="num">12–20 M</td><td>لیارا/هم‌روش</td></tr>
+<tr><td>Object Storage + CDN + WAF</td><td class="num">0.5–1 M</td><td class="num">4–8 M</td><td>آروان</td></tr>
+<tr><td>GPU داخلی (fallback + embedding + Whisper)</td><td class="num">0 (CPU)</td><td class="num">40–90 M</td><td>۱ تا ۲ عدد RTX 4090 ≈ ۰٫۶–۱٫۳ هزار دلار/ماه</td></tr>
+<tr><td>پیامک (OTP + یادآوری)</td><td class="num">0.3–0.6 M</td><td class="num">3–6 M</td><td>~۶ پیامک/کاربر/ماه</td></tr>
+<tr><td>VPS پل خارجی + دامنه + مانیتورینگ</td><td class="num">0.8–1.5 M</td><td class="num">2–3 M</td><td>—</td></tr>
+<tr><td>کارمزد پرداخت</td><td class="num">~0.3%</td><td class="num">~0.3%</td><td>سقف ۳–۴ هزار تومان؛ ناچیز</td></tr>
+<tr><td><b>جمع</b></td><td class="num"><b>≈ 4–7 M</b></td><td class="num"><b>≈ 60–125 M</b></td><td>تومان/ماه</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s12">
+<header><div class="num">بخش ۱۲</div><h2>هزینهٔ هوش مصنوعی و حداقل مدل لازم</h2><p class="sub">پرتکرارترین سوال هر پروژهٔ چت‌بات: «ماهی چقدر می‌شود؟». اینجا با فرض‌های شفاف، به ازای هر دانش‌آموز محاسبه می‌کنیم و یک ماشین‌حساب تعاملی می‌دهیم تا با نرخ دلار روز خودتان بسنجید.</p></header>
+
+<h3>۱۲.۱ فرض‌های محاسبه (به ازای هر پیام چت)</h3>
+<div class="grid g4">
+  <div class="card"><div class="k">پرامپت سیستم (کش‌شده)</div><div class="v">۳٬۰۰۰</div><div class="d">توکن؛ پرسونا + قوانین طلایی + نمونه‌ها؛ فقط با نرخ cache-read حساب می‌شود</div></div>
+  <div class="card"><div class="k">ورودی غیرکش</div><div class="v">۴٬۰۰۰</div><div class="d">توکن؛ ۶ تا ۸ سند بازیابی‌شده + حافظهٔ دانش‌آموز + ۱۰ پیام آخر</div></div>
+  <div class="card"><div class="k">خروجی</div><div class="v">۳۰۰</div><div class="d">توکن؛ پاسخ کوتاه و کاربردی (فارسی ~۱٫۵ برابر انگلیسی توکن می‌گیرد؛ در اعداد لحاظ شده)</div></div>
+  <div class="card"><div class="k">سربار ماهانه</div><div class="v">۰٫۵ تا ۰٫۸ $</div><div class="d">طبقه‌بندی قصد (Haiku)، تحلیل شبانه، برنامهٔ هفتگی، ۲ تحلیل آزمون</div></div>
+</div>
+<div class="tbl-wrap"><table><thead><tr><th>مدل</th><th class="num">ورودی $/M</th><th class="num">خروجی $/M</th><th class="num">cache read $/M</th><th class="num">هزینهٔ هر پیام</th><th>نقش پیشنهادی</th></tr></thead><tbody>
+<tr><td>Claude Haiku 4.5</td><td class="num">1.00</td><td class="num">5.00</td><td class="num">0.10</td><td class="num">$0.0058</td><td>طبقه‌بندی، تگ اشتباهات، سوال‌های ساده</td></tr>
+<tr><td>Claude Sonnet 5.5 <span class="tag t1">پیش‌فرض</span></td><td class="num">2.00</td><td class="num">10.00</td><td class="num">0.20</td><td class="num">$0.0116</td><td>کلون مشاور (تیر هوشمند)، پلنر</td></tr>
+<tr><td>Claude Opus 5.5</td><td class="num">4.00</td><td class="num">20.00</td><td class="num">0.20</td><td class="num">$0.0226</td><td>تحلیل عمیق آزمون، برنامهٔ چندهفته‌ای (تیر حرفه‌ای)</td></tr>
+<tr><td>مدل باز خودمیزبان (Gemma-3-12B / Qwen3-14B روی 4090)</td><td colspan="3" class="num">≈ $650–1,300 / ماه به ازای هر GPU</td><td class="num">≈ $0.003</td><td>fallback، حالت قطعی، سوال‌های تکراری</td></tr>
+</tbody></table></div>
+<p class="sub">قیمت‌های اول‌شخص Anthropic (مهر ۱۴۰۵). واسط‌های ایرانی (AvalAI، متیس، لیارا AI) «مطابق تعرفهٔ رسمی» می‌فروشند و حاشیه را در نرخ تبدیل می‌گذارند؛ هزینهٔ مؤثر ≈ قیمت دلاری × نرخ آزاد × (۱٫۰۵ تا ۱٫۳). Batch API نیمهٔ قیمت است و برای تحلیل شبانه و Eval هفتگی استفاده می‌شود.</p>
+
+<h3>۱۲.۲ هزینهٔ ماهانه به ازای هر دانش‌آموز (دلار)</h3>
+<div class="chart" id="chartCost"><h5>هزینهٔ AI هر دانش‌آموز در ماه بر حسب شدت استفاده و مدل</h5><div class="cap">شامل سربار ماهانه؛ بدون حاشیهٔ واسط. محور عمودی: دلار در ماه.</div><div class="wrap"><svg id="svgCost" viewBox="0 0 720 300"></svg><div class="tip" id="tipCost"></div></div><div class="legend" id="legCost"></div></div>
+<div class="tbl-wrap compact"><table><thead><tr><th>سناریو</th><th class="num">پیام/روز</th><th class="num">Haiku 4.5</th><th class="num">Sonnet 5.5</th><th class="num">Opus 5.5</th><th class="num">خودمیزبان (هیبرید)</th></tr></thead><tbody>
+<tr><td>سبک</td><td class="num">5</td><td class="num">$1.4</td><td class="num">$2.5</td><td class="num">$4.2</td><td class="num">$0.95</td></tr>
+<tr><td>متوسط</td><td class="num">10</td><td class="num">$2.2</td><td class="num">$4.3</td><td class="num">$7.6</td><td class="num">$1.4</td></tr>
+<tr><td>سنگین</td><td class="num">20</td><td class="num">$4.0</td><td class="num">$7.8</td><td class="num">$14.4</td><td class="num">$2.3</td></tr>
+</tbody></table></div>
+
+<h3>۱۲.۳ ماشین‌حساب</h3>
+<div class="card" id="calc">
+  <div class="grid g4">
+    <label>نرخ دلار (تومان)<br><input id="cUsd" type="number" value="120000" step="1000" min="1000" style="width:100%;font:inherit;padding:8px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);color:var(--fg)"></label>
+    <label>پیام در روز<br><input id="cMsg" type="range" min="1" max="40" value="10" style="width:100%"><span id="cMsgV" class="sub">۱۰</span></label>
+    <label>مدل اصلی<br><select id="cModel" style="width:100%;font:inherit;padding:8px;border:1px solid var(--line-strong);border-radius:8px;background:var(--surface);color:var(--fg)"><option value="0.0058|0.5">Haiku 4.5</option><option value="0.0116|0.8" selected>Sonnet 5.5</option><option value="0.0226|0.8">Opus 5.5</option><option value="0.003|0.5">خودمیزبان (هیبرید)</option></select></label>
+    <label>حاشیهٔ واسط ایرانی<br><input id="cMk" type="range" min="1" max="1.4" step="0.05" value="1.15" style="width:100%"><span id="cMkV" class="sub">۱٫۱۵×</span></label>
+  </div>
+  <div class="grid g3" style="margin-top:14px">
+    <div class="card acc"><div class="k">هزینهٔ AI هر دانش‌آموز/ماه</div><div class="v" id="cOut1">—</div><div class="d" id="cOut1b">—</div></div>
+    <div class="card"><div class="k">سهم از قیمت تیر هوشمند (۱٫۵ م)</div><div class="v" id="cOut2">—</div><div class="d">هدف: ≤ ۱۵٪ (با روتینگ هیبرید و سقف روزانه)</div></div>
+    <div class="card"><div class="k">هزینهٔ ۱٬۰۰۰ دانش‌آموز/ماه</div><div class="v" id="cOut3">—</div><div class="d">تومان</div></div>
+  </div>
+</div>
+
+<h3>۱۲.۴ نتیجه‌گیری: حداقل مدل و سیاست هزینه</h3>
+<div class="callout"><p><b>حداقل مدل کافی برای «شبیه مشاور بودن» با پیروی از قوانین: کلاس Sonnet 5.5 / GPT-mini / Gemini-Flash.</b> مدل‌های باز ۱۲ تا ۱۴ میلیاردی کیفیت فارسی محاوره‌ای ناپایدار دارند (بنچمارک‌های MELAC/TARAZ نشان می‌دهد فاین‌تیون‌های فارسی مثل Dorna/PersianMind از چندزبانه‌های عمومی بهتر نیستند) و فقط برای fallback و کارهای پشت‌صحنه توصیه می‌شوند.</p></div>
+<ol class="steps">
+  <li><b>روتینگ هیبرید:</b> طبقه‌بند Haiku → سوال‌های ساده/تکراری (~۴۰٪) به پاسخ‌های کش‌شده یا مدل داخلی؛ سوال‌های برنامه‌ریزی/تحلیل به Sonnet؛ فقط تحلیل عمیق آزمون در تیر حرفه‌ای به Opus. اثر: ۳۵ تا ۵۰٪ کاهش هزینه.</li>
+  <li><b>پرامپت‌کشینگ اجباری:</b> پرامپت سیستم ثابت ≥ ۲٬۰۴۸ توکن (کف کش)، محتوای متغیر بعد از نقطهٔ کش؛ پایش <code>cache_read_input_tokens</code>؛ اگر صفر بود یعنی چیزی کش را می‌شکند.</li>
+  <li><b>سقف منصفانه:</b> تیر هوشمند ۴۰ پیام/روز، تیر حرفه‌ای ۸۰؛ بعد از سقف، پاسخ از مدل داخلی. ۹۵٪ کاربران به سقف نمی‌رسند.</li>
+  <li><b>Batch API</b> (۵۰٪ ارزان‌تر) برای تحلیل شبانه، گزارش والدین و Eval هفتگی.</li>
+  <li><b>پاسخ کوتاه به‌عنوان قاعده:</b> هزینهٔ خروجی ۵ برابر ورودی است؛ کلون به‌جای مقاله، ۳ تا ۵ جمله + یک اقدام می‌دهد (این همان سبک مشاور واقعی در تلگرام است).</li>
+  <li><b>معیار:</b> هزینهٔ AI ≤ ۱۵٪ قیمت تیر هوشمند و ≤ ۸٪ تیر حرفه‌ای؛ داشبورد هزینه در پنل مدیر با هشدار.</li>
+</ol>
+</section>
+
+<section class="sec" id="s13">
+<header><div class="num">بخش ۱۳</div><h2>مدل درآمد و قیمت‌گذاری</h2><p class="sub">دو تیر اصلی که علی گفته، به‌علاوهٔ سه لایهٔ پیشنهادی که قیف را کامل می‌کنند: رایگان (جذب)، الیت (حاشیهٔ بالا) و B2B (CAC پایین). قیمت‌ها لنگر بازار ۱۴۰۵ را رعایت می‌کنند.</p></header>
+
+<div class="grid g3">
+  <div class="card tier"><span class="tag">پیشنهادی</span><h4>رایگان · «شروع»</h4><div class="price">۰ <small>تومان</small></div><ul class="check"><li>آزمون تشخیصی + نقشهٔ قوت/ضعف</li><li>دفتر برنامه‌ریزی و گزارش‌کار</li><li>۵ پیام/روز با کلون (با برچسب)</li><li>شمارش معکوس، تقویم رسمی، اخبار</li><li>مقایسهٔ ناشناس محدود</li></ul><p class="sub">نقش: قیف. هدف تبدیل ۸ تا ۱۲٪ به پولی در ۳۰ روز.</p></div>
+  <div class="card tier"><span class="tag t1">تیر ۱ · علی</span><h4>هوشمند · «همراه AI»</h4><div class="price">۱٫۲ تا ۱٫۸ م <small>تومان/ماه</small></div><ul class="check"><li>کلون شخصی مشاور، ۴۰ پیام/روز</li><li>برنامهٔ هفتگی خودکار + بازتوزیع</li><li>تحلیل آزمون ۶۰ ثانیه‌ای، کارنامه‌خوان</li><li>دفتر اشتباهات با مرور فاصله‌دار</li><li>گزارش هفتگی والدین</li><li>۱ لایو گروهی ماهانه با مشاور</li><li>پاسخ انسانی فقط در ارجاع‌ها</li></ul><p class="sub">سهم پلتفرم ۶۰٪ / مشاور ۴۰٪ (AI کار می‌کند، برند مشاور مشتری می‌آورد).</p></div>
+  <div class="card tier hi"><span class="tag t2">تیر ۲ · علی</span><h4>حرفه‌ای · «مشاور + AI»</h4><div class="price">۵ تا ۶ م <small>تومان/ماه</small></div><ul class="check"><li>همهٔ هوشمند + ۸۰ پیام/روز</li><li>تماس/جلسهٔ هفتگی ۳۰ دقیقه با مشاور</li><li>پاسخ مشاور ≤ ۱۲ ساعت (AI پاسخ فوری موقت)</li><li>برنامه با تأیید دستی مشاور</li><li>تحلیل عمیق آزمون (Opus) + ۲ تکلیف/هفته با بازخورد</li><li>جلسهٔ سه‌ماهه با والدین</li><li>اولویت پشتیبانی</li></ul><p class="sub">سهم مشاور ۷۰٪ / پلتفرم ۳۰٪ (کلاسینو ۴۰٪ می‌گیرد؛ ما جذاب‌تریم).</p></div>
+  <div class="card tier"><span class="tag">پیشنهادی</span><h4>الیت · «VIP»</h4><div class="price">۱۰ تا ۱۵ م <small>تومان/ماه</small></div><ul class="check"><li>تماس روزانهٔ ۱۰ دقیقه‌ای</li><li>مشاور ارشد (رتبهٔ زیر ۵۰)</li><li>برنامهٔ روزانه، نه هفتگی</li><li>ظرفیت ۱۰ نفر برای هر مشاور</li></ul><p class="sub">بازار VIP تا ۱۲ م/ماه وجود دارد؛ ۷۰/۳۰.</p></div>
+  <div class="card tier"><span class="tag">پیشنهادی</span><h4>B2B · مدرسه/آموزشگاه</h4><div class="price">۱۵۰ تا ۲۵۰ هزار <small>تومان/دانش‌آموز/ماه</small></div><ul class="check"><li>پنل مدیر مدرسه + مشاور مدرسه</li><li>تیر هوشمند برای همهٔ دانش‌آموزان</li><li>لایسنس سالانه، ۳ قسط</li></ul><p class="sub">لنگر: مشاورسرا ۸۵–۱۰۰ هزار بدون AI. CAC ۲۰–۶۰ هزار/دانش‌آموز.</p></div>
+  <div class="card tier"><span class="tag">افزودنی‌ها</span><h4>خرید تکی</h4><div class="price">۴۰۰ هزار تا ۶ م</div><ul class="check"><li>جلسهٔ تکی مشاور ۴۰۰–۸۰۰ هزار (الگوی PW DISHA)</li><li>بستهٔ انتخاب رشته ۳–۶ م (بازار: ۵–۸ م)</li><li>بستهٔ ۳ روز قبل از آزمون</li><li>گزارش PDF جامع برای والدین</li></ul></div>
+</div>
+
+<h3>۱۳.۱ اقتصاد واحد (Unit economics)</h3>
+<div class="tbl-wrap"><table><thead><tr><th>آیتم (تومان/دانش‌آموز/ماه)</th><th class="num">هوشمند ۱٫۵ م</th><th class="num">حرفه‌ای ۵٫۵ م</th><th>یادداشت</th></tr></thead><tbody>
+<tr><td>درآمد ناخالص</td><td class="num">1,500,000</td><td class="num">5,500,000</td><td>—</td></tr>
+<tr><td>سهم مشاور</td><td class="num">−600,000</td><td class="num">−3,850,000</td><td>۴۰٪ / ۷۰٪</td></tr>
+<tr><td>سهم پلتفرم</td><td class="num">900,000</td><td class="num">1,650,000</td><td>—</td></tr>
+<tr><td>هزینهٔ AI (Sonnet هیبرید، دلار ۱۲۰ هزار، ۱٫۱۵×)</td><td class="num">≈ −350,000</td><td class="num">≈ −500,000</td><td>متوسط ۱۰ پیام/روز؛ حرفه‌ای با Opus برای تحلیل</td></tr>
+<tr><td>پیامک، پرداخت، زیرساخت سرانه</td><td class="num">−35,000</td><td class="num">−40,000</td><td>—</td></tr>
+<tr><td><b>حاشیهٔ مشارکت پلتفرم</b></td><td class="num"><b>≈ 515,000 (34%)</b></td><td class="num"><b>≈ 1,110,000 (20%)</b></td><td>قبل از حقوق و مارکتینگ</td></tr>
+<tr><td>هدف نگه‌داشت ماهانه</td><td class="num">≥ 85%</td><td class="num">≥ 90%</td><td>ادتک مصرفی ~۹۰٪؛ فصل کنکور بالاتر</td></tr>
+<tr><td>LTV (۷ ماه میانگین × حاشیه)</td><td class="num">≈ 3.6 M</td><td class="num">≈ 7.8 M</td><td>—</td></tr>
+<tr><td>CAC هدف (LTV:CAC ≥ ۳)</td><td class="num">≤ 1.2 M</td><td class="num">≤ 2.6 M</td><td>افیلیت مشاور ۲۰–۳۰٪ اولین پرداخت</td></tr>
+</tbody></table></div>
+<p class="sub">نکته: در تیر حرفه‌ای، سود اصلی از ابزار مقیاس‌دهی به مشاور است: مشاوری که با تلگرام ۲۰ شاگرد داشت، با رتبه‌یار ۶۰ شاگرد می‌گیرد؛ ۳۰٪ از ۶۰ نفر بسیار بیشتر از ۴۰٪ از ۲۰ نفر است. این استدلال فروش به مشاور است.</p>
+
+<h3>۱۳.۲ پیش‌بینی ۱۲ ماهه (سناریوی پایه)</h3>
+<div class="chart" id="chartGrowth"><h5>دانش‌آموزان فعال پولی به تفکیک تیر</h5><div class="cap">سناریوی پایه: شروع با ۵۰ شاگرد فعلی علی؛ ۲ مشاور جدید در ماه از ماه ۴؛ B2B از ماه ۸. محور عمودی: نفر.</div><div class="wrap"><svg id="svgGrowth" viewBox="0 0 720 300"></svg><div class="tip" id="tipGrowth"></div></div><div class="legend" id="legGrowth"></div></div>
+<div class="tbl-wrap compact"><table><thead><tr><th>ماه</th><th class="num">حرفه‌ای</th><th class="num">هوشمند</th><th class="num">B2B</th><th class="num">درآمد ناخالص (M تومان)</th><th class="num">سهم پلتفرم</th><th class="num">هزینهٔ کل</th><th class="num">سود/زیان</th></tr></thead><tbody>
+<tr><td>۳</td><td class="num">40</td><td class="num">150</td><td class="num">0</td><td class="num">445</td><td class="num">156</td><td class="num">330</td><td class="num crit">−174</td></tr>
+<tr><td>۶</td><td class="num">80</td><td class="num">500</td><td class="num">0</td><td class="num">1,190</td><td class="num">582</td><td class="num">520</td><td class="num">+62</td></tr>
+<tr><td>۹</td><td class="num">150</td><td class="num">1,200</td><td class="num">400</td><td class="num">2,705</td><td class="num">1,405</td><td class="num">900</td><td class="num">+505</td></tr>
+<tr><td>۱۲</td><td class="num">250</td><td class="num">2,500</td><td class="num">1,500</td><td class="num">5,425</td><td class="num">3,000</td><td class="num">1,650</td><td class="num">+1,350</td></tr>
+</tbody></table></div>
+<p class="sub">هزینهٔ کل = تیم (۸ تا ۱۲ نفر، ۳۰۰ تا ۵۵۰ م) + AI + زیرساخت + مارکتینگ (۱۰٪ درآمد). سناریوی محافظه‌کارانه (نصف رشد) نقطهٔ سربه‌سر را به ماه ۹ تا ۱۰ می‌برد. فصل‌ها را فراموش نکنید: اوج فروش تیر–مهر و بهمن–فروردین؛ افت شدید بعد از کنکور (مرداد/شهریور) که باید با محصول «دهم و یازدهم/نهایی» و «انتخاب رشته» پر شود.</p>
+</section>
+
+<section class="sec" id="s14">
+<header><div class="num">بخش ۱۴</div><h2>مارکتینگ و رشد</h2><p class="sub">دارایی اصلی ما «علی و شبکهٔ رتبه‌های برتر» است. استراتژی: توزیع از طریق مشاوران (هر مشاور = یک کانال جذب) + قیف رایگان + B2B.</p></header>
+<div class="grid g2">
+  <div class="card"><h4>۱. موتور مشاور‌محور (Counselor-led growth)</h4><ul class="sub"><li>هر مشاور صفحهٔ فرود برند خودش را دارد (<code>rotbeyar.ir/ali</code>) با ویدئو، رزومهٔ تأییدشده، آزمون تشخیصی رایگان و دکمهٔ خرید.</li><li>افیلیت: ۲۰ تا ۳۰٪ اولین پرداخت برای مشاوری که شاگرد آورده؛ رتبه‌های برتر بدون شاگرد هم می‌توانند فقط «معرف» باشند.</li><li>کیت محتوا: قالب ریلز، استوری «کارنامهٔ شاگردم»، اسکرین‌شات داشبورد (با اجازه).</li><li>هدف: ۲۵ مشاور فعال تا ماه ۱۲؛ هرکدام میانگین ۸۰ شاگرد.</li></ul></div>
+  <div class="card"><h4>۲. قیف رایگان و محصول‌محور (PLG)</h4><ul class="sub"><li>آزمون تشخیصی ۱۵ دقیقه‌ای + «پیش‌بینی بازهٔ رتبه» به‌عنوان مگنت.</li><li>شبیه‌ساز رتبه و ماشین‌حساب درصد/تراز به‌عنوان صفحات SEO (جست‌وجوی فارسی با فیلترشکن رایج است).</li><li>ریفرال: ۷ روز رایگان برای هر دو طرف (نه پول نقد).</li><li>«سالن مطالعهٔ آنلاین» رایگان (الگوی هدف‌پلاس با ۷۰ هزار کاربر) به‌عنوان عادت روزانه.</li></ul></div>
+  <div class="card"><h4>۳. کانال‌های پولی</h4><ul class="sub"><li>یکتانت (CPC ۱ تا ۱۰ هزار تومان) و تپسل (CPI کافه‌بازار) برای تست پیام.</li><li>استوری پیج‌های کنکوری: ۳۰۰ هزار تا چند میلیون؛ اینفلوئنسر بزرگ تا ۷۰–۱۰۰ م → فقط با مدل درصدی.</li><li>تلگرام: کانال‌های صدها هزار عضوی، ۱ تا ۲۰ م/پست.</li><li>آپارات پیش‌نمایش (CPV) برای ویدئوهای تحلیل آزمون.</li><li>Google Ads فقط از طریق نمایندگی با کارمزد ۱۰–۲۵٪؛ اولویت پایین.</li></ul></div>
+  <div class="card"><h4>۴. B2B و شراکت</h4><ul class="sub"><li>مدارس غیردولتی و آموزشگاه‌های استانی: دموی ۲۰ دقیقه‌ای + پایلوت رایگان یک کلاس.</li><li>همکاری با آلاء (لینک مباحث ضعیف به ویدئوهای رایگان) و مؤسسات آزمون (ایمپورت رسمی کارنامه).</li><li>بله: مینی‌اپ در فهرست رسمی؛ روبیکا برای استان‌ها.</li><li>کافه‌بازار/مایکت ASO با کلیدواژه‌های «برنامه‌ریزی کنکور»، «مشاور کنکور»، «تحلیل آزمون قلم‌چی».</li></ul></div>
+</div>
+<h3>تقویم بازاریابی</h3>
+<div class="tbl-wrap compact"><table><thead><tr><th>بازه</th><th>پیام</th><th>اقدام</th></tr></thead><tbody>
+<tr><td>تیر–شهریور (تابستان)</td><td>«تابستان رتبه‌سازها»</td><td>کمپین شروع سال با تخفیف سه‌ماهه؛ جذب پشت‌کنکوری‌ها بعد از نتایج</td></tr>
+<tr><td>مهر–آبان</td><td>«اول سال، آخرین فرصت برنامه»</td><td>اوج فروش؛ وبینارهای رایگان مشاوران؛ B2B مدارس</td></tr>
+<tr><td>آذر–دی</td><td>«جمع‌بندی نیم‌سال + نهایی دی»</td><td>محتوای تحلیل آزمون؛ آپ‌سل به حرفه‌ای</td></tr>
+<tr><td>بهمن–فروردین</td><td>«۱۰۰ روز آخر»</td><td>بستهٔ جمع‌بندی؛ عید کمپ مطالعهٔ آنلاین</td></tr>
+<tr><td>اردیبهشت–خرداد</td><td>«نهایی + کنکور»</td><td>مود ترکیبی؛ کاهش اضطراب؛ محتوای والدین</td></tr>
+<tr><td>مرداد–شهریور</td><td>«نتایج و انتخاب رشته»</td><td>بستهٔ انتخاب رشته؛ جمع‌آوری ویدئوی موفقیت؛ شروع دهم/یازدهم</td></tr>
+</tbody></table></div>
+<p class="sub">معیارهای ماهانه: CAC به ازای کانال، نرخ تبدیل رایگان→پولی (هدف ۱۰٪)، نرخ ساخت استریک ۷ روزه (هدف ۵۵٪)، نگه‌داشت ماه دوم (هدف ۸۵٪)، NPS (هدف ۵۰+)، سهم ارجاع مشاور از ثبت‌نام‌ها (هدف ۶۰٪).</p>
+</section>
+
+<section class="sec" id="s15">
+<header><div class="num">بخش ۱۵</div><h2>نقشه راه و تیم</h2><p class="sub">اصل: تا ماه ۴ یک محصول واقعی با شاگردهای واقعی علی. هر فاز با معیار خروج مشخص.</p></header>
+<ul class="timeline">
+  <li><span class="when">هفته ۱ تا ۴ · فاز ۰</span><b>پایه‌گذاری</b>ثبت شرکت، پروندهٔ مالیاتی، دامنه، اینماد، درگاه؛ سیستم طراحی و وایرفریم ۴ پنل؛ درخت دانش تجربی و ریاضی؛ علی ۱۰۰ سوال طلایی و قوانین طلایی را می‌نویسد؛ جمع‌آوری ۲۰ کارنامهٔ نمونه از هر مؤسسه برای کارنامه‌خوان. <span class="tag">خروج: KB علی با ۱۵۰ Q&amp;A، طراحی تأییدشده</span></li>
+  <li><span class="when">ماه ۲ تا ۴ · فاز ۱ (MVP)</span><b>محصول قابل‌فروش</b>هستهٔ ۴ پنل؛ OTP، نقش‌ها، RLS؛ کلون علی (RAG + Eval)؛ پلنر با دستور زبان طبیعی و تأیید؛ گزارش‌کار روزانه؛ ورود دستی کارنامه؛ داشبورد پایهٔ مشاور با فیلترها؛ گزارش هفتگی والدین؛ پرداخت و اشتراک؛ PWA. پایلوت با ۳۰ تا ۵۰ شاگرد علی در هر دو تیر. <span class="tag">خروج: دقت کلون ≥ ۸۵٪، پایبندی ≥ ۶۰٪، ۱۰ پرداخت واقعی</span></li>
+  <li><span class="when">ماه ۵ تا ۷ · فاز ۲</span><b>موتور تحلیل و مقیاس مشاوران</b>کارنامه‌خوان OCR؛ BKT/Elo و نقشهٔ مباحث؛ پیش‌بینی رتبه؛ تحلیل ۶۰ ثانیه‌ای؛ رادار ریزش؛ AI Studio برای مشاوران جدید (ویزارد ۵ مرحله‌ای)؛ مینی‌اپ بله؛ پوش؛ آن‌بورد ۵ تا ۱۰ مشاور از شبکهٔ علی؛ داشبورد مالی و تسویه. <span class="tag">خروج: ۵ مشاور با کلون ≥ ۹۰٪، ۵۰۰ کاربر پولی</span></li>
+  <li><span class="when">ماه ۸ تا ۱۲ · فاز ۳</span><b>بازار و B2B</b>مارکت‌پلیس عمومی مشاوران؛ پنل مدرسه/آموزشگاه؛ اپ Flutter در کافه‌بازار/مایکت؛ FSRS و دفتر اشتباهات؛ صدای مشاور (TTS)؛ سالن مطالعهٔ آنلاین؛ ریفرال؛ GPU داخلی و حالت قطعی؛ تست نفوذ. <span class="tag">خروج: ۲۵ مشاور، ۴ هزار کاربر پولی، سربه‌سر</span></li>
+  <li><span class="when">سال ۲ · فاز ۴</span><b>تمایز بلندمدت</b>آزمون تشخیصی تطبیقی (CAT/IRT)؛ دستیار انتخاب رشته؛ DKT؛ white-label؛ محتوای ویدئویی خرد؛ گسترش به تیزهوشان و نهایی دهم/یازدهم؛ API عمومی برای مؤسسات آزمون.</li>
+</ul>
+
+<h3>تیم و بودجهٔ حقوق (ماهانه، تومان)</h3>
+<div class="tbl-wrap compact"><table><thead><tr><th>نقش</th><th class="num">تعداد</th><th>فاز شروع</th><th class="num">حقوق تقریبی</th><th>مسئولیت</th></tr></thead><tbody>
+<tr><td>مدیر محصول / هم‌بنیان‌گذار (آرشان)</td><td class="num">1</td><td>۰</td><td class="num">—</td><td>محصول، اجرا، مالی</td></tr>
+<tr><td>مدیر دانش و مشاور ارشد (علی)</td><td class="num">1</td><td>۰</td><td class="num">—</td><td>KB، قوانین، آن‌بورد مشاوران، کیفیت AI</td></tr>
+<tr><td>Full-stack (Next.js + FastAPI)</td><td class="num">2</td><td>۱</td><td class="num">45–70 M</td><td>۴ پنل، API، پرداخت</td></tr>
+<tr><td>مهندس AI/ML</td><td class="num">1</td><td>۱</td><td class="num">60–90 M</td><td>RAG، Eval، موتور تحلیل، GPU</td></tr>
+<tr><td>طراح UI/UX</td><td class="num">1</td><td>۰</td><td class="num">35–55 M</td><td>سیستم طراحی، ۴ پنل، موبایل</td></tr>
+<tr><td>DevOps/امنیت (پاره‌وقت)</td><td class="num">0.5</td><td>۱</td><td class="num">25–40 M</td><td>K8s، بکاپ، مانیتورینگ، ASVS</td></tr>
+<tr><td>QA + پشتیبانی</td><td class="num">1</td><td>۲</td><td class="num">20–30 M</td><td>تست، تیکت، ممیزی چت</td></tr>
+<tr><td>محتوا/بازاریابی</td><td class="num">1</td><td>۲</td><td class="num">25–40 M</td><td>اخبار، SEO، کیت مشاوران</td></tr>
+<tr><td><b>جمع</b></td><td class="num">7.5</td><td>—</td><td class="num"><b>≈ 300–450 M</b></td><td>+ ۱۵٪ بیمه و مزایا</td></tr>
+</tbody></table></div>
+<p class="sub">سرمایهٔ لازم تا سربه‌سر (سناریوی پایه، ۹ ماه): ≈ ۳ تا ۴ میلیارد تومان شامل حقوق، زیرساخت، AI و مارکتینگ. مسیرهای تأمین: بوت‌استرپ با درآمد شاگردهای فعلی علی + دانش‌بنیان (معافیت مالیاتی و تسهیلات) + شتاب‌دهنده‌های ادتک.</p>
+</section>
+
+<section class="sec" id="s16">
+<header><div class="num">بخش ۱۶</div><h2>ریسک‌ها و پاسخ‌ها</h2></header>
+<div class="tbl-wrap"><table><thead><tr><th>ریسک</th><th>احتمال</th><th>اثر</th><th>پاسخ</th></tr></thead><tbody>
+<tr><td>تغییر ناگهانی قوانین کنکور (مثل ۱۴۰۵)</td><td><span class="tag no">بالا</span></td><td>بالا</td><td>موتور قوانین نسخه‌دار؛ تیم محتوا با SLA ۴۸ ساعته؛ کلون فقط با سند رسمی دربارهٔ قانون حرف می‌زند</td></tr>
+<tr><td>قطع دسترسی به LLM خارجی (واسط یا سیاست Anthropic/OpenAI)</td><td><span class="tag no">بالا</span></td><td>بالا</td><td>Router با ۳ واسط + مدل داخلی روی GPU؛ پاسخ‌های کش‌شدهٔ ۱۰۰ سوال طلایی؛ Provider-agnostic از روز اول</td></tr>
+<tr><td>قطعی اینترنت بین‌الملل</td><td><span class="tag no">بالا</span></td><td>متوسط</td><td>همه‌چیز داخل شبکهٔ ملی؛ حالت محلی؛ PWA آفلاین</td></tr>
+<tr><td>توهم AI دربارهٔ قانون/سلامت روان → آسیب و اعتبار</td><td><span class="tag mid">متوسط</span></td><td>بالا</td><td>گیت استناد، ارجاع به انسان، Eval هفتگی، پروتکل ایمنی، برچسب شفاف</td></tr>
+<tr><td>وابستگی به علی (Key-person)</td><td><span class="tag mid">متوسط</span></td><td>بالا</td><td>مستندسازی KB، آن‌بورد ۵ مشاور تا ماه ۷، قرارداد و سهام</td></tr>
+<tr><td>مشاوران با ابزار ما رشد کنند و بروند</td><td><span class="tag mid">متوسط</span></td><td>متوسط</td><td>ارزش در داده و کلون است که قابل‌انتقال نیست؛ کمیسیون کاهشی با حجم؛ مالکیت مشتری با پلتفرم</td></tr>
+<tr><td>فصلی بودن (افت شدید مرداد–شهریور)</td><td><span class="tag no">بالا</span></td><td>متوسط</td><td>محصول دهم/یازدهم، نهایی، انتخاب رشته، B2B سالانه</td></tr>
+<tr><td>نشت دادهٔ نوجوانان</td><td><span class="tag ok">کم</span></td><td>بسیار بالا</td><td>ASVS L2، حداقل‌سازی، رمزنگاری، تست نفوذ، بیمهٔ سایبری اگر موجود</td></tr>
+<tr><td>کپی توسط رقبای بزرگ (کانون، ماز)</td><td><span class="tag mid">متوسط</span></td><td>متوسط</td><td>سرعت، برند مشاوران، کیفیت کلون (دادهٔ اختصاصی)، UX</td></tr>
+<tr><td>مسدودشدن درگاه/اینماد</td><td><span class="tag ok">کم</span></td><td>بالا</td><td>دو درگاه فعال؛ انطباق کامل حقوقی؛ موضع «پلتفرم نرم‌افزاری»</td></tr>
+<tr><td>هزینهٔ AI از کنترل خارج شود (نرخ دلار)</td><td><span class="tag mid">متوسط</span></td><td>متوسط</td><td>سقف روزانه، روتینگ هیبرید، داشبورد هزینه، قیمت‌گذاری شناور سالانه</td></tr>
+</tbody></table></div>
+</section>
+
+<section class="sec" id="s17">
+<header><div class="num">بخش ۱۷</div><h2>UI/UX و سیستم طراحی</h2><p class="sub">هدف: در حد صفحات برندهٔ Awwwards/CSSDA اما برای نوجوان ایرانی با گوشی متوسط و اینترنت ضعیف. معیار داوری Awwwards: طراحی ۴۰٪، کاربردپذیری ۳۰٪، خلاقیت ۲۰٪، محتوا ۱۰٪. ما «کاربردپذیری» را اول می‌گذاریم.</p></header>
+<div class="grid g2">
+  <div class="card"><h4>اصول</h4><ul class="sub"><li><b>موبایل‌اول، یک‌دستی:</b> اقدام اصلی هر صفحه در ۴۰٪ پایین صفحه (منطقهٔ شست).</li><li><b>هر صفحه یک کار:</b> «امروز» فقط برنامه و گزارش‌کار؛ تحلیل در تب جدا.</li><li><b>عدد بدون قصه ممنوع:</b> هر نمودار یک جملهٔ فارسی «یعنی چه» دارد.</li><li><b>لحن:</b> دوم‌شخص، کوتاه، بدون شعار؛ خطاها می‌گویند چه شد و چه کنی.</li><li><b>دسترس‌پذیری WCAG 2.2:</b> هدف لمس ≥ ۲۴px، فوکوس مرئی، بدون کپچا، کنتراست ≥ ۴٫۵:۱ در هر دو تم.</li><li><b>عملکرد:</b> LCP &lt; ۲٫۵ ثانیه روی 3G؛ فونت خودمیزبان (Google Fonts از ایران کند است).</li></ul></div>
+  <div class="card"><h4>توکن‌های سیستم طراحی</h4><ul class="sub"><li><b>فونت:</b> Vazirmatn (متن و UI، ۹ وزن، OFL) + Markazi Text برای تیترهای بزرگ؛ اعداد فارسی با <code>font-variant-numeric</code> و <code>unicode-bidi: isolate</code> برای اعداد داخل متن.</li><li><b>رنگ:</b> لاجورد (accent) + زعفرانی (accent-2) + خنثی‌های سردِ کمی آبی؛ رنگ‌های وضعیت (سبز/زرد/نارنجی/قرمز) جدا از رنگ‌های سری نمودار؛ پالت ۸ رنگ سری اعتبارسنجی‌شده برای کوررنگی.</li><li><b>تم:</b> توکن‌محور؛ تاریک = اشباع کمتر، نه معکوس ساده؛ پیروی از سیستم + سوئیچ دستی (همین سند نمونه است).</li><li><b>RTL:</b> Tailwind logical properties (ms/me/ps/pe)، Radix DirectionProvider، تقویم جلالی (react-multi-date-picker)، ورودی شماره با ۰۹ و کیبورد عددی.</li><li><b>حرکت:</b> فقط برای بازخورد (ثبت گزارش، تکمیل استریک)؛ احترام به prefers-reduced-motion.</li></ul></div>
+</div>
+
+<h3>صفحه‌های کلیدی</h3>
+<div class="grid g3">
+  <div class="card"><h4>دانش‌آموز · امروز</h4><p class="sub">بالای صفحه: استریک + ساعت امروز؛ وسط: چک‌لیست برنامهٔ امروز با تایمر؛ پایین: دکمهٔ بزرگ «گزارش امروز» و حباب چت مشاور. حالت شب خودکار بعد از ۲۱.</p></div>
+  <div class="card"><h4>دانش‌آموز · تحلیل</h4><p class="sub">۱ عدد بزرگ (بازهٔ رتبهٔ پیش‌بینی) + نمودار روند تراز + نقشهٔ حرارتی مباحث؛ هر خانه لمس‌پذیر → «چه کنم؟» با پاسخ کلون.</p></div>
+  <div class="card"><h4>مشاور · میز کار</h4><p class="sub">سه ستون در دسکتاپ: صف اقدام (ارجاع‌ها، برنامه‌های منتظر تأیید، شاگردهای قرمز)، اینباکس با پیش‌نویس AI، شاگرد انتخاب‌شده. در موبایل: تب.</p></div>
+  <div class="card"><h4>مشاور · Power BI</h4><p class="sub">ردیف فیلتر چسبان بالا؛ کارت‌های KPI؛ جدول شاگردها؛ نمودارها با نمای جدولی؛ دکمهٔ «گزارش PDF».</p></div>
+  <div class="card"><h4>مشاور · AI Studio</h4><p class="sub">ویزارد ۵ مرحله‌ای با نوار پیشرفت؛ Playground دوستونه (چت | اسناد بازیابی‌شده)؛ کارت امتیاز Eval با روند هفتگی.</p></div>
+  <div class="card"><h4>والد · خلاصهٔ هفته</h4><p class="sub">یک اسکرول: ۳ عدد (ساعت، پایبندی، تغییر تراز)، ۳ قوت، ۳ توجه، پیام مشاور، «چه کنم؟»؛ فونت بزرگ‌تر، بدون اصطلاح فنی.</p></div>
+  <div class="card"><h4>مدیر · برج مراقبت</h4><p class="sub">KPIهای زنده، قیف، جدول مشاوران با کارت عملکرد، هشدارها، هزینهٔ AI امروز؛ تم تاریک پیش‌فرض برای مانیتورینگ.</p></div>
+  <div class="card"><h4>عمومی · صفحهٔ مشاور</h4><p class="sub">ویدئوی ۳۰ ثانیه‌ای، رتبه و نشان تأیید، نتایج شاگردها (ناشناس/با اجازه)، قیمت شفاف، «تعیین سطح رایگان» به‌عنوان CTA.</p></div>
+  <div class="card"><h4>همه · حالت قطعی</h4><p class="sub">بنر آرام «اینترنت بین‌الملل قطع است؛ پاسخ‌ها از مدل محلی»؛ همه‌چیز کار می‌کند، فقط کندتر.</p></div>
+</div>
+<div class="callout sun"><p><b>لحظهٔ امضا (Signature moment):</b> هنگام ثبت گزارش‌کار، یک انیمیشن کوتاه «قلم روی دفتر برنامه‌ریزی» و پیام یک‌خطی با لحن مشاور: «امروز ۶ ساعت و ۲۰ دقیقه. زیستت خوب بود، فردا فیزیک رو جبران می‌کنیم.» این همان حس «کسی حواسش هست» است که کانون با پشتیبان انسانی می‌فروشد و ما با کلون می‌دهیم.</p></div>
+</section>
+
+<section class="sec" id="s18">
+<header><div class="num">بخش ۱۸</div><h2>منابع</h2><p class="sub">منابع اصلی استفاده‌شده در تحقیق (مهر ۱۴۰۵). دسترسی مستقیم به بسیاری از دامنه‌های .ir از محیط تحقیق محدود بود؛ ارقام حساس پیش از استفادهٔ رسمی از صفحهٔ اصلی تأیید شوند.</p></header>
+<h4>کنکور و قوانین</h4>
+<ul class="src-list">
+<li><a href="https://www.entekhab.ir/fa/news/937397/">entekhab.ir — سوابق تحصیلی ۱۴۰۵</a></li>
+<li><a href="https://ana.ir/fa/news/1079424/">ana.ir — مصوبهٔ جلسهٔ ۹۲۷ شورا</a></li>
+<li><a href="https://jamejamonline.ir/fa/news/1563389/">jamejamonline.ir — سهم سوابق ۱۴۰۵</a></li>
+<li><a href="https://www.mehrnews.com/news/6956825/">mehrnews — تأثیر معدل ۱۴۰۶</a></li>
+<li><a href="https://www.mehrnews.com/news/6412396/">mehrnews — لغو دو نوبت</a></li>
+<li><a href="https://www.mehrnews.com/news/6530435/">mehrnews — آمار نوبت دوم ۱۴۰۴</a></li>
+<li><a href="https://www.mehrnews.com/news/6920991/">mehrnews — یک میلیون داوطلب ۱۴۰۵</a></li>
+<li><a href="https://www.qudsonline.ir/news/1161530/">qudsonline — تعداد سوال و زمان ۱۴۰۵</a></li>
+<li><a href="https://snn.ir/fa/news/1442529/">snn.ir — اینفوگرافیک دفترچه‌ها</a></li>
+<li><a href="https://www.mehrnews.com/news/6848111/">mehrnews — اعتراض به تأثیر قطعی</a></li>
+<li><a href="https://www.paytakhteketab.com/blog/تاثیر-معدل-در-کنکور/">paytakhteketab — ۱۷٪/۴۳٪</a></li>
+<li><a href="https://hoseinbanaei.ir/zarayeb-konkur-1405/">hoseinbanaei — ضرایب ۱۴۰۵</a></li>
+<li><a href="https://blog.faradars.org/درصد-گیری/">faradars — فرمول درصد</a></li>
+<li><a href="https://dourkhiz.com/تراز-کنکور-چیست؟/">dourkhiz — فرمول تراز</a></li>
+<li><a href="https://irantahsil.org/تاثیر-سهمیه-در-کنکور-سراسری/">irantahsil — سهمیه‌ها</a></li>
+<li><a href="https://moshaveranebartar.com/هزینه-ثبت-نام-آزمون-های-آزمایشی-سنجش/">هزینهٔ آزمون سنجش</a></li>
+<li><a href="https://iranhamayesh.org/2025/08/قیمت-مشاوره-کنکور-تجربی-قیمت/">قیمت مشاوره ۱۴۰۴</a></li>
+<li><a href="https://www.etemadonline.com/بخش-اجتماعی-23/674775">etemadonline — انتخاب رشته ۵–۸ م</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Iranian_University_Entrance_Exam">Wikipedia — Konkur</a></li>
+</ul>
+<h4>رقبا</h4>
+<ul class="src-list">
+<li><a href="https://www.kanoon.ir/app">kanoon.ir — اپ کانونی‌ها</a></li>
+<li><a href="https://www.samanehha.com/web/1277/هزینه-آزمون-های-قلم-چی.html">هزینهٔ قلم‌چی</a></li>
+<li><a href="https://mag.gozine2.ir/خدمات-داوطلبان-کنکور-1404/">gozine2 — خدمات ۱۴۰۴</a></li>
+<li><a href="https://moshaver.org/maze-price/">قیمت ماز</a></li>
+<li><a href="https://moshaver.org/classino-price/">قیمت کلاسینو</a></li>
+<li><a href="https://nazarkade.com/review/classino.com">nazarkade — کلاسینو</a></li>
+<li><a href="https://alaatv.com/">alaatv.com</a></li>
+<li><a href="https://www.ostadbank.com/tutor-price">ostadbank — قیمت</a></li>
+<li><a href="https://dourkhiz.com/">dourkhiz.com</a></li>
+<li><a href="https://alorotbe.com/قیمت-مشاوره-کنکور/">alorotbe — قیمت</a></li>
+<li><a href="https://konkurplus.com/">konkurplus.com</a></li>
+<li><a href="https://skyfy.ir/">skyfy.ir</a></li>
+<li><a href="https://www.moshaversara.com/">moshaversara.com</a></li>
+<li><a href="https://barname360.ir/">barname360.ir</a></li>
+<li><a href="https://hadafplus.app/">hadafplus.app</a></li>
+<li><a href="https://tarazapp.com/">tarazapp.com</a></li>
+<li><a href="https://www.zoomit.ir/report/467600-konkur-rank-selling-advertising-prices/">zoomit — بازار فروش رتبه</a></li>
+</ul>
+<h4>الگوهای جهانی و علم یادگیری</h4>
+<ul class="src-list">
+<li><a href="https://www.khanmigo.ai/pricing">Khanmigo pricing</a></li>
+<li><a href="https://hechingerreport.org/proof-points-combat-ai-hallucinations-math/">Hechinger — AI hallucinations in math</a></li>
+<li><a href="https://www.lennysnewsletter.com/p/how-duolingo-reignited-user-growth">Lenny — Duolingo growth</a></li>
+<li><a href="https://investors.duolingo.com/static-files/0b55110c-2eb9-466d-8549-5459e0851290">Duolingo Q2 2025</a></li>
+<li><a href="https://quizlet.com/blog/meet-q-chat">Quizlet Q-Chat</a></li>
+<li><a href="https://www.pw.live/iit-jee/exams/one-on-one-mentorship-program-tailored-support-for-jee-students">PW DISHA mentorship</a></li>
+<li><a href="https://apps.apple.com/us/app/pw-parent-app/id6478144871">PW Parent App</a></li>
+<li><a href="https://medical.uworld.com/blog/usmle/how-i-counsel-students-based-on-their-uworld-step1-and-step2-qbank-performance-analysis/">UWorld counseling on analytics</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Squirrel_AI">Squirrel AI</a></li>
+<li><a href="https://www.globaltimes.cn/page/202606/1362847.shtml">Gaokao AI suspension</a></li>
+<li><a href="https://faqs.ankiweb.net/what-spaced-repetition-algorithm">Anki — FSRS</a></li>
+<li><a href="https://www.frontiersin.org/journals/education/articles/10.3389/feduc.2021.581216/full">Hattie &amp; Donoghue 2021</a></li>
+<li><a href="https://link.springer.com/article/10.1007/s11257-016-9185-7">Pelánek — Elo learner modeling</a></li>
+<li><a href="https://github.com/duolingo/halflife-regression">Duolingo half-life regression</a></li>
+<li><a href="https://arxiv.org/html/2608.21379">RIACT 2026 — burnout</a></li>
+</ul>
+<h4>هوش مصنوعی و RAG</h4>
+<ul class="src-list">
+<li><a href="https://arxiv.org/pdf/2502.11571">FaMTEB — Persian embedding benchmark</a></li>
+<li><a href="https://arxiv.org/pdf/2505.08435">Hakim — Persian embedder</a></li>
+<li><a href="https://arxiv.org/html/2508.00673">MELAC — Persian LLM eval</a></li>
+<li><a href="https://arxiv.org/pdf/2602.22827">TARAZ benchmark</a></li>
+<li><a href="https://arxiv.org/pdf/2509.21104">PerHalluEval</a></li>
+<li><a href="https://huggingface.co/BAAI/bge-reranker-v2-m3">bge-reranker-v2-m3</a></li>
+<li><a href="https://huggingface.co/xmanii/maux-gte-persian-v3">maux-gte-persian-v3</a></li>
+<li><a href="https://www.tigerdata.com/blog/pgvector-vs-qdrant">pgvector vs Qdrant</a></li>
+<li><a href="https://www.firecrawl.dev/blog/best-chunking-strategies-rag">Chunking strategies 2025</a></li>
+<li><a href="https://mem0.ai/blog/state-of-ai-agent-memory-2026">Mem0 — agent memory</a></li>
+<li><a href="https://www.confident-ai.com/blog/rag-evaluation-metrics-answer-relevancy-faithfulness-and-more">RAG evaluation metrics</a></li>
+<li><a href="https://github.com/roshan-research/hazm">hazm</a></li>
+<li><a href="https://www.anthropic.com/news/updating-restrictions-of-sales-to-unsupported-regions">Anthropic — unsupported regions</a></li>
+<li><a href="https://avalai.ir/pricing/">AvalAI pricing</a></li>
+<li><a href="https://docs.metisai.ir/api/openai/">Metis docs</a></li>
+<li><a href="https://liara.ir/products/ai/">Liara AI</a></li>
+</ul>
+<h4>زیرساخت، پرداخت، حقوق</h4>
+<ul class="src-list">
+<li><a href="https://liara.ir/products/cloud-database/">Liara — Postgres pricing</a></li>
+<li><a href="https://hamravesh.com/pricing">Hamravesh pricing</a></li>
+<li><a href="https://www.arvancloud.ir/fa/pricing/cdn">ArvanCloud CDN</a></li>
+<li><a href="https://en.wikipedia.org/wiki/2026_Internet_blackout_in_Iran">2026 Internet blackout in Iran</a></li>
+<li><a href="https://blog.cloud66.com/hetzner-connectivity-issues-due-to-sanction-busting-activities">Hetzner sanctions issues</a></li>
+<li><a href="https://www.zarinpal.com/pricing">ZarinPal pricing</a></li>
+<li><a href="https://www.zarinpal.com/docs/directDebit/">ZarinPal Direct Debit</a></li>
+<li><a href="https://zibal.ir/pricing">Zibal pricing</a></li>
+<li><a href="https://docs.vandar.io/direct_debit_service/banks">Vandar direct debit</a></li>
+<li><a href="https://digiato.com/article/2022/11/12/trust-symbol-becomes-mandatory-for-all-online-stores">Digiato — اینماد الزامی</a></li>
+<li><a href="https://kavenegar.com/pricing.html">Kavenegar</a></li>
+<li><a href="https://ghasedak.me/sms-pricing">Ghasedak SMS pricing</a></li>
+<li><a href="https://pushe.co/pricing">Pushe</a></li>
+<li><a href="https://docs.bale.ai/">Bale bot docs</a></li>
+<li><a href="https://api.support.vonage.com/hc/en-us/articles/4406453102868">WhatsApp Business — Iran</a></li>
+<li><a href="https://pcoiran.ir/membershipandlicensing/membership/">نظام روانشناسی — پروانه</a></li>
+<li><a href="https://www.zoomit.ir/tech-iran/420605-user-data-protection-bill-approval-in-legal-commission/">zoomit — لایحهٔ حفاظت داده</a></li>
+<li><a href="https://rc.majlis.ir/fa/law/show/93849">قانون تجارت الکترونیک</a></li>
+<li><a href="https://softwaremill.com/whats-new-in-asvs-5-0/">OWASP ASVS 5.0</a></li>
+<li><a href="https://openfga.dev/docs/learn/rbac-vs-rebac">RBAC vs ReBAC</a></li>
+<li><a href="https://www.yektanet.com/ads-price/">Yektanet pricing</a></li>
+<li><a href="https://tapsell.com/cpi/">Tapsell CPI</a></li>
+<li><a href="https://ui.shadcn.com/docs/rtl">shadcn/ui RTL</a></li>
+<li><a href="https://github.com/rastikerdar/vazirmatn">Vazirmatn</a></li>
+<li><a href="https://www.w3.org/WAI/standards-guidelines/wcag/new-in-22/">WCAG 2.2</a></li>
+</ul>
+</section>
+
+
+  <div class="foot">این سند یک «سند زنده» است؛ با تغییر قوانین سازمان سنجش، نرخ ارز و قیمت API ها باید به‌روز شود. ارقام ریالی به تومان و بر پایهٔ نرخ‌های اعلام‌شده در منابع (مهر ۱۴۰۵) هستند.</div>
+</main>
+</div>
+<script>
+(function(){
+  var root=document.documentElement,btn=document.getElementById('themeBtn'),lab=document.getElementById('themeLabel');
+  function cur(){var t=root.getAttribute('data-theme');if(t)return t;return matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light'}
+  function paint(){lab.textContent=cur()==='dark'?'حالت روشن':'حالت تاریک'}
+  try{var saved=localStorage.getItem('rt-theme');if(saved)root.setAttribute('data-theme',saved)}catch(e){}
+  paint();
+  btn.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('rt-theme',n)}catch(e){}paint()});
+  var sb=document.getElementById('sidebar'),mb=document.getElementById('menuBtn'),bd=null;
+  function close(){sb.classList.remove('open');mb.setAttribute('aria-expanded','false');if(bd){bd.remove();bd=null}}
+  mb.addEventListener('click',function(){if(sb.classList.contains('open'))return close();sb.classList.add('open');mb.setAttribute('aria-expanded','true');bd=document.createElement('div');bd.className='backdrop';bd.addEventListener('click',close);document.body.appendChild(bd)});
+  sb.querySelectorAll('a').forEach(function(a){a.addEventListener('click',close)});
+  var links=[].slice.call(document.querySelectorAll('#toc a')),secs=links.map(function(a){return document.querySelector(a.getAttribute('href'))}).filter(Boolean);
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){l.classList.toggle('active',l.getAttribute('href')==='#'+e.target.id)})}})},{rootMargin:'-20% 0px -70% 0px'});
+    secs.forEach(function(s){io.observe(s)});
+  }
+})();
+</script>
+<script>
+(function(){
+  var fa=function(n,d){return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:d==null?0:d}).format(n)};
+  var css=function(v){return getComputedStyle(document.documentElement).getPropertyValue(v).trim()};
+  function svgEl(t,a){var e=document.createElementNS('http://www.w3.org/2000/svg',t);for(var k in a)e.setAttribute(k,a[k]);return e}
+  function tipBind(wrap,tip,el,text){el.addEventListener('mousemove',function(ev){var r=wrap.getBoundingClientRect();tip.style.left=(ev.clientX-r.left)+'px';tip.style.top=(ev.clientY-r.top)+'px';tip.textContent=text;tip.style.opacity=1});el.addEventListener('mouseleave',function(){tip.style.opacity=0});el.addEventListener('focus',function(){tip.textContent=text;tip.style.opacity=1});el.addEventListener('blur',function(){tip.style.opacity=0})}
+
+  /* ---- grouped bar: AI cost per student ---- */
+  function drawCost(){
+    var svg=document.getElementById('svgCost');if(!svg)return;while(svg.firstChild)svg.removeChild(svg.firstChild);
+    var wrap=svg.parentNode,tip=document.getElementById('tipCost');
+    var groups=['سبک (۵/روز)','متوسط (۱۰/روز)','سنگین (۲۰/روز)'];
+    var series=[{n:'Haiku 4.5',c:'--s1',v:[1.4,2.2,4.0]},{n:'Sonnet 5.5',c:'--s2',v:[2.5,4.3,7.8]},{n:'Opus 5.5',c:'--s3',v:[4.2,7.6,14.4]},{n:'خودمیزبان (هیبرید)',c:'--s4',v:[0.95,1.4,2.3]}];
+    var W=720,H=300,pl=44,pr=16,pt=16,pb=40,iw=W-pl-pr,ih=H-pt-pb,max=16;
+    for(var g=0;g<=4;g++){var y=pt+ih-ih*(g*4/max);svg.appendChild(svgEl('line',{x1:pl,x2:W-pr,y1:y,y2:y,'class':'gl'}));var t=svgEl('text',{x:pl-6,y:y+4,'text-anchor':'end'});t.textContent='$'+(g*4);svg.appendChild(t)}
+    svg.appendChild(svgEl('line',{x1:pl,x2:W-pr,y1:pt+ih,y2:pt+ih,'class':'ax'}));
+    var gw=iw/groups.length,bw=(gw*0.7)/series.length;
+    groups.forEach(function(gl,gi){
+      var gx=pl+gw*gi+gw*0.15;
+      series.forEach(function(s,si){
+        var v=s.v[gi],h=ih*v/max,x=gx+si*bw+1,y=pt+ih-h;
+        var r=svgEl('rect',{x:x,y:y,width:bw-2,height:h,rx:3,fill:'var('+s.c+')',tabindex:0});
+        tipBind(wrap,tip,r,s.n+' · '+gl+' · $'+v);svg.appendChild(r);
+        if(si===1){var lb=svgEl('text',{x:x+(bw-2)/2,y:y-5,'text-anchor':'middle','class':'lbl'});lb.textContent='$'+v;svg.appendChild(lb)}
+      });
+      var t=svgEl('text',{x:gx+gw*0.35,y:H-14,'text-anchor':'middle'});t.textContent=gl;svg.appendChild(t);
+    });
+    var leg=document.getElementById('legCost');leg.innerHTML=series.map(function(s){return '<span><i style="background:var('+s.c+')"></i>'+s.n+'</span>'}).join('');
+  }
+
+  /* ---- stacked area/line: growth ---- */
+  function drawGrowth(){
+    var svg=document.getElementById('svgGrowth');if(!svg)return;while(svg.firstChild)svg.removeChild(svg.firstChild);
+    var wrap=svg.parentNode,tip=document.getElementById('tipGrowth');
+    var months=[1,2,3,4,5,6,7,8,9,10,11,12];
+    var pro=[30,35,40,50,65,80,110,130,150,180,210,250];
+    var ai=[20,60,150,250,380,500,700,900,1200,1600,2000,2500];
+    var b2b=[0,0,0,0,0,0,0,200,400,700,1100,1500];
+    var series=[{n:'حرفه‌ای',c:'--s1',v:pro},{n:'هوشمند',c:'--s2',v:ai},{n:'B2B',c:'--s3',v:b2b}];
+    var W=720,H=300,pl=54,pr=16,pt=16,pb=36,iw=W-pl-pr,ih=H-pt-pb,max=4500;
+    for(var g=0;g<=4;g++){var y=pt+ih-ih*(g/4);svg.appendChild(svgEl('line',{x1:pl,x2:W-pr,y1:y,y2:y,'class':'gl'}));var t=svgEl('text',{x:pl-6,y:y+4,'text-anchor':'end'});t.textContent=fa(max*g/4);svg.appendChild(t)}
+    svg.appendChild(svgEl('line',{x1:pl,x2:W-pr,y1:pt+ih,y2:pt+ih,'class':'ax'}));
+    var X=function(i){return pl+iw*i/(months.length-1)},Y=function(v){return pt+ih-ih*v/max};
+    var cum=months.map(function(){return 0});
+    series.forEach(function(s){
+      var top=s.v.map(function(v,i){return cum[i]+v});
+      var d='M'+X(0)+','+Y(cum[0]);for(var i=0;i<months.length;i++)d+=' L'+X(i)+','+Y(top[i]);for(var j=months.length-1;j>=0;j--)d+=' L'+X(j)+','+Y(cum[j]);d+='Z';
+      svg.appendChild(svgEl('path',{d:d,fill:'var('+s.c+')','fill-opacity':0.22}));
+      var l='';for(var k=0;k<months.length;k++)l+=(k?' L':'M')+X(k)+','+Y(top[k]);
+      svg.appendChild(svgEl('path',{d:l,fill:'none',stroke:'var('+s.c+')','stroke-width':2}));
+      for(var m=0;m<months.length;m++){var c=svgEl('circle',{cx:X(m),cy:Y(top[m]),r:4,fill:'var('+s.c+')',stroke:'var(--surface)','stroke-width':2,tabindex:0});tipBind(wrap,tip,c,'ماه '+fa(months[m])+' · '+s.n+': '+fa(s.v[m])+' نفر · جمع: '+fa(top[m]));svg.appendChild(c)}
+      cum=top;
+    });
+    var end=svgEl('text',{x:X(11)-8,y:Y(cum[11])-10,'text-anchor':'end','class':'lbl'});end.textContent='جمع ماه ۱۲: '+fa(cum[11]);svg.appendChild(end);
+    months.forEach(function(m,i){var t=svgEl('text',{x:X(i),y:H-12,'text-anchor':'middle'});t.textContent=fa(m);svg.appendChild(t)});
+    var leg=document.getElementById('legGrowth');leg.innerHTML=series.map(function(s){return '<span><i style="background:var('+s.c+')"></i>'+s.n+'</span>'}).join('');
+  }
+
+  /* ---- calculator ---- */
+  function calc(){
+    var usd=+document.getElementById('cUsd').value||0,msg=+document.getElementById('cMsg').value,mk=+document.getElementById('cMk').value;
+    var p=document.getElementById('cModel').value.split('|'),per=+p[0],ov=+p[1];
+    var monthly=(msg*30*per+ov)*mk;
+    document.getElementById('cMsgV').textContent=fa(msg);document.getElementById('cMkV').textContent=fa(mk,2)+'×';
+    document.getElementById('cOut1').textContent=fa(monthly*usd)+' تومان';
+    document.getElementById('cOut1b').textContent='≈ $'+monthly.toFixed(2)+' در ماه';
+    document.getElementById('cOut2').textContent=fa(monthly*usd/1500000*100,1)+'٪';
+    document.getElementById('cOut3').textContent=fa(monthly*usd*1000);
+  }
+  ['cUsd','cMsg','cMk','cModel'].forEach(function(id){var el=document.getElementById(id);if(el)el.addEventListener('input',calc)});
+  calc();drawCost();drawGrowth();
+})();
+</script>
+
+</body>
+</html>
