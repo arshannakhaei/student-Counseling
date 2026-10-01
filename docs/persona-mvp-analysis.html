@@ -1,0 +1,798 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>طرح دستیار رتبه‌برتر</title>
+<meta name="description" content="تحلیل کامل ایدهٔ چت‌بات مشاورهٔ کنکور با پرسونای رتبه‌برترها: قوت و ضعف، رویکرد فنی، معماری، MVP یک‌ماهه، پنل جمع‌آوری داده از مشاوران، هزینه، قیمت و درآمدزایی">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;500;600;700;800;900&family=Lalezar&display=swap">
+<style>
+/* Layout: one reading column (~74ch) with a sticky, horizontally scrollable section bar on top;
+   wide tables and diagrams scroll inside their own frames.
+   Identity: "the ranker's answer sheet" — teal ink (decisions) + coral pencil (warnings), cool neutrals. */
+:root{
+  --bg:#f3f6f6; --surface:#ffffff; --surface-2:#eaf0ef; --line:#d4dfdd; --line-strong:#adbfbc;
+  --fg:#0f1a19; --fg-2:#384846; --muted:#667775;
+  --accent:#0b7366; --accent-fg:#ffffff; --accent-soft:#dcefeb;
+  --pencil:#b4420f; --pencil-soft:#fbe8dd;
+  --good:#0a7d0a; --warn:#9a6700; --crit:#c02f2f;
+  --s1:#2a78d6; --s2:#eb6834; --s3:#1baf7a;
+  --grid:#e1e0d9; --axis:#c3c2b7;
+  --font-body:"Vazirmatn",system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;
+  --font-display:"Lalezar","Vazirmatn",system-ui,sans-serif;
+  --font-mono:ui-monospace,"SFMono-Regular",Menlo,Consolas,monospace;
+  --radius:12px;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --bg:#0c1312; --surface:#131d1c; --surface-2:#1a2625; --line:#253433; --line-strong:#38504d;
+    --fg:#e9f2f0; --fg-2:#c0cfcc; --muted:#8a9b98;
+    --accent:#4cc9b6; --accent-fg:#06201c; --accent-soft:#163a35;
+    --pencil:#ff9a66; --pencil-soft:#3a2216;
+    --good:#3ccf3c; --warn:#f0b13a; --crit:#ff7676;
+    --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+    --grid:#2c2c2a; --axis:#383835;
+    color-scheme:dark;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#0c1312; --surface:#131d1c; --surface-2:#1a2625; --line:#253433; --line-strong:#38504d;
+  --fg:#e9f2f0; --fg-2:#c0cfcc; --muted:#8a9b98;
+  --accent:#4cc9b6; --accent-fg:#06201c; --accent-soft:#163a35;
+  --pencil:#ff9a66; --pencil-soft:#3a2216;
+  --good:#3ccf3c; --warn:#f0b13a; --crit:#ff7676;
+  --s1:#3987e5; --s2:#d95926; --s3:#199e70;
+  --grid:#2c2c2a; --axis:#383835;
+  color-scheme:dark;
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+@media (prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{transition:none!important}}
+html,body{margin:0;direction:rtl}
+body{background:var(--bg);color:var(--fg);font-family:var(--font-body);font-size:16px;line-height:1.9;overflow-x:clip;-webkit-font-smoothing:antialiased}
+a{color:var(--accent)}
+:focus-visible{outline:3px solid var(--accent);outline-offset:2px;border-radius:4px}
+code{font-family:var(--font-mono);font-size:.85em;background:var(--surface-2);border:1px solid var(--line);padding:1px 6px;border-radius:6px;direction:ltr;unicode-bidi:isolate}
+pre{font-family:var(--font-mono);font-size:13px;background:var(--surface-2);border:1px solid var(--line);border-radius:10px;padding:14px 16px;overflow-x:auto;direction:ltr;text-align:left;line-height:1.65;margin:12px 0 20px}
+
+/* top bar + section nav */
+.bar{position:sticky;top:env(safe-area-inset-top,0px);z-index:20;background:color-mix(in srgb,var(--bg) 88%,transparent);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.bar-in{max-width:1080px;margin:0 auto;padding-inline:16px;display:flex;align-items:center;gap:12px;height:54px}
+.mark{font-family:var(--font-display);font-size:22px;color:var(--accent);white-space:nowrap;line-height:1}
+.nav{display:flex;gap:4px;overflow-x:auto;scrollbar-width:none;flex:1;min-width:0;padding-block:6px}
+.nav::-webkit-scrollbar{display:none}
+.nav a{white-space:nowrap;text-decoration:none;color:var(--fg-2);font-size:13.5px;padding:5px 10px;border-radius:8px}
+.nav a:hover{background:var(--surface-2)}
+.nav a.on{background:var(--accent-soft);color:var(--accent);font-weight:700}
+.tbtn{appearance:none;border:1px solid var(--line-strong);background:var(--surface);color:var(--fg);border-radius:9px;padding:6px 11px;font:inherit;font-size:13px;cursor:pointer;white-space:nowrap}
+.tbtn:hover{background:var(--surface-2)}
+
+.wrap{max-width:1080px;margin:0 auto;padding-inline:16px;padding-block:28px 90px}
+.col{max-width:780px}
+
+/* hero */
+.hero{padding-block:22px 6px}
+.eyebrow{font-size:13px;font-weight:800;color:var(--pencil);letter-spacing:.04em}
+h1{font-family:var(--font-display);font-weight:400;font-size:clamp(40px,6.4vw,70px);line-height:1.12;margin:8px 0 14px;text-wrap:balance;color:var(--fg)}
+h1 em{font-style:normal;color:var(--accent)}
+.lede{font-size:18px;color:var(--fg-2);max-width:68ch;margin:0 0 16px}
+.who{display:flex;flex-wrap:wrap;gap:8px;margin-top:12px}
+.chip{display:inline-flex;gap:6px;align-items:center;border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:3px 11px;font-size:13px;color:var(--fg-2);white-space:nowrap}
+
+/* verdict */
+.verdict{display:grid;grid-template-columns:minmax(0,1.25fr) minmax(0,1fr);gap:18px;margin-top:26px}
+@media (max-width:820px){.verdict{grid-template-columns:1fr}}
+.vbox{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:20px 22px;min-width:0}
+.vbox.main{border:2px solid var(--accent)}
+.vbox h3{margin-top:0}
+.score{display:grid;grid-template-columns:auto 1fr auto;gap:8px 12px;align-items:center;font-size:14.5px}
+.score .bar2{height:8px;background:var(--surface-2);border-radius:99px;overflow:hidden;min-width:60px}
+.score .bar2 i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.score .n{font-variant-numeric:tabular-nums;font-weight:800;color:var(--fg)}
+
+/* sections */
+section.sec{scroll-margin-top:70px;margin-top:56px;padding-top:40px;border-top:1px solid var(--line)}
+.sec-h{display:flex;gap:14px;align-items:baseline;margin-bottom:18px}
+.sec-h .no{font-family:var(--font-display);font-size:34px;color:var(--pencil);line-height:1;min-width:32px}
+h2{font-family:var(--font-display);font-weight:400;font-size:clamp(30px,3.8vw,42px);line-height:1.2;margin:0;text-wrap:balance}
+.sec-h p{margin:6px 0 0;color:var(--muted);font-size:15px;max-width:72ch}
+h3{font-size:20px;font-weight:800;margin:32px 0 10px;line-height:1.45;text-wrap:balance}
+h4{font-size:16px;font-weight:800;margin:0 0 6px}
+p{margin:0 0 14px;max-width:74ch}
+ul,ol{padding-inline-start:22px;margin:0 0 14px;max-width:74ch}
+li{margin-bottom:5px}
+li::marker{color:var(--accent)}
+.sub{color:var(--muted);font-size:14px}
+.small{font-size:14px}
+
+.grid{display:grid;gap:14px}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,320px),1fr))}
+.g3{grid-template-columns:repeat(auto-fit,minmax(min(100%,250px),1fr))}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr))}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 18px;min-width:0}
+.card ul{font-size:14.5px;margin-bottom:0}
+.card p:last-child{margin-bottom:0}
+.kpi .k{font-size:12.5px;color:var(--muted);font-weight:700}
+.kpi .v{font-size:28px;font-weight:900;line-height:1.25;margin:2px 0}
+.kpi .d{font-size:13px;color:var(--fg-2)}
+
+.swot h4{display:flex;align-items:center;gap:8px}
+.swot .dot{width:10px;height:10px;border-radius:3px;flex:none}
+.note{border-inline-start:4px solid var(--accent);background:var(--accent-soft);border-radius:10px;padding:13px 16px;margin:16px 0;max-width:78ch}
+.note.pencil{border-color:var(--pencil);background:var(--pencil-soft)}
+.note p:last-child,.note ul:last-child{margin-bottom:0}
+.note b.t{display:block;margin-bottom:4px}
+
+.tw{overflow-x:auto;border:1px solid var(--line);border-radius:var(--radius);background:var(--surface);margin:12px 0 22px;max-width:100%}
+table{border-collapse:collapse;width:100%;font-size:14px;min-width:620px}
+th,td{padding:9px 12px;border-bottom:1px solid var(--line);text-align:right;vertical-align:top}
+th{background:var(--surface-2);font-size:13px;color:var(--fg-2);font-weight:800;white-space:nowrap}
+tr:last-child td{border-bottom:0}
+td.n,th.n{font-variant-numeric:tabular-nums;direction:ltr;text-align:left;white-space:nowrap}
+tr.pick td{background:var(--accent-soft)}
+.pill{display:inline-block;font-size:12px;font-weight:800;border-radius:6px;padding:1px 8px;white-space:nowrap}
+.p-yes{background:color-mix(in srgb,var(--good) 15%,var(--surface));color:var(--good)}
+.p-mid{background:color-mix(in srgb,var(--warn) 18%,var(--surface));color:var(--warn)}
+.p-no{background:color-mix(in srgb,var(--crit) 13%,var(--surface));color:var(--crit)}
+.p-acc{background:var(--accent-soft);color:var(--accent)}
+.p-pen{background:var(--pencil-soft);color:var(--pencil)}
+
+.steps{list-style:none;padding:0;counter-reset:s;max-width:78ch}
+.steps>li{counter-increment:s;position:relative;padding-inline-start:42px;margin-bottom:14px}
+.steps>li::before{content:counter(s);position:absolute;inset-inline-start:0;top:1px;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--accent-fg);display:grid;place-items:center;font-weight:800;font-size:13px}
+
+.diagram{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px;overflow-x:auto;margin:12px 0 22px}
+.diagram svg{display:block;min-width:720px;width:100%;height:auto;direction:ltr}
+
+.weeks{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,240px),1fr));gap:12px}
+.week{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:14px 16px;min-width:0;display:flex;flex-direction:column;gap:8px}
+.week .wk{font-family:var(--font-display);font-size:24px;color:var(--accent);line-height:1}
+.week .lane{font-size:13.5px}
+.week .lane b{display:inline-block;font-size:11.5px;letter-spacing:.03em;padding:0 7px;border-radius:5px;margin-inline-end:4px}
+.week .lane.ali b{background:var(--pencil-soft);color:var(--pencil)}
+.week .lane.ar b{background:var(--accent-soft);color:var(--accent)}
+.week .exit{margin-top:auto;font-size:12.5px;color:var(--muted);border-top:1px dashed var(--line);padding-top:8px}
+
+.tiers{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,230px),1fr));gap:14px}
+.tier{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;min-width:0;display:flex;flex-direction:column}
+.tier.hi{border:2px solid var(--accent)}
+.tier .nm{font-weight:900;font-size:17px}
+.tier .pr{font-size:26px;font-weight:900;margin:6px 0 2px}
+.tier .pr small{font-size:13px;color:var(--muted);font-weight:600}
+.tier ul{font-size:14px;padding-inline-start:18px;margin:8px 0 0}
+
+/* calculator */
+.calc{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:18px;margin:12px 0 22px}
+.calc .in{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px 16px}
+.calc label{font-size:13.5px;font-weight:700;color:var(--fg-2);display:flex;flex-direction:column;gap:5px}
+.calc input[type=number],.calc select{font:inherit;font-size:15px;padding:8px 10px;border:1px solid var(--line-strong);border-radius:9px;background:var(--surface);color:var(--fg);width:100%}
+.calc input[type=range]{width:100%;accent-color:var(--accent)}
+.calc .val{font-weight:800;color:var(--fg);font-variant-numeric:tabular-nums}
+.calc .out{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,200px),1fr));gap:12px;margin-top:16px}
+.calc .o{background:var(--surface-2);border-radius:10px;padding:12px 14px}
+.calc .o.main{background:var(--accent-soft)}
+.calc .o .k{font-size:12.5px;color:var(--muted);font-weight:700}
+.calc .o .v{font-size:22px;font-weight:900;line-height:1.3}
+.calc .o .d{font-size:12.5px;color:var(--fg-2)}
+.calc .o .v.neg{color:var(--crit)}
+
+/* chart */
+.chart{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);padding:16px 16px 10px;margin:12px 0 22px}
+.chart h5{margin:0;font-size:15px;font-weight:800}
+.chart .cap{font-size:12.5px;color:var(--muted);margin-bottom:6px}
+.chart .cw{position:relative;overflow-x:clip}
+.chart svg{width:100%;height:auto;display:block;direction:ltr;overflow:visible}
+.chart text{font-family:var(--font-body);font-size:11.5px;fill:var(--muted)}
+.chart .gl{stroke:var(--grid);stroke-width:1}
+.chart .ax{stroke:var(--axis);stroke-width:1}
+.chart .lb{font-weight:800;font-size:12px}
+.legend{display:flex;flex-wrap:wrap;gap:14px;font-size:12.5px;color:var(--fg-2);margin-top:6px}
+.legend i{display:inline-block;width:12px;height:3px;border-radius:2px;vertical-align:middle;margin-inline-end:6px}
+.tip{position:absolute;pointer-events:none;background:var(--fg);color:var(--bg);font-size:12px;padding:5px 9px;border-radius:7px;white-space:nowrap;transform:translate(-50%,-125%);opacity:0;transition:opacity .12s}
+
+details{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:0 16px;margin:8px 0;max-width:78ch}
+details summary{cursor:pointer;padding:11px 0;font-weight:800;list-style:none;display:flex;justify-content:space-between;gap:10px}
+details summary::after{content:"+";color:var(--muted);font-size:20px;line-height:1}
+details[open] summary::after{content:"−"}
+details>*:not(summary){margin-bottom:12px}
+
+.check{list-style:none;padding:0;max-width:78ch}
+.check li{position:relative;padding-inline-start:30px;margin-bottom:10px}
+.check li::before{content:"";position:absolute;inset-inline-start:0;top:6px;width:16px;height:16px;border:2px solid var(--accent);border-radius:4px}
+.check li b.who2{font-size:12px;padding:0 7px;border-radius:5px;margin-inline-end:6px}
+.who-ali{background:var(--pencil-soft);color:var(--pencil)}
+.who-ar{background:var(--accent-soft);color:var(--accent)}
+.who-both{background:var(--surface-2);color:var(--fg-2)}
+
+.mock{background:var(--surface);border:1px solid var(--line);border-radius:var(--radius);overflow:hidden}
+.mock .mt{background:var(--surface-2);padding:9px 14px;font-size:13px;font-weight:800;color:var(--fg-2);display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.mock .mb{padding:14px}
+.prog{height:8px;border-radius:99px;background:var(--surface-2);overflow:hidden;margin:4px 0 10px}
+.prog i{display:block;height:100%;background:var(--accent)}
+.row{display:flex;justify-content:space-between;gap:10px;font-size:13.5px;flex-wrap:wrap}
+.foot{margin-top:56px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:13px}
+</style>
+</head>
+<body>
+<div class="bar"><div class="bar-in">
+  <span class="mark">دستیار رتبه‌برتر</span>
+  <nav class="nav" id="nav" aria-label="بخش‌ها">
+    <a href="#v">حکم</a><a href="#s1">ورودی‌ها</a><a href="#s2">قوت و ضعف</a><a href="#s3">رقبا</a><a href="#s4">رویکرد مدل</a><a href="#s5">ساخت پرسونا</a><a href="#s6">سنجش شباهت</a><a href="#s7">معماری</a><a href="#s8">MVP یک‌ماهه</a><a href="#s9">پنل مشاوران</a><a href="#s10">هزینه و قیمت</a><a href="#s11">درآمدزایی</a><a href="#s12">تخمین استفاده</a><a href="#s13">ریسک و حقوقی</a><a href="#s14">همین هفته</a>
+  </nav>
+  <button class="tbtn" id="tb" type="button">تم تاریک</button>
+</div></div>
+
+<main class="wrap">
+<header class="hero">
+  <div class="eyebrow">تحلیل ایده · برای علی نوری و آرشان · مهر ۱۴۰۵</div>
+  <h1>چت‌باتی که مثل <em>رتبه‌برتر</em> فکر می‌کند، نه مثل یک چت‌بات</h1>
+  <p class="lede">علی، رتبه ۱۰ ریاضی ۱۴۰۲، می‌خواهد یک دستیار مشاورهٔ کنکور بسازد که با دادهٔ واقعی خودش (و بعداً رتبه‌برترهای دیگر) آموزش ببیند، به سوال‌ها جواب بدهد و کارنامه تحلیل کند، با قیمتی حدود یک‌پنجمِ مشاورهٔ ۴ میلیونی. این سند می‌گوید ایده چقدر می‌ارزد، چطور ساخته شود، MVP یک‌ماهه دقیقاً چیست و چطور پول درمی‌آورد.</p>
+  <div class="who"><span class="chip">۷۰۰+ پرسش‌وپاسخ واقعی</span><span class="chip">چت ~۴۰ شاگرد + برنامه‌هایشان</span><span class="chip">۱۰ هزار بازدید/پست تلگرام</span><span class="chip">هدف: میانگین ۵۰۰ کاربر در ۶ ماه</span></div>
+</header>
+
+<section id="v" style="scroll-margin-top:70px">
+<div class="verdict">
+  <div class="vbox main">
+    <h3>حکم کوتاه</h3>
+    <p><b>ایده ارزشمند و قابل‌ساخت است و مزیت اصلی‌اش واقعی است:</b> دادهٔ اختصاصی (۷۰۰ جواب واقعی + چت ۴۰ شاگرد) و اعتبار شخص علی چیزی است که ChatGPT رایگان و رقبای AI ندارند. اما «چت‌بات شبیه علی» به‌تنهایی محصول نیست؛ اگر فقط چت باشد، کاربر بعد از ۲–۳ هفته کنجکاوی‌اش تمام می‌شود و می‌رود.</p>
+    <p><b>توصیهٔ من:</b> MVP یک‌ماهه را روی سه چیز بسازید: (۱) چت با «روش علی» که منبع جوابش را نشان می‌دهد، (۲) تحلیل کارنامه با فرم ساختاریافته، (۳) دکمهٔ «از خود علی بپرس». مدل را با <b>RAG + مهندسی پرسونا</b> بسازید، نه آموزش (fine-tune). از ماه دوم «برنامهٔ هفتگی سبک» و «گزارش‌کار» را اضافه کنید؛ این‌ها نگه‌دارنده‌اند.</p>
+    <p class="small" style="margin:0"><b>هدف میانگین ۵۰۰ کاربر در ۶ ماه</b> فقط با کانال تلگرام علی بعید است (برآورد واقع‌بینانه: میانگین ۱۰۰ تا ۲۵۰ و پایان ماه ششم ۲۰۰ تا ۴۵۰). با توزیع از طریق شماتیک یا ورود زودهنگام رتبه‌برترهای تجربی، دست‌یافتنی است. بخش ۱۲.</p>
+  </div>
+  <div class="vbox">
+    <h3>کارت امتیاز</h3>
+    <div class="score">
+      <span>نیاز بازار</span><span class="bar2"><i style="width:80%"></i></span><span class="n">۸/۱۰</span>
+      <span>مزیت رقابتی</span><span class="bar2"><i style="width:70%"></i></span><span class="n">۷/۱۰</span>
+      <span>امکان ساخت در ۱ ماه</span><span class="bar2"><i style="width:60%"></i></span><span class="n">۶/۱۰</span>
+      <span>اقتصاد واحد</span><span class="bar2"><i style="width:70%"></i></span><span class="n">۷/۱۰</span>
+      <span>دفاع‌پذیری بلندمدت</span><span class="bar2"><i style="width:60%"></i></span><span class="n">۶/۱۰</span>
+      <span>ریسک (بالاتر = امن‌تر)</span><span class="bar2"><i style="width:50%"></i></span><span class="n">۵/۱۰</span>
+    </div>
+    <p class="sub" style="margin:12px 0 0">بزرگ‌ترین ریسک‌ها: دسترسی پایدار و قانونی به مدل زبانی از ایران، قرارداد علی با شماتیک، و ماندگاری کاربر.</p>
+  </div>
+</div>
+</section>
+
+<!-- ============ 1 ============ -->
+<section class="sec" id="s1">
+<div class="sec-h"><span class="no">۱</span><div><h2>ورودی‌ها و سوال‌های باز</h2><p>آنچه علی گفت، و آنچه هنوز باید آرشان جواب بدهد.</p></div></div>
+<div class="grid g2">
+  <div class="card"><h4>آنچه داریم</h4><ul>
+    <li><b>داده:</b> چت با حدود ۴۰ شاگرد، ۷۰۰+ سوال ناشناس با جواب علی، برنامه‌های همان ۴۰ شاگرد. رضایت شاگردها قابل‌گرفتن است.</li>
+    <li><b>پرسونای MVP:</b> فقط خود علی (ریاضی). بعد از نتیجهٔ خوب: رتبه‌های تک‌رقمی تجربی ۳ سال اخیر.</li>
+    <li><b>تیم:</b> علی ۳ ساعت در روز؛ آرشان بیشتر و مسئول فنی.</li>
+    <li><b>مخاطب:</b> ۱۰ هزار بازدید/پست تلگرام؛ با موسسه چند صد هزار. ۸ شاگرد فعال با میانگین ۴ میلیون.</li>
+    <li><b>MVP:</b> پرسش‌وپاسخ + تحلیل کارنامه؛ وب‌اپ؛ «ارتقا به انسان» قطعاً هست. برنامه‌نویسی و گزارش‌کار هنوز تصمیم‌گیری نشده؛ صوت بعداً.</li>
+    <li><b>زمان:</b> MVP ظرف ۱ ماه. بودجه نامشخص. شرکت و اینماد ندارید.</li>
+    <li><b>هدف:</b> میانگین ۵۰۰ کاربر در ۶ ماه.</li></ul></div>
+  <div class="card"><h4>سوال‌های باز (برای آرشان و علی)</h4><ul>
+    <li><span class="pill p-pen">آرشان</span> مسیر دسترسی به مدل زبانی چیست؟ (API تجاری از طریق واسط، سرویس‌دهندهٔ داخلی مدل‌های باز، یا GPU اجاره‌ای) بخش ۷ را ببین؛ این تصمیم هم فنی است هم حقوقی.</li>
+    <li><span class="pill p-pen">آرشان</span> مسلط به کدام استک است؟ (TypeScript/Next.js یا Python) پیشنهاد بخش ۷ بر اساس همین تغییر می‌کند.</li>
+    <li><span class="pill p-pen">آرشان</span> هاست داخلی (لیارا/هم‌روش) یا جای دیگر؟</li>
+    <li><span class="pill p-pen">علی</span> قرارداد با شماتیک: اجازهٔ استفاده از اسم و محتوای تولیدشده در موسسه، و منع رقابت؟ <b>قبل از لانچ عمومی حیاتی است.</b></li>
+    <li><span class="pill p-pen">علی</span> چت‌ها در چه قالبی است؟ (خروجی JSON تلگرام بهترین است؛ اسکرین‌شات بدترین)</li>
+    <li><span class="pill p-pen">هر دو</span> بودجهٔ ۳ ماه اول. پیشنهاد بخش ۱۰: حدود ۴۰ تا ۷۰ میلیون تومان بدون حقوق.</li></ul></div>
+</div>
+</section>
+
+<!-- ============ 2 ============ -->
+<section class="sec" id="s2">
+<div class="sec-h"><span class="no">۲</span><div><h2>نقاط قوت، ضعف، فرصت و تهدید</h2><p>صادقانه؛ چون پول و اعتبار علی وسط است.</p></div></div>
+<div class="grid g2 swot">
+  <div class="card"><h4><span class="dot" style="background:var(--good)"></span>قوت‌ها</h4><ul>
+    <li><b>دادهٔ اختصاصی و واقعی.</b> ۷۰۰ جواب واقعی به سوال واقعی کمیاب است. بیشتر رقبای AI با پرامپت عمومی کار می‌کنند. همین داده هم سوخت مدل است هم معیار سنجش.</li>
+    <li><b>اعتبار قابل‌راستی‌آزمایی.</b> «رتبه ۱۰ ریاضی ۱۴۰۲» یک ادعای مشخص و قابل‌چک است، نه «مشاور برتر» کلی.</li>
+    <li><b>کانال توزیع آماده.</b> ۱۰ هزار بازدید در هر پست یعنی هزینهٔ جذب اولیه نزدیک صفر.</li>
+    <li><b>شکاف قیمتی روشن.</b> ۴ تا ۵ میلیون مشاور انسانی در برابر ۵۰۰ هزار تا ۱ میلیون. اکثر خانواده‌ها مشاور ندارند.</li>
+    <li><b>قابل‌گسترش به بازار پرسوناها.</b> هر رتبه‌برتر جدید یک محصول و یک کانال جذب تازه است.</li>
+    <li><b>قیف به سمت بالا.</b> کاربر چت‌بات، مشتری بالقوهٔ مشاورهٔ ۴ میلیونی علی است.</li></ul></div>
+  <div class="card"><h4><span class="dot" style="background:var(--crit)"></span>ضعف‌ها</h4><ul>
+    <li><b>«فقط چت» ماندگار نیست.</b> Quizlet چت‌بات Q-Chat را در ۲۰۲۵ حذف کرد چون کاربر برای چت خالی نمی‌ماند. محصول باید «کار» انجام دهد: تحلیل، برنامه، پیگیری.</li>
+    <li><b>یک جواب بد = اسکرین‌شات وایرال.</b> چون اسم علی روی محصول است، خطای مدل مستقیم به اعتبار علی ضربه می‌زند.</li>
+    <li><b>وابستگی به وقت علی.</b> بازبینی جواب‌ها و پاسخ‌های انسانی گلوگاه می‌شود.</li>
+    <li><b>بازار ریاضی کوچک‌تر است.</b> حدود ۱۳۶ هزار داوطلب ریاضی در برابر ۴۵۱ هزار تجربی (کنکور ۱۴۰۵). پرسونای ریاضی برای MVP درست است، برای رشد کافی نیست.</li>
+    <li><b>بدون اینماد، درگاه پرداخت نیست.</b> ۲ تا ۴ هفته کار اداری.</li>
+    <li><b>ابزار تحلیل کارنامه بدون دادهٔ ساختاریافته ضعیف است.</b> باید فرم بگیرد، نه فقط «عکس کارنامه‌ات را بفرست».</li></ul></div>
+  <div class="card"><h4><span class="dot" style="background:var(--s1)"></span>فرصت‌ها</h4><ul>
+    <li><b>همکاری با شماتیک</b> به‌جای رقابت: موسسه محصول را به شاگردانش بفروشد، سهم درآمد بگیرد. بزرگ‌ترین اهرم رشد.</li>
+    <li><b>شبکهٔ رتبه‌های تک‌رقمی تجربی:</b> ورود به بازار ۳ برابری.</li>
+    <li><b>فصل‌ها:</b> مهر–آبان (شروع سال)، دی (نهایی)، بهمن–فروردین (جمع‌بندی) اوج تقاضاست. MVP اواخر مهر = وسط فصل خرید.</li>
+    <li><b>سهم ۶۰٪ سوابق تحصیلی در ۱۴۰۵</b> (و قطعی‌شدن یازدهم در ۱۴۰۶) سوال‌های «نهایی + کنکور» را زیاد کرده؛ محتوای تازه برای پرسونا.</li>
+    <li><b>B2B:</b> مدارس و آموزشگاه‌هایی که مشاور کافی ندارند.</li></ul></div>
+  <div class="card"><h4><span class="dot" style="background:var(--s2)"></span>تهدیدها</h4><ul>
+    <li><b>دسترسی به مدل زبانی:</b> OpenAI، Anthropic و Google سرویس به ایران را رسماً ارائه نمی‌دهند؛ Anthropic از ۲۰۲۵ فروش به شرکت‌های با مالکیت اکثریت ایرانی را صریحاً ممنوع کرده. واسط‌ها ممکن است یک‌شبه قطع شوند. بخش ۷.</li>
+    <li><b>قطعی اینترنت بین‌الملل</b> (دی ۱۴۰۴ تا خرداد ۱۴۰۵ بیش از ۲۰۰۰ ساعت).</li>
+    <li><b>ChatGPT و ویرای رایگان:</b> رقیب واقعی «هیچ‌چیز پولی» است، نه دیگر چت‌بات‌ها.</li>
+    <li><b>کپی‌شدن ایده</b> توسط موسسات بزرگ یا مشاوران دیگر. دفاع: دادهٔ اختصاصی + سرعت + برند.</li>
+    <li><b>تغییر قوانین کنکور</b> وسط سال؛ مدل باید قوانین را از منبع به‌روز بخواند، نه از حافظه.</li>
+    <li><b>قرارداد شماتیک</b> اگر منع رقابت داشته باشد.</li></ul></div>
+</div>
+</section>
+
+<!-- ============ 3 ============ -->
+<section class="sec" id="s3">
+<div class="sec-h"><span class="no">۳</span><div><h2>رقبا و جایگاه</h2><p>کاربر بین این گزینه‌ها انتخاب می‌کند، نه بین چت‌بات‌ها.</p></div></div>
+<div class="tw"><table><thead><tr><th>گزینهٔ کاربر</th><th>هزینه/ماه (تومان)</th><th>چه می‌دهد</th><th>چه نمی‌دهد</th></tr></thead><tbody>
+<tr><td>ChatGPT / ویرا / هوشا</td><td>رایگان تا کم</td><td>جواب فوری، برنامهٔ عمومی</td><td>تجربهٔ واقعی کنکور، قوانین به‌روز، اعتبار، شخصی‌سازی با کارنامه</td></tr>
+<tr><td>کنکور پلاس، اسکای‌فای، اپ‌های «مشاور AI»</td><td>کم تا متوسط</td><td>دستیار AI، بانک سوال، RAG روی منابع عمومی</td><td>هویت یک رتبه‌برتر مشخص؛ دادهٔ جواب‌های واقعی یک مشاور</td></tr>
+<tr><td>مشاوران تلفنی ارزان (الورتبه، دورخیز…)</td><td>۸۰۰ هزار تا ۱٫۹ م</td><td>انسان، تماس هفتگی</td><td>پاسخ ۲۴ ساعته؛ غالباً پشتیبان دانشجو به‌جای رتبهٔ برتر</td></tr>
+<tr><td>مشاور رتبه‌برتر خصوصی (مثل علی)</td><td>۲ تا ۵ م (VIP تا ۱۲ م)</td><td>کیفیت بالا</td><td>قیمت مناسب برای اکثر خانواده‌ها؛ ظرفیت محدود</td></tr>
+<tr class="pick"><td><b>دستیار علی</b></td><td><b>۵۰۰ هزار تا ۱ م</b></td><td>روش و جواب‌های واقعی علی، ۲۴ ساعته، تحلیل کارنامه، مسیر ارتقا به خود علی</td><td>جلسهٔ تلفنی (مگر در افزونه)</td></tr>
+</tbody></table></div>
+<div class="note"><b class="t">جمله‌ای که باید روی صفحهٔ فرود باشد</b><p>«این دستیار با ۷۰۰ جواب واقعی و برنامه‌های شاگردهای علی ساخته شده و هر هفته خود علی جواب‌هایش را بازبینی می‌کند. هر جا مطمئن نباشد، سوالت را برای خود علی می‌فرستد.» اعتماد از شفافیت می‌آید، نه از ادعای «هوش مصنوعی پیشرفته».</p></div>
+</section>
+
+<!-- ============ 4 ============ -->
+<section class="sec" id="s4">
+<div class="sec-h"><span class="no">۴</span><div><h2>رویکرد ساخت مدل: آموزش، پرامپت یا RAG؟</h2><p>مهم‌ترین تصمیم فنی. جواب کوتاه: ترکیب RAG و مهندسی پرسونا، بدون fine-tune در فاز اول.</p></div></div>
+
+<div class="tw"><table><thead><tr><th>رویکرد</th><th>شباهت لحن</th><th>شباهت طرز فکر</th><th>به‌روزرسانی</th><th>هزینه و زمان</th><th>با دادهٔ فعلی</th><th>حکم</th></tr></thead><tbody>
+<tr><td><b>فقط پرامپت</b> (یک متن بلند «تو علی هستی…»)</td><td><span class="pill p-mid">متوسط</span></td><td><span class="pill p-no">ضعیف</span></td><td>آسان</td><td>خیلی کم، ۲ روز</td><td>از ۷۰۰ جواب استفاده نمی‌کند</td><td><span class="pill p-no">کافی نیست</span></td></tr>
+<tr><td><b>RAG خالص</b> (جواب‌های مشابه علی را پیدا کن و بده)</td><td><span class="pill p-mid">متوسط</span></td><td><span class="pill p-yes">خوب</span></td><td>فوری</td><td>کم، ۱ هفته</td><td>عالی</td><td><span class="pill p-mid">نیمی از راه</span></td></tr>
+<tr class="pick"><td><b>RAG + قانون‌نامهٔ پرسونا + نمونه‌جواب‌ها</b></td><td><span class="pill p-yes">خوب</span></td><td><span class="pill p-yes">خیلی خوب</span></td><td>فوری؛ علی با یک کلیک اصلاح می‌کند</td><td>کم، ۲ هفته</td><td>عالی</td><td><span class="pill p-acc">پیشنهاد MVP</span></td></tr>
+<tr><td><b>Fine-tune (LoRA) روی مدل باز</b></td><td><span class="pill p-yes">خیلی خوب</span></td><td><span class="pill p-mid">متوسط</span> (دانش در وزن‌ها منجمد)</td><td>هر بار آموزش مجدد</td><td>متوسط؛ GPU و ۲–۴ هفته تجربه</td><td>۷۰۰ جفت برای لحن کافی، برای دانش کم</td><td><span class="pill p-mid">فاز ۳، اگر لازم شد</span></td></tr>
+<tr><td><b>آموزش مدل از صفر</b></td><td colspan="5">نیازمند میلیاردها توکن و میلیون‌ها دلار؛ هیچ مزیتی برای این مسئله ندارد.</td><td><span class="pill p-no">خیر</span></td></tr>
+</tbody></table></div>
+
+<h3>چرا fine-tune الان نه؟</h3>
+<ol class="steps">
+  <li><b>دانش کنکور هر سال عوض می‌شود.</b> سهم سوابق ۱۴۰۴: ۵۰٪، ۱۴۰۵: ۶۰٪، ۱۴۰۶: یازدهم هم قطعی. چیزی که در وزن‌های مدل آموزش داده شود، با قانون بعدی غلط می‌شود و اصلاحش آموزش مجدد می‌خواهد. در RAG، علی یک خط را عوض می‌کند و تمام.</li>
+  <li><b>داده هنوز تمیز نیست.</b> چت‌های خام پر از «باشه»، «مرسی»، اطلاعات شخصی و جواب‌های وابسته به موقعیت است. آموزش روی دادهٔ کثیف، عادت‌های بد را هم یاد می‌دهد.</li>
+  <li><b>بهترین مدل‌ها برای فارسی قابل fine-tune در دسترس شما نیستند.</b> fine-tune عملاً یعنی مدل باز (Qwen، Gemma، Llama) که فارسی محاوره‌ای‌شان از مدل‌های بزرگ تجاری ضعیف‌تر است. بنچمارک‌های فارسی ۲۰۲۵ (MELAC، TARAZ) نشان دادند حتی مدل‌های فاین‌تیون‌شدهٔ فارسی مثل Dorna و PersianMind از مدل‌های چندزبانهٔ عمومی بهتر نیستند.</li>
+  <li><b>سرعت تکرار.</b> در ماه اول، هر روز ده‌ها اصلاح لازم است. RAG و پرامپت در چند دقیقه عوض می‌شوند؛ fine-tune در چند روز.</li>
+  <li><b>قابل‌توضیح بودن.</b> در RAG می‌شود نشان داد «این جواب از کدام جواب واقعی علی آمده». همین یک ابزار اعتمادسازی است.</li>
+</ol>
+<div class="note"><b class="t">کی سراغ fine-tune برویم؟</b><p>وقتی (۱) بیش از ۳ هزار جفت پرسش‌وپاسخ تمیز و تأییدشده دارید، (۲) سنجش بخش ۶ نشان دهد «محتوا درست است ولی لحن شبیه علی نیست»، و (۳) هزینهٔ API آن‌قدر بالا رفته که مدل باز خودمیزبان صرفه دارد. آن موقع یک LoRA فقط برای لحن، روی مدل باز، همراه با همان RAG برای دانش.</p></div>
+</section>
+
+<!-- ============ 5 ============ -->
+<section class="sec" id="s5">
+<div class="sec-h"><span class="no">۵</span><div><h2>ساخت پرسونا از دادهٔ علی</h2><p>«شبیه علی بودن» سه لایه دارد: <b>چه می‌گوید</b> (دانش و توصیه‌ها)، <b>چرا می‌گوید</b> (اصول و طرز فکر)، <b>چطور می‌گوید</b> (لحن و طول جواب).</p></div></div>
+
+<h3>خط تولید داده (Data pipeline)</h3>
+<ol class="steps">
+  <li><b>جمع‌آوری و رضایت.</b> خروجی JSON تلگرام (Settings → Export chat history) برای هر شاگرد؛ پیام رضایت کوتاه به ۴۰ شاگرد. ۷۰۰ سوال ناشناس به همان شکل فعلی.</li>
+  <li><b>ناشناس‌سازی خودکار.</b> اسم، شماره، مدرسه، شهر → توکن‌هایی مثل <code>[نام]</code>. پیش از ارسال هر متنی به مدل خارجی.</li>
+  <li><b>استخراج جفت پرسش‌وپاسخ از چت‌ها.</b> یک مدل ارزان چت‌ها را به جفت‌های «سوال شاگرد → جواب علی» تبدیل می‌کند و برچسب موضوع می‌زند (۱۲ دسته، بخش ۹). برآورد: ۴۰ چت → ۱٬۰۰۰ تا ۲٬۰۰۰ جفت مفید. هر جفتی که به «زمینه» وابسته است (مثلاً «همون که گفتم») کنار گذاشته می‌شود.</li>
+  <li><b>بازبینی سریع علی.</b> رابط ساده با سه دکمه: «درسته»، «اصلاح کن»، «دور بریز». با ۵ تا ۸ ثانیه برای هر جفت، ۱٬۰۰۰ جفت حدود ۲ ساعت کار است.</li>
+  <li><b>قانون‌نامهٔ پرسونا (Persona constitution).</b> یک مدل، کل جواب‌های تأییدشده را می‌خواند و «اصولی که علی تکرار می‌کند» را پیش‌نویس می‌کند. علی در ۳ جلسهٔ ۹۰ دقیقه‌ای (ضبط‌شده) آن را اصلاح و کامل می‌کند. خروجی: ۱۰۰ تا ۲۰۰ اصل با اولویت.</li>
+  <li><b>برنامه‌ها و کارنامه‌ها.</b> ۴۰ برنامه به قالب ساختاریافته (روز، درس، مبحث، ساعت، تعداد تست) تبدیل می‌شوند؛ از آن‌ها «الگوهای برنامه‌نویسی علی» استخراج می‌شود. علی برای تحلیل کارنامه یک «روبریک» می‌نویسد (بخش ۸).</li>
+  <li><b>جداکردن مجموعهٔ آزمون.</b> ۱۵۰ سوال از ۷۰۰ سوال کنار گذاشته می‌شود و هرگز در RAG نمی‌رود؛ فقط برای سنجش شباهت (بخش ۶).</li>
+</ol>
+
+<h3>قانون‌نامهٔ پرسونا چه شکلی است؟</h3>
+<p class="sub">قالب نمونه. محتوای واقعی را علی می‌نویسد؛ این‌جا فقط ساختار نشان داده شده و عقاید نمونه، عقیدهٔ علی نیستند.</p>
+<pre>persona: ali-nouri
+headline: رتبه ۱۰ ریاضی ۱۴۰۲ · مشاور ۳ ساله
+voice:
+  register: صمیمی، دوم‌شخص مفرد، بدون شعار
+  length: ۳ تا ۸ جمله؛ آخرش یک «کار مشخص برای امروز/این هفته»
+  habits: ["اول سوال تشخیصی می‌پرسد اگر اطلاعات کم است", "عدد می‌دهد، نه کلی‌گویی"]
+  never: ["قول رتبه", "تحقیر", "توصیهٔ دارویی/روان‌درمانی"]
+principles:            # هر اصل: متن + اولویت + نمونه جواب‌های پشتیبان
+  - id: P-017
+    text: "[اصل علی دربارهٔ ساعت مطالعه در مهر برای دوازدهمی ریاضی]"
+    priority: high
+    evidence: [qa-0412, qa-0533, chat-17#m88]
+  - id: P-042
+    text: "[اصل علی دربارهٔ تست زمان‌دار قبل از تسلط بر درسنامه]"
+    priority: high
+uncertainty_rules:
+  - "قانون/تاریخ کنکور فقط از سند رسمی؛ اگر نبود: «مطمئن نیستم، می‌پرسم»"
+  - "سوال روان‌شناختی جدی → همدلی + ارجاع + اطلاع به علی"
+escalate_to_human: [low_confidence, sensitive, explicit_request, rule_question_without_source]</pre>
+
+<h3>جواب هر سوال چطور ساخته می‌شود</h3>
+<div class="tw"><table><thead><tr><th>بخش پرامپت</th><th>محتوا</th><th>حجم تقریبی</th><th>کش؟</th></tr></thead><tbody>
+<tr><td>هویت و لحن</td><td>بخش voice قانون‌نامه + ۱۵ تا ۲۰ نمونه‌جواب منتخب که لحن علی را نشان می‌دهد</td><td class="n">~3,000 tok</td><td>بله (ثابت)</td></tr>
+<tr><td>اصول</td><td>۱۰۰ تا ۲۰۰ اصل با اولویت</td><td class="n">~3,000 tok</td><td>بله</td></tr>
+<tr><td>قوانین کنکور ۱۴۰۶</td><td>خلاصهٔ رسمی (سهم سوابق، تقویم، ضرایب ریاضی) با تاریخ اعتبار</td><td class="n">~1,000 tok</td><td>بله</td></tr>
+<tr><td>پروفایل شاگرد</td><td>پایه، هدف، آخرین کارنامه، ساعت آزاد، خلاصهٔ گفت‌وگوهای قبلی</td><td class="n">~600 tok</td><td>خیر</td></tr>
+<tr><td>جواب‌های مشابه علی</td><td>۵ تا ۸ جفت از جست‌وجوی ترکیبی (کلمه + معنایی)</td><td class="n">~2,500 tok</td><td>خیر</td></tr>
+<tr><td>تاریخچهٔ گفت‌وگو</td><td>۸ پیام آخر</td><td class="n">~1,500 tok</td><td>خیر</td></tr>
+<tr><td>خروجی</td><td>جواب + شناسهٔ منابع + امتیاز اطمینان (ساختاریافته)</td><td class="n">~400 tok</td><td>—</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ============ 6 ============ -->
+<section class="sec" id="s6">
+<div class="sec-h"><span class="no">۶</span><div><h2>سنجش شباهت: از کجا بفهمیم واقعاً «شبیه علی» است؟</h2><p>بدون عدد، «شبیه علی» فقط حس است. این سه تست، هر هفته اجرا می‌شوند.</p></div></div>
+<div class="grid g3">
+  <div class="card"><h4>۱. تست مجموعهٔ کنارگذاشته</h4><p class="small">۱۵۰ سوال واقعی که مدل هرگز ندیده. جواب مدل کنار جواب واقعی علی. یک مدل داور با روبریک ۴ معیاره امتیاز می‌دهد: هم‌جهتی توصیه (۱ تا ۵)، نکات کلیدی موجود، نکات ممنوع، لحن.</p><p class="sub">هدف MVP: ≥ ۸۰٪ «هم‌جهت»؛ ماه ۳: ≥ ۹۰٪.</p></div>
+  <div class="card"><h4>۲. داوری خود علی</h4><p class="small">هفته‌ای ۵۰ جواب تصادفی از گفت‌وگوهای واقعی. علی فقط می‌گوید: «همین را می‌گفتم» / «قبول، ولی من این‌طور نمی‌گفتم» / «غلط». هر «غلط» با یک کلیک به اصل یا جفت جدید تبدیل می‌شود.</p><p class="sub">هدف: «غلط» ≤ ۵٪.</p></div>
+  <div class="card"><h4>۳. تست کور با شاگردها</h4><p class="small">به ۳۰ شاگرد قدیمی علی جفت جواب نشان بدهید (یکی علی، یکی مدل) و بپرسید کدام مال علی است. اگر حدود ۵۰٪ درست حدس بزنند، یعنی قابل‌تشخیص نیست.</p><p class="sub">این عدد بهترین جملهٔ تبلیغاتی شماست: «۴۸٪ شاگردهای خودم نتوانستند تشخیص دهند.»</p></div>
+</div>
+<div class="note pencil"><b class="t">گیت انتشار</b><p>قبل از اینکه هر پرسونایی (علی یا رتبه‌برترهای بعدی) عمومی شود، باید: ≥ ۸۰٪ در تست ۱، ≤ ۵٪ «غلط» در تست ۲ و تأیید کتبی خود رتبه‌برتر. این همان چیزی است که اسم آدم‌ها را محافظت می‌کند.</p></div>
+</section>
+
+<!-- ============ 7 ============ -->
+<section class="sec" id="s7">
+<div class="sec-h"><span class="no">۷</span><div><h2>معماری MVP</h2><p>ساده، داخل ایران، و مستقل از ارائه‌دهندهٔ مدل. دو نفر باید بتوانند در یک ماه بسازند و نگه دارند.</p></div></div>
+
+<div class="diagram"><svg viewBox="0 0 980 470" role="img" aria-label="نمودار معماری MVP">
+<defs><marker id="ah" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z" fill="var(--muted)"/></marker></defs>
+<style>.b{fill:var(--surface-2);stroke:var(--line-strong);stroke-width:1.2}.b.a{fill:var(--accent-soft);stroke:var(--accent)}.b.p{fill:var(--pencil-soft);stroke:var(--pencil)}.t{font:700 13px Vazirmatn,system-ui,sans-serif;fill:var(--fg);text-anchor:middle}.s{font:400 11px Vazirmatn,system-ui,sans-serif;fill:var(--muted);text-anchor:middle}.l{stroke:var(--muted);stroke-width:1.4;fill:none;marker-end:url(#ah)}.z{fill:none;stroke:var(--line-strong);stroke-dasharray:6 5}.zt{font:700 12px Vazirmatn,system-ui,sans-serif;fill:var(--muted)}</style>
+<rect class="z" x="10" y="10" width="700" height="450" rx="14"/><text class="zt" x="696" y="30" text-anchor="end">هاست داخلی (لیارا / هم‌روش)</text>
+<rect class="z" x="730" y="10" width="240" height="450" rx="14"/><text class="zt" x="956" y="30" text-anchor="end">ارائه‌دهندهٔ مدل (قابل‌تعویض)</text>
+<rect class="b" x="40" y="50" width="200" height="56" rx="10"/><text class="t" x="140" y="74">وب‌اپ دانش‌آموز (PWA)</text><text class="s" x="140" y="93">چت · فرم کارنامه · پروفایل</text>
+<rect class="b p" x="270" y="50" width="200" height="56" rx="10"/><text class="t" x="370" y="74">پنل علی</text><text class="s" x="370" y="93">صف بازبینی · ارجاع‌ها · داده</text>
+<rect class="b" x="500" y="50" width="180" height="56" rx="10"/><text class="t" x="590" y="74">صفحهٔ فرود + ورود OTP</text><text class="s" x="590" y="93">پیامک: کاوه‌نگار / SMS.ir</text>
+<path class="l" d="M140,106 L140,150"/><path class="l" d="M370,106 L370,150"/><path class="l" d="M590,106 L590,150"/>
+<rect class="b a" x="40" y="150" width="640" height="58" rx="10"/><text class="t" x="360" y="174">Backend API (Next.js route handlers یا FastAPI)</text><text class="s" x="360" y="194">احراز هویت · سهمیهٔ پیام · لاگ هر جواب با منابع · محدودیت نرخ</text>
+<path class="l" d="M150,208 L150,250"/><path class="l" d="M360,208 L360,250"/><path class="l" d="M570,208 L570,250"/>
+<rect class="b" x="40" y="250" width="220" height="74" rx="10"/><text class="t" x="150" y="274">موتور پرسونا</text><text class="s" x="150" y="293">ساخت پرامپت · قانون‌نامه</text><text class="s" x="150" y="309">نرمال‌سازی فارسی · گیت اطمینان</text>
+<rect class="b" x="280" y="250" width="160" height="74" rx="10"/><text class="t" x="360" y="274">بازیابی ترکیبی</text><text class="s" x="360" y="293">Postgres FTS + pgvector</text><text class="s" x="360" y="309">۵ تا ۸ جواب مشابه علی</text>
+<rect class="b" x="460" y="250" width="220" height="74" rx="10"/><text class="t" x="570" y="274">تحلیل کارنامه</text><text class="s" x="570" y="293">فرم ← محاسبهٔ درصد/روند</text><text class="s" x="570" y="309">← روبریک علی ← جواب</text>
+<path class="l" d="M150,324 L150,366"/><path class="l" d="M360,324 L360,366"/><path class="l" d="M570,324 L570,366"/>
+<rect class="b a" x="40" y="366" width="640" height="70" rx="10"/><text class="t" x="360" y="390">PostgreSQL 16 + pgvector</text><text class="s" x="360" y="409">کاربر · پروفایل · گفت‌وگو · پیام · persona · qa_pair · principle · کارنامه · ارجاع · بازخورد · eval</text><text class="s" x="360" y="425">بکاپ روزانه · رمزنگاری ستون‌های حساس</text>
+<rect class="b a" x="750" y="200" width="200" height="72" rx="10"/><text class="t" x="850" y="224">لایهٔ مسیریابی مدل</text><text class="s" x="850" y="243">رابط سازگار با OpenAI</text><text class="s" x="850" y="259">تعویض با یک تنظیم</text>
+<rect class="b" x="750" y="300" width="200" height="56" rx="10"/><text class="t" x="850" y="324">مدل اصلی (چت/تحلیل)</text><text class="s" x="850" y="342">تصمیم با آرشان</text>
+<rect class="b" x="750" y="380" width="200" height="56" rx="10"/><text class="t" x="850" y="404">مدل ارزان + امبدینگ</text><text class="s" x="850" y="422">برچسب‌زنی · bge-m3</text>
+<path class="l" d="M680,179 C 716,179 716,236 750,236"/>
+<path class="l" d="M850,272 L850,300"/><path class="l" d="M850,356 L850,380"/>
+</svg></div>
+
+<h3>استک پیشنهادی (اگر آرشان مسلط‌تر به چیز دیگری است، همان را انتخاب کند)</h3>
+<div class="tw"><table><thead><tr><th>لایه</th><th>انتخاب</th><th>چرا برای ۱ ماه و ۲ نفر</th></tr></thead><tbody>
+<tr><td>اپ</td><td>Next.js + TypeScript + Tailwind (+ shadcn/ui با RTL)</td><td>یک زبان برای فرانت و API؛ PWA؛ قالب‌های آماده</td></tr>
+<tr><td>اسکریپت‌های داده و سنجش</td><td>Python (hazm برای نرمال‌سازی فارسی)</td><td>استخراج Q&amp;A، ناشناس‌سازی، اجرای تست‌های بخش ۶؛ آفلاین، جدا از اپ</td></tr>
+<tr><td>دیتابیس</td><td>PostgreSQL مدیریت‌شده + pgvector</td><td>یک دیتابیس برای همه‌چیز؛ برای چند ده هزار جفت Q&amp;A کافی است. لیارا: حدود ۶۰۰ هزار تا ۱٫۱ م/ماه</td></tr>
+<tr><td>هاست</td><td>لیارا یا هم‌روش</td><td>داخل ایران (ترافیک نیم‌بها، الزام میزبانی داده، بقا در قطعی)</td></tr>
+<tr><td>ورود</td><td>OTP پیامکی</td><td>کاربر ایرانی ایمیل نمی‌خواند</td></tr>
+<tr><td>مدل</td><td>پشت یک لایهٔ Router (مثل LiteLLM یا یک ماژول ساده)</td><td>اگر یک ارائه‌دهنده قطع شد، با یک تنظیم عوض شود</td></tr>
+<tr><td>مانیتورینگ</td><td>لاگ هر جواب: پرامپت، منابع، مدل، توکن، هزینه، زمان</td><td>بدون این، نه کیفیت قابل‌بهبود است نه هزینه قابل‌کنترل</td></tr>
+</tbody></table></div>
+
+<div class="note pencil"><b class="t">مسیر دسترسی به مدل: تصمیمی که آرشان باید آگاهانه بگیرد</b>
+<ul>
+  <li><b>واقعیت:</b> OpenAI، Anthropic و Google سرویس API را برای ایران پشتیبانی نمی‌کنند. Anthropic از سپتامبر ۲۰۲۵ فروش به شرکت‌هایی را که بیش از ۵۰٪ مالکیتشان ایرانی است، صرف‌نظر از محل ثبت، ممنوع کرده. واسط‌های داخلی که این مدل‌ها را می‌فروشند، خلاف شرایط این شرکت‌ها عمل می‌کنند؛ کلیدشان ممکن است بدون اخطار باطل شود و محصول شما بخوابد.</li>
+  <li><b>مسیر پایه که به شرایط هیچ شرکتی وابسته نیست:</b> مدل‌های باز (Qwen3، DeepSeek-V3، Gemma 3، Llama 3.3) از طریق سرویس‌دهندهٔ داخلی (مثلاً سرویس AI لیارا) یا GPU اجاره‌ای داخلی. کیفیت فارسی مدل‌های بزرگ باز قابل‌قبول است؛ مدل‌های کوچک (زیر ۱۴ میلیارد پارامتر) برای پرسونا ضعیف‌اند.</li>
+  <li><b>توصیه:</b> هفتهٔ اول، ۲ تا ۳ گزینهٔ در دسترس و مجاز را روی همان ۱۵۰ سوال تست بخش ۶ مقایسه کنید و بر اساس عدد انتخاب کنید. معماری از روز اول مستقل از ارائه‌دهنده باشد.</li>
+</ul></div>
+</section>
+
+<!-- ============ 8 ============ -->
+<section class="sec" id="s8">
+<div class="sec-h"><span class="no">۸</span><div><h2>MVP یک‌ماهه: دقیقاً چه چیزی، در چه هفته‌ای</h2><p>یک ماه شدنی است، به شرطی که دامنه همین باشد و پرداخت آنلاین به ماه دوم برود (بدون اینماد درگاه نمی‌دهند).</p></div></div>
+
+<div class="grid g2">
+  <div class="card"><h4><span class="pill p-yes">داخل MVP</span></h4><ol class="small">
+    <li><b>ورود با OTP و پروفایل ۶ سوالی:</b> پایه (دوازدهم/پشت‌کنکور/یازدهم)، هدف، آخرین تراز، ساعت آزاد روزانه، منابع فعلی، بزرگ‌ترین مشکل.</li>
+    <li><b>چت با پرسونای علی:</b> زیر هر جواب «بر اساس ۶ جواب واقعی علی» (قابل‌باز شدن) + دکمهٔ 👍/👎.</li>
+    <li><b>تحلیل کارنامه با فرم:</b> نام آزمون (قلم‌چی، گاج، گزینه‌دو، ماز، سنجش)، برای ریاضیات، فیزیک و شیمی: تعداد سوال، درست، غلط. سیستم درصد را با فرمول نمرهٔ منفی حساب می‌کند <code>(3C−W)/(3N)</code>، با کارنامه‌های قبلی مقایسه می‌کند و با روبریک علی خروجی می‌دهد: ۳ قوت، ۳ اولویت، کارِ این هفته.</li>
+    <li><b>«از خود علی بپرس»:</b> ارجاع خودکار وقتی مدل مطمئن نیست یا موضوع حساس است + درخواست دستی (با سهمیه).</li>
+    <li><b>پنل علی:</b> صف ارجاع‌ها، ۵۰ جواب تصادفی برای داوری، «این را یاد بگیر» با یک کلیک، آمار ساده.</li>
+    <li><b>سهمیهٔ پیام روزانه</b> و لاگ هزینهٔ هر جواب.</li></ol></div>
+  <div class="card"><h4><span class="pill p-no">بیرون از MVP</span></h4><ul class="small">
+    <li>پرداخت آنلاین (ماه ۲؛ تا آن موقع بتای رایگان با لیست انتظار)</li>
+    <li>آپلود عکس کارنامه و استخراج خودکار (ماه ۲)</li>
+    <li>جواب صوتی، اپ موبایل، پرسونای دوم</li></ul>
+    <h4 style="margin-top:14px">دو تصمیمی که علی هنوز نگرفته</h4>
+    <p class="small"><b>برنامه‌نویسی: بله، ولی «برنامهٔ هفتگی سبک» در هفتهٔ ۶.</b> ۴۰ برنامهٔ واقعی دارید؛ این قوی‌ترین دلیل پرداخت است (کاربر برای چیزی پول می‌دهد که بتواند چاپ کند و اجرا کند). در MVP، چت می‌تواند برنامهٔ متنی پیشنهاد دهد؛ نسخهٔ ساختاریافته بعداً.</p>
+    <p class="small" style="margin:0"><b>گزارش‌کار: بله، در ماه ۲.</b> گزارش‌کار ۲ دقیقه‌ای شبانه هم دادهٔ برنامهٔ هفتهٔ بعد است، هم دلیل برگشت روزانه. بدون آن، نگه‌داشت کاربر به احتمال زیاد زیر ۴۰٪ در ماه دوم می‌ماند.</p></div>
+</div>
+
+<h3>نقشهٔ چهار هفته (شروع: ۱۲ مهر ۱۴۰۵)</h3>
+<div class="weeks">
+  <div class="week"><span class="wk">هفتهٔ ۱</span><span class="sub">۱۲ تا ۱۸ مهر · داده و پایه</span>
+    <div class="lane ali"><b>علی</b> پیام رضایت به ۴۰ شاگرد؛ خروجی JSON چت‌ها؛ تحویل ۷۰۰ سوال؛ ۲ جلسهٔ مصاحبهٔ پرسونا (ضبط‌شده)؛ پیش‌نویس روبریک کارنامه.</div>
+    <div class="lane ar"><b>آرشان</b> انتخاب مسیر مدل با تست مقایسه‌ای؛ ریپو، دیتابیس، OTP، اسکلت چت؛ اسکریپت ناشناس‌سازی و استخراج Q&amp;A.</div>
+    <div class="exit">خروج: همهٔ داده در دیتابیس؛ مدل انتخاب شده.</div></div>
+  <div class="week"><span class="wk">هفتهٔ ۲</span><span class="sub">۱۹ تا ۲۵ مهر · مغز پرسونا</span>
+    <div class="lane ali"><b>علی</b> بازبینی ~۱٬۰۰۰ جفت استخراج‌شده؛ جلسهٔ سوم مصاحبه؛ اصلاح قانون‌نامهٔ v1.</div>
+    <div class="lane ar"><b>آرشان</b> بازیابی ترکیبی، ساخت پرامپت، گیت اطمینان؛ فرم و محاسبهٔ کارنامه؛ تست ۱۵۰ سوالی و اولین اجرا.</div>
+    <div class="exit">خروج: ≥ ۷۰٪ هم‌جهتی در تست ۱.</div></div>
+  <div class="week"><span class="wk">هفتهٔ ۳</span><span class="sub">۲۶ مهر تا ۲ آبان · کیفیت و پنل</span>
+    <div class="lane ali"><b>علی</b> داوری ۱۰۰ جواب و اصلاح اصول؛ ویدئوی معرفی ۶۰ ثانیه‌ای؛ متن صفحهٔ فرود.</div>
+    <div class="lane ar"><b>آرشان</b> پنل علی و صف ارجاع؛ سهمیه و لاگ هزینه؛ صفحهٔ فرود و لیست انتظار؛ تست با ۱۰ شاگرد قدیمی.</div>
+    <div class="exit">خروج: ≥ ۸۰٪ در تست ۱؛ صفر «غلط» در ۵۰ نمونه.</div></div>
+  <div class="week"><span class="wk">هفتهٔ ۴</span><span class="sub">۳ تا ۹ آبان · بتای بسته</span>
+    <div class="lane ali"><b>علی</b> اعلام در کانال؛ روزی ۱ ساعت بازبینی و جواب ارجاع‌ها؛ تست کور با شاگردها.</div>
+    <div class="lane ar"><b>آرشان</b> ورود ۱۰۰ کاربر اول از لیست انتظار؛ رفع اشکال روزانه؛ شروع ثبت اینماد و مجوز.</div>
+    <div class="exit">خروج: ۱۰۰ کاربر؛ بازگشت روز هفتم ≥ ۳۵٪؛ تأیید علی ≥ ۹۰٪ روی نمونه‌ها.</div></div>
+</div>
+
+<h3>بعد از MVP</h3>
+<div class="tw"><table><thead><tr><th>زمان</th><th>اضافه می‌شود</th><th>چرا</th></tr></thead><tbody>
+<tr><td>ماه ۲ (آبان–آذر)</td><td>پرداخت و پلن‌ها؛ برنامهٔ هفتگی سبک؛ گزارش‌کار شبانه؛ عکس کارنامه</td><td>درآمد + نگه‌داشت</td></tr>
+<tr><td>ماه ۳ (آذر–دی)</td><td>پنل جمع‌آوری دادهٔ مشاوران (بخش ۹)؛ آن‌بورد ۱ تا ۲ رتبهٔ تک‌رقمی تجربی؛ محتوای «نهایی دی»</td><td>ورود به بازار ۳ برابری</td></tr>
+<tr><td>ماه ۴ تا ۶ (دی–فروردین)</td><td>انتشار پرسوناهای تجربی؛ ریفرال؛ مینی‌اپ بله؛ بستهٔ «۱۰۰ روز آخر»؛ همکاری شماتیک؛ شاید جواب صوتی</td><td>رشد در فصل جمع‌بندی</td></tr>
+</tbody></table></div>
+
+<div class="tw"><table><thead><tr><th>وقت علی در ماه اول (~۸۰ ساعت)</th><th class="n">ساعت</th></tr></thead><tbody>
+<tr><td>رضایت، خروجی‌گرفتن و مرتب‌کردن داده</td><td class="n">8</td></tr>
+<tr><td>۳ جلسهٔ مصاحبه + اصلاح قانون‌نامه</td><td class="n">13</td></tr>
+<tr><td>بازبینی جفت‌های استخراج‌شده</td><td class="n">15</td></tr>
+<tr><td>روبریک تحلیل کارنامه</td><td class="n">6</td></tr>
+<tr><td>داوری جواب‌های مدل</td><td class="n">15</td></tr>
+<tr><td>بتا: جواب ارجاع‌ها و پشتیبانی</td><td class="n">15</td></tr>
+<tr><td>محتوا و اعلام</td><td class="n">8</td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ============ 9 ============ -->
+<section class="sec" id="s9">
+<div class="sec-h"><span class="no">۹</span><div><h2>پنل جمع‌آوری داده از مشاوران جدید</h2><p>هدف: یک رتبه‌برتر ثبت‌نام کند و در حدود ۱۰ تا ۱۴ ساعت کار، طی دو هفته، پرسونای قابل‌انتشار داشته باشد؛ بدون اینکه کسی از تیم دستی کمکش کند.</p></div></div>
+
+<ol class="steps">
+  <li><b>ثبت‌نام و احراز.</b> شماره، کارنامهٔ سنجش (عکس)، سال و رشته، لینک پیج/کانال. تأیید توسط ادمین؛ نشان «رتبهٔ تأییدشده».</li>
+  <li><b>قرارداد و رضایت دیجیتال.</b> سهم درآمد، مالکیت داده، حق انصراف، حق وتوی کیفیت (بخش ۱۳). بدون امضا، مرحلهٔ بعد باز نمی‌شود.</li>
+  <li><b>مصاحبهٔ هدایت‌شده.</b> ۱۲۰ سوال در ۱۲ دسته (پایین). جواب متنی یا صوتی (صوت خودکار به متن تبدیل می‌شود). سوال‌ها همان بانک ثابتی است که از ۷۰۰ سوال علی خوشه‌بندی شده؛ پس همهٔ پرسوناها روی یک سوال‌ها قابل‌مقایسه‌اند.</li>
+  <li><b>آپلود منابع.</b> خروجی چت تلگرام، برنامه‌ها (اکسل/PDF/عکس)، کارنامه‌های تحلیل‌شده، لینک ویدئوها. ناشناس‌سازی خودکار، سپس استخراج جفت‌ها برای تأیید سریع (سه دکمه).</li>
+  <li><b>نمونهٔ لحن.</b> ۲۰ سوال کوتاه با تایمر: «همین الان، همان‌طور که به شاگردت می‌گویی جواب بده». بهترین منبع برای لحن واقعی.</li>
+  <li><b>قانون‌نامهٔ خودکار.</b> سیستم از جواب‌ها اصول را پیش‌نویس می‌کند؛ مشاور تأیید/اصلاح می‌کند. تناقض‌ها برجسته می‌شوند («در سوال ۱۲ گفتی ۸ ساعت، در چت ۴ گفتی ۱۱ ساعت؛ کدام؟»).</li>
+  <li><b>کالیبراسیون.</b> ۵۰ جواب مدل روی سوال‌های کنارگذاشته؛ مشاور نمره می‌دهد و اصلاح می‌کند.</li>
+  <li><b>داشبورد آمادگی و انتشار.</b> وقتی همهٔ معیارها سبز شد، دکمهٔ «درخواست انتشار» فعال می‌شود؛ ادمین (علی) نهایی تأیید می‌کند.</li>
+</ol>
+
+<div class="grid g2">
+  <div class="mock" aria-label="نمونهٔ داشبورد آمادگی">
+    <div class="mt"><span>داشبورد آمادگی پرسونا · نمونه</span><span class="pill p-mid">۷۴٪ آماده</span></div>
+    <div class="mb">
+      <div class="row"><span>پوشش ۱۲ دسته</span><b>۹ از ۱۲</b></div><div class="prog"><i style="width:75%"></i></div>
+      <div class="row"><span>جفت‌های تأییدشده (هدف ۴۰۰)</span><b>۳۱۲</b></div><div class="prog"><i style="width:78%"></i></div>
+      <div class="row"><span>اصول تأییدشده</span><b>۹۶</b></div><div class="prog"><i style="width:64%"></i></div>
+      <div class="row"><span>کالیبراسیون (هدف ۵۰)</span><b>۵۰</b></div><div class="prog"><i style="width:100%"></i></div>
+      <div class="row"><span>هم‌جهتی تست کنارگذاشته (هدف ۸۰٪)</span><b>۷۶٪</b></div><div class="prog"><i style="width:76%"></i></div>
+      <p class="sub" style="margin:8px 0 0">کم‌پوشش: «امتحان نهایی»، «پشت‌کنکور»، «خانواده و فشار». ۲۲ سوال باقی‌مانده حدود ۴۰ دقیقه کار است.</p>
+    </div>
+  </div>
+  <div class="card"><h4>۱۲ دستهٔ مصاحبه</h4><ol class="small" style="columns:2;column-gap:22px">
+    <li>داستان رتبه‌شدن</li><li>ساعت و کیفیت مطالعه</li><li>منابع هر درس</li><li>تست‌زنی و مدیریت زمان</li><li>آزمون آزمایشی و تحلیل کارنامه</li><li>امتحان نهایی و معدل</li><li>جمع‌بندی و عید</li><li>انگیزه، افت و فرسودگی</li><li>خواب، موبایل، سلامت</li><li>خانواده و فشار</li><li>پشت‌کنکور</li><li>انتخاب رشته</li></ol>
+    <p class="sub" style="margin:8px 0 0">فرمول آمادگی: ۳۰٪ پوشش دسته‌ها + ۳۰٪ جفت‌های تأییدشده + ۴۰٪ امتیاز تست کنارگذاشته؛ هر سه باید جداگانه هم از حداقل عبور کنند.</p></div>
+</div>
+
+<h3>جدول‌های اصلی این پنل</h3>
+<div class="tw"><table><thead><tr><th>جدول</th><th>ستون‌های کلیدی</th><th>کاربرد</th></tr></thead><tbody>
+<tr><td><code>persona</code></td><td>slug, display_name, track, rank, year, verified_at, status (draft/calibrating/live/paused), revenue_share</td><td>هر رتبه‌برتر یک ردیف</td></tr>
+<tr><td><code>interview_question</code></td><td>category, text, order, required</td><td>بانک ثابت ۱۲۰ سوال، مشترک برای همه</td></tr>
+<tr><td><code>interview_answer</code></td><td>persona_id, question_id, text, audio_file_id, transcript, answered_at</td><td>مصاحبه</td></tr>
+<tr><td><code>source_upload</code></td><td>persona_id, kind (chat_export/plan/karname/video_link), file_id, consent_ref, anonymized_at</td><td>منابع خام</td></tr>
+<tr><td><code>qa_pair</code></td><td>persona_id, question, answer, category, source_ref, status (draft/approved/rejected), embedding, is_heldout</td><td>هستهٔ RAG و تست</td></tr>
+<tr><td><code>principle</code></td><td>persona_id, text, priority, evidence_ids[], status, conflicts_with[]</td><td>قانون‌نامه</td></tr>
+<tr><td><code>calibration_rating</code></td><td>persona_id, question, model_answer, rating (same/ok/wrong), correction</td><td>کالیبراسیون و داوری هفتگی</td></tr>
+<tr><td><code>eval_run</code></td><td>persona_id, model, prompt_version, agreement_pct, wrong_pct, run_at</td><td>تاریخچهٔ کیفیت</td></tr>
+<tr><td><code>consent</code></td><td>subject (student/persona), scope, signed_at, revoked_at</td><td>اثبات رضایت</td></tr>
+</tbody></table></div>
+<p class="sub">این پنل در MVP لازم نیست؛ اما اگر جدول‌های پرسونای علی از روز اول همین شکل را داشته باشند (یعنی <code>persona_id</code> همه‌جا باشد)، در ماه ۳ فقط رابط کاربری اضافه می‌شود، نه بازنویسی.</p>
+</section>
+
+<!-- ============ 10 ============ -->
+<section class="sec" id="s10">
+<div class="sec-h"><span class="no">۱۰</span><div><h2>هزینه، قیمت و حاشیهٔ سود</h2><p>همهٔ عددها را در ماشین‌حساب با نرخ دلار روز خودتان عوض کنید. هزینهٔ مدل بزرگ‌ترین هزینهٔ متغیر است.</p></div></div>
+
+<h3>فرض‌های هزینهٔ هر جواب</h3>
+<div class="tw"><table><thead><tr><th>مسیر مدل</th><th class="n">قیمت ورودی / خروجی ($ در میلیون توکن)</th><th class="n">هر پیام چت</th><th class="n">هر تحلیل کارنامه</th><th>یادداشت</th></tr></thead><tbody>
+<tr><td>A · مدل تجاری سطح میانی</td><td class="n">2 / 10 (cache read 0.2)</td><td class="n">≈ $0.0146</td><td class="n">≈ $0.030</td><td>۷ هزار توکن ثابت کش‌شده + ۴٫۶ هزار متغیر + ۴۰۰ خروجی؛ مسیر دسترسی را بخش ۷ ببینید</td></tr>
+<tr><td>B · مدل باز بزرگ از سرویس‌دهندهٔ داخلی</td><td class="n">≈ 0.5 / 1.5</td><td class="n">≈ $0.0064</td><td class="n">≈ $0.006</td><td>تخمینی؛ قیمت واقعی را از سرویس‌دهنده بگیرید</td></tr>
+<tr><td>C · مدل باز روی GPU اجاره‌ای</td><td class="n">هزینهٔ ثابت ≈ $500/ماه</td><td class="n">≈ $0.001</td><td class="n">≈ $0.002</td><td>فقط بالای چند صد کاربر فعال صرفه دارد</td></tr>
+</tbody></table></div>
+
+<div class="calc" id="calc">
+  <div class="in">
+    <label for="cP">قیمت اشتراک ماهانه (تومان)<input id="cP" type="number" value="790000" step="10000" min="0"></label>
+    <label for="cU">نرخ دلار (تومان)<input id="cU" type="number" value="120000" step="1000" min="1000"></label>
+    <label for="cT">مسیر مدل<select id="cT"><option value="A" selected>A · تجاری سطح میانی</option><option value="B">B · مدل باز، سرویس داخلی</option><option value="C">C · مدل باز، GPU اجاره‌ای</option></select></label>
+    <label for="cM">پیام در هر روز فعال: <span class="val" id="vM"></span><input id="cM" type="range" min="1" max="30" value="6"></label>
+    <label for="cD">روز فعال در ماه: <span class="val" id="vD"></span><input id="cD" type="range" min="4" max="30" value="18"></label>
+    <label for="cK">تحلیل کارنامه در ماه: <span class="val" id="vK"></span><input id="cK" type="range" min="0" max="10" value="3"></label>
+    <label for="cS">سهم پرسونا از سود ناخالص: <span class="val" id="vS"></span><input id="cS" type="range" min="0" max="50" step="5" value="0"></label>
+    <label for="cN">تعداد کاربر پولی: <span class="val" id="vN"></span><input id="cN" type="range" min="50" max="3000" step="50" value="500"></label>
+    <label for="cF">هزینهٔ ثابت ماهانه (تومان)<input id="cF" type="number" value="12000000" step="1000000" min="0"></label>
+  </div>
+  <div class="out">
+    <div class="o"><div class="k">هزینهٔ مدل هر کاربر/ماه</div><div class="v" id="oAI"></div><div class="d" id="oAId"></div></div>
+    <div class="o main"><div class="k">سود هر کاربر (بعد از مدل، درگاه، سهم پرسونا)</div><div class="v" id="oCM"></div><div class="d" id="oCMd"></div></div>
+    <div class="o"><div class="k">سود ماهانه در این تعداد کاربر</div><div class="v" id="oPR"></div><div class="d" id="oPRd"></div></div>
+    <div class="o"><div class="k">نقطهٔ سربه‌سر</div><div class="v" id="oBE"></div><div class="d">کاربر پولی برای پوشش هزینهٔ ثابت</div></div>
+  </div>
+  <p class="sub" style="margin:12px 0 0">«سهم پرسونا» برای خود علی صفر است؛ برای رتبه‌برترهای بعدی پیشنهاد ۳۰٪ از سود ناخالص (بخش ۱۱). کارمزد درگاه ۰٫۵٪ با سقف ۴ هزار تومان فرض شده. مسیر C هزینهٔ GPU را به هزینهٔ ثابت اضافه می‌کند.</p>
+</div>
+
+<div class="grid g3">
+  <div class="card kpi"><div class="k">با پیش‌فرض‌ها (مسیر A، ۷۹۰ هزار)</div><div class="v">~۷۲٪</div><div class="d">حاشیهٔ سود هر کاربر؛ هزینهٔ مدل حدود ۲۲۰ هزار تومان</div></div>
+  <div class="card kpi"><div class="k">کاربر سنگین (۲۵ پیام، ۲۶ روز)</div><div class="v">زیان‌ده در ۴۹۰ هزار</div><div class="d">دلیل سقف روزانه در پلن ارزان‌تر</div></div>
+  <div class="card kpi"><div class="k">قاعده</div><div class="v">مدل ≤ ۳۰٪ قیمت</div><div class="d">اگر بیشتر شد: سقف، کش، یا مسیر B برای سوال‌های ساده</div></div>
+</div>
+
+<h3>بودجهٔ ۳ ماه اول (بدون حقوق)</h3>
+<div class="tw"><table><thead><tr><th>آیتم</th><th class="n">تومان (تقریبی)</th></tr></thead><tbody>
+<tr><td>هاست اپ + Postgres + فضای فایل (۳ ماه)</td><td class="n">6–12 M</td></tr>
+<tr><td>مدل زبانی: بتا ۱۰۰ کاربر + ماه‌های ۲ و ۳ (۱۵۰ تا ۳۰۰ کاربر)، مسیر A</td><td class="n">20–40 M</td></tr>
+<tr><td>پیامک OTP و یادآوری</td><td class="n">2–4 M</td></tr>
+<tr><td>دامنه، اینماد، مجوز، ثبت (در صورت ثبت شرکت بیشتر)</td><td class="n">2–15 M</td></tr>
+<tr><td>ابزارها و متفرقه</td><td class="n">2–4 M</td></tr>
+<tr><td><b>جمع</b></td><td class="n"><b>≈ 35–75 M</b></td></tr>
+</tbody></table></div>
+</section>
+
+<!-- ============ 11 ============ -->
+<section class="sec" id="s11">
+<div class="sec-h"><span class="no">۱۱</span><div><h2>برنامهٔ درآمدزایی</h2><p>پنج جریان درآمد، به ترتیب زمان فعال‌شدن.</p></div></div>
+
+<h3>۱. اشتراک کاربر (از ماه ۲)</h3>
+<div class="tiers">
+  <div class="tier"><span class="nm">آزمایشی</span><div class="pr">رایگان <small>۷ روز</small></div><ul><li>۲۰ پیام در کل</li><li>۱ تحلیل کارنامه</li><li>بدون کارت؛ فقط شماره</li></ul><p class="sub" style="margin-top:auto">نقش: قیف. هدف تبدیل ۱۰ تا ۱۵٪.</p></div>
+  <div class="tier"><span class="nm">همراه</span><div class="pr">۴۹۰ هزار <small>/ماه</small></div><ul><li>۸ پیام در روز</li><li>۲ تحلیل کارنامه در ماه</li><li>برنامهٔ هفتگی سبک (از هفتهٔ ۶)</li></ul><p class="sub" style="margin-top:auto">برای کسی که فقط گاهی سوال دارد.</p></div>
+  <div class="tier hi"><span class="nm">جدی</span><div class="pr">۸۹۰ هزار <small>/ماه</small></div><ul><li>۲۵ پیام در روز</li><li>تحلیل کارنامهٔ بدون محدودیت (منصفانه)</li><li>برنامهٔ هفتگی + گزارش‌کار</li><li>۲ سوال در ماه که خود علی جواب می‌دهد</li><li>لایو گروهی ماهانه با علی</li></ul><p class="sub" style="margin-top:auto">پلن اصلی؛ قیمت لنگر: کمتر از یک‌چهارم مشاورهٔ ۴ میلیونی.</p></div>
+  <div class="tier"><span class="nm">بسته‌ها</span><div class="pr">۱۵٪ تخفیف <small>۳ ماهه</small></div><ul><li>بستهٔ سه‌ماهه و «تا کنکور»</li><li>بستهٔ «۱۰۰ روز آخر» (بهمن)</li><li>بستهٔ «نهایی» (دی و خرداد)</li></ul><p class="sub" style="margin-top:auto">پیش‌پرداخت = ریزش کمتر + نقدینگی.</p></div>
+</div>
+
+<h3>۲. ارتقا به انسان (از ماه ۱)</h3>
+<ul>
+  <li><b>«علی جواب بده»:</b> بستهٔ ۵ سوال ۴۹۰ هزار تومان؛ جواب ظرف ۴۸ ساعت. هر جواب به دادهٔ مدل اضافه می‌شود؛ یعنی مشتری هزینهٔ بهتر شدن محصول را می‌دهد.</li>
+  <li><b>جلسهٔ ۲۰ دقیقه‌ای:</b> ۶۰۰ تا ۸۰۰ هزار تومان.</li>
+  <li><b>ارتقا به مشاورهٔ کامل علی (۴ میلیون):</b> مبلغ ماه آخر اشتراک از اولین ماه کسر می‌شود. چت‌بات قیف مشاورهٔ گران‌قیمت علی می‌شود.</li>
+</ul>
+
+<h3>۳. پرسوناهای رتبه‌برترهای دیگر (از ماه ۳–۴)</h3>
+<div class="tw"><table><thead><tr><th>بند قرارداد پیشنهادی</th><th>مقدار</th></tr></thead><tbody>
+<tr><td>سهم رتبه‌برتر</td><td><b>۳۰٪ از سود ناخالص</b> (درآمد منهای هزینهٔ مدل و درگاه) کاربرانی که پرسونای او را انتخاب کرده‌اند؛ برای ۱۰ نفر اول ۳۵٪</td></tr>
+<tr><td>پیش‌پرداخت</td><td>مبلغ کم ثابت برای ۱۰ تا ۱۴ ساعت کار مصاحبه (مثلاً ۳ تا ۵ میلیون)، کسر از سهم‌های آینده</td></tr>
+<tr><td>تعهد تبلیغ</td><td>حداقل ۲ پست/استوری در ماه با کد معرف اختصاصی (کاربرانی که از کد او می‌آیند، ۵٪ سهم بیشتر)</td></tr>
+<tr><td>داوری</td><td>۳۰ دقیقه در هفته بازبینی جواب‌ها</td></tr>
+<tr><td>انحصار</td><td>۱۲ ماه انحصار برای «پرسونای هوش مصنوعی»، نه برای مشاورهٔ انسانی خودش</td></tr>
+<tr><td>خروج</td><td>با اخطار ۳۰ روزه؛ پرسونا خاموش و داده‌اش حذف می‌شود</td></tr>
+</tbody></table></div>
+<p class="small">چرا درصد از سود ناخالص و نه از کل درآمد؟ چون هزینهٔ مدل برای پرسونای پرحرف بیشتر است و نباید از سهم پلتفرم کسر شود. یک انتخاب جایگزین «۲۰٪ از کل درآمد» است؛ ساده‌تر، ولی در مسیر A کمی به ضرر پلتفرم.</p>
+
+<h3>۴. همکاری با شماتیک (هر وقت قرارداد اجازه داد)</h3>
+<div class="grid g3">
+  <div class="card"><h4>مدل الف: تبلیغ با سهم</h4><p class="small">موسسه در کانال‌ها و ویدئوها معرفی می‌کند؛ کد اختصاصی؛ ۲۰ تا ۳۰٪ از درآمد کاربرانی که با آن کد می‌آیند. کمترین ریسک، شروع سریع.</p></div>
+  <div class="card"><h4>مدل ب: نسخهٔ شاگردان موسسه</h4><p class="small">موسسه دسترسی را در پکیج خودش به شاگردانش می‌دهد و به ازای هر نفر ماهانه مبلغ ثابت می‌پردازد (مثلاً ۱۵۰ تا ۲۵۰ هزار تومان). حجم بالا، قیمت واحد پایین.</p></div>
+  <div class="card"><h4>مدل ج: شریک</h4><p class="small">موسسه سهام کوچک در ازای توزیع انحصاری. فقط اگر عدد مخاطب واقعاً چند صد هزار است و تعهد کتبی می‌دهند.</p></div>
+</div>
+
+<h3>۵. B2B مدارس و آموزشگاه‌ها (از ماه ۵ به بعد)</h3>
+<p>مدرسه‌هایی که مشاور کافی ندارند: لایسنس سالانه به ازای هر دانش‌آموز (۱۵۰ تا ۲۰۰ هزار تومان/ماه) با گزارش کلی برای مدیر. هزینهٔ جذب به ازای دانش‌آموز بسیار پایین؛ ولی چرخهٔ فروش ۱ تا ۳ ماه.</p>
+
+<div class="note"><b class="t">ابزارهای رشد که پول نقد نمی‌خواهند</b><ul>
+  <li><b>ریفرال:</b> هر دعوت موفق = ۷ روز رایگان برای هر دو نفر.</li>
+  <li><b>محتوای «علی جواب می‌دهد»:</b> هر هفته بهترین سوال‌های بی‌نام با جواب مدل و نظر خود علی در کانال. هم محتوا است، هم اثبات کیفیت.</li>
+  <li><b>ابزار رایگان:</b> «ماشین‌حساب درصد و تراز» و «تحلیل یک کارنامه رایگان» به‌عنوان آهنربای ثبت‌نام.</li>
+</ul></div>
+</section>
+
+<!-- ============ 12 ============ -->
+<section class="sec" id="s12">
+<div class="sec-h"><span class="no">۱۲</span><div><h2>تخمین استفاده: آیا ۵۰۰ کاربر شدنی است؟</h2><p>سه سناریو برای کاربر پولی در پایان هر ماه. ماه اول بتای رایگان است.</p></div></div>
+
+<div class="chart">
+  <h5>کاربر پولی در پایان هر ماه</h5>
+  <div class="cap">محور عمودی: نفر. خط افقی: هدف میانگین ۵۰۰.</div>
+  <div class="cw"><svg id="chU" viewBox="0 0 720 320" role="img" aria-label="نمودار سناریوهای رشد کاربر"></svg><div class="tip" id="tipU"></div></div>
+  <div class="legend" id="lgU"></div>
+</div>
+
+<div class="tw"><table><thead><tr><th>سناریو</th><th class="n">آبان</th><th class="n">آذر</th><th class="n">دی</th><th class="n">بهمن</th><th class="n">اسفند</th><th class="n">فروردین</th><th class="n">میانگین ۶ ماه</th><th>فرض اصلی</th></tr></thead><tbody>
+<tr><td>محافظه‌کار</td><td class="n">0</td><td class="n">55</td><td class="n">100</td><td class="n">140</td><td class="n">175</td><td class="n">205</td><td class="n">113</td><td>فقط کانال علی؛ تبدیل ۸٪؛ ریزش ماهانه ۲۰٪</td></tr>
+<tr><td>پایه</td><td class="n">0</td><td class="n">90</td><td class="n">175</td><td class="n">260</td><td class="n">345</td><td class="n">430</td><td class="n">217</td><td>کانال علی + محتوای هفتگی + ریفرال + تبلیغ کم؛ پرسونای تجربی از بهمن</td></tr>
+<tr><td>با توزیع شماتیک</td><td class="n">0</td><td class="n">200</td><td class="n">500</td><td class="n">800</td><td class="n">1,050</td><td class="n">1,300</td><td class="n">642</td><td>معرفی در کانال‌های موسسه (چند صد هزار بازدید) + سناریوی پایه</td></tr>
+</tbody></table></div>
+
+<h3>حساب قیف (سناریوی پایه، یک ماه معمولی)</h3>
+<div class="tw"><table><thead><tr><th>مرحله</th><th class="n">نرخ</th><th class="n">تعداد</th></tr></thead><tbody>
+<tr><td>مخاطب منحصربه‌فرد کانال در ماه (با هم‌پوشانی بازدیدها)</td><td class="n">—</td><td class="n">~25,000</td></tr>
+<tr><td>کلیک به صفحهٔ فرود</td><td class="n">6%</td><td class="n">1,500</td></tr>
+<tr><td>شروع دورهٔ آزمایشی</td><td class="n">35%</td><td class="n">525</td></tr>
+<tr><td>تبدیل به پولی</td><td class="n">15%</td><td class="n">~80</td></tr>
+<tr><td>+ ریفرال و تبلیغ</td><td class="n">—</td><td class="n">+10 تا 25</td></tr>
+</tbody></table></div>
+
+<div class="note pencil"><b class="t">جمع‌بندی صادقانه</b><p>با کانال تلگرام علی به‌تنهایی، میانگین ۶ ماه احتمالاً بین ۱۰۰ تا ۲۵۰ کاربر است و پایان ماه ششم حدود ۲۰۰ تا ۴۵۰ نفر. <b>میانگین ۵۰۰ فقط با یکی از این‌ها دست‌یافتنی است:</b> توزیع از طریق شماتیک یا یک موسسهٔ مشابه، یا ورود ۲ تا ۳ رتبه‌برتر تجربی تا دی‌ماه که هرکدام کانال خودشان را بیاورند. پس از روز اول، این دو را موازی پیگیری کنید.</p></div>
+
+<div class="grid g4">
+  <div class="card kpi"><div class="k">در سناریوی پایه، ماه ۶</div><div class="v">~۳۰۰ م</div><div class="d">درآمد ماهانه (۴۳۰ کاربر × ~۷۰۰ هزار میانگین)</div></div>
+  <div class="card kpi"><div class="k">با شماتیک، ماه ۶</div><div class="v">~۹۰۰ م</div><div class="d">درآمد ماهانه پیش از سهم موسسه</div></div>
+  <div class="card kpi"><div class="k">نگه‌داشت ماه دوم (هدف)</div><div class="v">≥ ۶۰٪</div><div class="d">بدون گزارش‌کار و برنامه، احتمالاً زیر ۴۰٪</div></div>
+  <div class="card kpi"><div class="k">ارتقا به انسان</div><div class="v">۳ تا ۵٪</div><div class="d">کاربران پولی که بستهٔ «علی جواب بده» یا مشاورهٔ کامل می‌خرند</div></div>
+</div>
+</section>
+
+<!-- ============ 13 ============ -->
+<section class="sec" id="s13">
+<div class="sec-h"><span class="no">۱۳</span><div><h2>ریسک‌ها و مسائل حقوقی</h2><p>این‌ها را قبل از لانچ عمومی ببندید، نه بعد از اولین مشکل.</p></div></div>
+<div class="tw"><table><thead><tr><th>ریسک</th><th>شدت</th><th>پاسخ</th></tr></thead><tbody>
+<tr><td>قرارداد علی با شماتیک (اسم، محتوا، منع رقابت)</td><td><span class="pill p-no">بالا</span></td><td>همین هفته بخوان یا با موسسه صحبت کن. محتوای تولیدشده در موسسه را تا روشن‌شدن وضعیت در داده نگذار. تبدیلش کن به فرصت (بخش ۱۱).</td></tr>
+<tr><td>قطع دسترسی به مدل یا تغییر شرایط ارائه‌دهنده</td><td><span class="pill p-no">بالا</span></td><td>معماری مستقل از ارائه‌دهنده؛ یک مسیر پشتیبان آزموده؛ بخش ۷.</td></tr>
+<tr><td>جواب غلط با اسم علی</td><td><span class="pill p-mid">متوسط</span></td><td>گیت اطمینان، ارجاع به انسان، داوری هفتگی، برچسب شفاف «دستیار هوش مصنوعی».</td></tr>
+<tr><td>ماندگاری کم کاربر</td><td><span class="pill p-mid">متوسط</span></td><td>برنامهٔ هفتگی و گزارش‌کار در ماه ۲؛ بسته‌های پیش‌پرداخت.</td></tr>
+<tr><td>وابستگی به وقت علی</td><td><span class="pill p-mid">متوسط</span></td><td>سهمیهٔ سوال انسانی؛ «این را یاد بگیر» تا تکرار کم شود؛ پرسوناهای دیگر.</td></tr>
+<tr><td>موضوع سلامت روان (اضطراب شدید، آسیب به خود)</td><td><span class="pill p-mid">کم ولی جدی</span></td><td>پاسخ همدلانهٔ از پیش تأییدشده + شماره‌های کمک (اورژانس اجتماعی ۱۲۳، صدای مشاور ۱۴۸۰) + اطلاع فوری به علی. هرگز «مشاورهٔ روان‌شناختی» نام نبرید.</td></tr>
+<tr><td>کپی ایده</td><td><span class="pill p-mid">متوسط</span></td><td>سرعت، دادهٔ اختصاصی، قرارداد انحصار پرسونا با رتبه‌برترها.</td></tr>
+</tbody></table></div>
+
+<div class="grid g2">
+  <div class="card"><h4>شفافیت و برچسب</h4><ul>
+    <li>نام محصول: «دستیار هوش مصنوعی با روش علی نوری»، نه «علی نوری».</li>
+    <li>در شروع هر گفت‌وگو و زیر هر جواب: «پاسخ هوش مصنوعی». مدل هرگز ادعا نکند انسان است.</li>
+    <li>جواب‌هایی که خود علی داده، برچسب جدا دارند.</li>
+    <li>هیچ «قول رتبه» یا تضمین.</li></ul></div>
+  <div class="card"><h4>داده و رضایت</h4><ul>
+    <li>رضایت کتبی (پیام هم کافی است، ولی ذخیره‌اش کنید) از ۴۰ شاگرد؛ ناشناس‌سازی قبل از هر پردازش.</li>
+    <li>کاربران بیشتر ۱۷–۱۸ ساله‌اند: حداقل داده (بدون کد ملی، بدون آدرس)، سیاست حریم خصوصی ساده، حذف حساب با یک درخواست.</li>
+    <li>میزبانی داده داخل ایران.</li>
+    <li>برای پرداخت: اینماد + مجوز کسب‌وکار اینترنتی از درگاه ملی مجوزها. از هفتهٔ ۴ شروع کنید؛ ۲ تا ۴ هفته طول می‌کشد.</li></ul></div>
+</div>
+</section>
+
+<!-- ============ 14 ============ -->
+<section class="sec" id="s14">
+<div class="sec-h"><span class="no">۱۴</span><div><h2>همین هفته</h2><p>ده کار برای اینکه هفتهٔ ۱ واقعاً شروع شود.</p></div></div>
+<ul class="check">
+  <li><b class="who2 who-ali">علی</b>قرارداد با شماتیک را بخوان یا با موسسه صحبت کن (اسم، محتوا، منع رقابت، و امکان همکاری).</li>
+  <li><b class="who2 who-ali">علی</b>پیام رضایت کوتاه برای ۴۰ شاگرد بفرست و جواب‌ها را نگه دار.</li>
+  <li><b class="who2 who-ali">علی</b>چت‌ها را با «Export chat history» تلگرام در قالب JSON بگیر؛ ۷۰۰ سوال را در یک فایل جمع کن.</li>
+  <li><b class="who2 who-ali">علی</b>دو جلسهٔ ۹۰ دقیقه‌ای مصاحبه با آرشان: ۱۲ دسته، ضبط‌شده.</li>
+  <li><b class="who2 who-ali">علی</b>روبریک تحلیل کارنامه را بنویس: با دیدن درصد ریاضیات، فیزیک و شیمی و روندشان، چه می‌گویی؟ (یک صفحه کافی است)</li>
+  <li><b class="who2 who-ar">آرشان</b>مسیرهای مجاز و در دسترس مدل را فهرست کن و روی ۳۰ سوال نمونه مقایسه کن (هزینه، کیفیت فارسی، پایداری).</li>
+  <li><b class="who2 who-ar">آرشان</b>ریپو، دیتابیس (با <code>persona_id</code> از روز اول)، OTP و اسکلت چت.</li>
+  <li><b class="who2 who-ar">آرشان</b>اسکریپت ناشناس‌سازی و استخراج جفت پرسش‌وپاسخ از JSON تلگرام.</li>
+  <li><b class="who2 who-both">هر دو</b>۱۵۰ سوال کنارگذاشته را جدا کنید و دست نزنید.</li>
+  <li><b class="who2 who-both">هر دو</b>یک پست در کانال: «دارم چیزی می‌سازم؛ برای بتای رایگان ثبت‌نام کن». تعداد ثبت‌نام اولین سیگنال واقعی تقاضاست.</li>
+</ul>
+</section>
+
+<footer class="foot">ارقام کنکور از اطلاعیه‌های رسمی و خبرگزاری‌ها (مهر ۱۴۰۵)؛ قیمت‌های بازار، زیرساخت و مدل‌ها تخمینی‌اند و باید پیش از تصمیم مالی از منبع اصلی تأیید شوند. سهم داوطلبان: تجربی ۴۵۱٬۵۲۲ و ریاضی ۱۳۵٬۸۱۳ نفر در کنکور ۱۴۰۵.</footer>
+</main>
+
+<script>
+(function(){
+  var root=document.documentElement,tb=document.getElementById('tb');
+  function cur(){var t=root.getAttribute('data-theme');return t||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')}
+  function paint(){tb.textContent=cur()==='dark'?'تم روشن':'تم تاریک'}
+  try{var s=localStorage.getItem('pm-theme');if(s)root.setAttribute('data-theme',s)}catch(e){}
+  paint();
+  tb.addEventListener('click',function(){var n=cur()==='dark'?'light':'dark';root.setAttribute('data-theme',n);try{localStorage.setItem('pm-theme',n)}catch(e){}paint()});
+
+  var links=[].slice.call(document.querySelectorAll('#nav a'));
+  if('IntersectionObserver' in window){
+    var io=new IntersectionObserver(function(es){es.forEach(function(e){if(e.isIntersecting){links.forEach(function(l){var on=l.getAttribute('href')==='#'+e.target.id;l.classList.toggle('on',on);if(on&&l.scrollIntoView)l.parentNode.scrollTo({left:l.offsetLeft-l.parentNode.clientWidth/2,behavior:'smooth'})})}})},{rootMargin:'-25% 0px -70% 0px'});
+    links.forEach(function(l){var t=document.querySelector(l.getAttribute('href'));if(t)io.observe(t)});
+  }
+
+  var fa=function(n,d){return new Intl.NumberFormat('fa-IR',{maximumFractionDigits:d||0}).format(n)};
+  var tm=function(n){var a=Math.abs(n),s=n<0?'−':'';if(a>=1e9)return s+fa(a/1e9,2)+' میلیارد';if(a>=1e6)return s+fa(a/1e6,1)+' م';return s+fa(Math.round(a/1000))+' هزار'};
+  var T={A:{c:0.0146,k:0.030,g:0},B:{c:0.0064,k:0.006,g:0},C:{c:0.001,k:0.002,g:500}};
+  function $(id){return document.getElementById(id)}
+  function calc(){
+    var P=+$('cP').value||0,U=+$('cU').value||0,t=T[$('cT').value],m=+$('cM').value,d=+$('cD').value,k=+$('cK').value,s=+$('cS').value/100,N=+$('cN').value,F=(+$('cF').value||0)+t.g*U;
+    $('vM').textContent=fa(m);$('vD').textContent=fa(d);$('vK').textContent=fa(k);$('vS').textContent=fa(s*100)+'٪';$('vN').textContent=fa(N);
+    var usd=m*d*t.c+k*t.k+0.15, ai=usd*U, gw=Math.min(P*0.005,4000), gross=P-ai-gw, share=gross>0?gross*s:0, cm=gross-share;
+    $('oAI').textContent=tm(ai)+' تومان';$('oAId').textContent='≈ $'+usd.toFixed(2)+' · '+(P?fa(ai/P*100)+'٪ قیمت':'');
+    $('oCM').textContent=tm(cm)+' تومان';$('oCM').className='v'+(cm<0?' neg':'');$('oCMd').textContent=P?('حاشیه '+fa(cm/P*100)+'٪'+(share?(' · سهم پرسونا '+tm(share)):'')):'';
+    var pr=N*cm-F;$('oPR').textContent=tm(pr)+' تومان';$('oPR').className='v'+(pr<0?' neg':'');$('oPRd').textContent='درآمد '+tm(N*P)+' · هزینهٔ ثابت '+tm(F);
+    $('oBE').textContent=cm>0?fa(Math.ceil(F/cm))+' نفر':'—';
+  }
+  ['cP','cU','cT','cM','cD','cK','cS','cN','cF'].forEach(function(id){$(id).addEventListener('input',calc)});
+  calc();
+
+  /* line chart */
+  var svg=$('chU'),tip=$('tipU'),cw=svg.parentNode,NS='http://www.w3.org/2000/svg';
+  function el(n,a){var e=document.createElementNS(NS,n);for(var k in a)e.setAttribute(k,a[k]);return e}
+  var months=['آبان','آذر','دی','بهمن','اسفند','فروردین'];
+  var S=[{n:'محافظه‌کار',short:'محافظه‌کار',c:'var(--s1)',v:[0,55,100,140,175,205]},{n:'پایه',short:'پایه',c:'var(--s2)',v:[0,90,175,260,345,430]},{n:'با توزیع شماتیک',short:'با شماتیک',c:'var(--s3)',v:[0,200,500,800,1050,1300]}];
+  var W=720,H=320,pl=50,pr=130,pt=14,pb=34,iw=W-pl-pr,ih=H-pt-pb,max=1400;
+  var X=function(i){return pl+iw*i/(months.length-1)},Y=function(v){return pt+ih-ih*v/max};
+  for(var g=0;g<=7;g++){var v=g*200,y=Y(v);svg.appendChild(el('line',{x1:pl,x2:pl+iw,y1:y,y2:y,'class':g?'gl':'ax'}));var t=el('text',{x:pl-8,y:y+4,'text-anchor':'end'});t.textContent=fa(v);svg.appendChild(t)}
+  months.forEach(function(m,i){var t=el('text',{x:X(i),y:H-10,'text-anchor':'middle'});t.textContent=m;svg.appendChild(t)});
+  var ty=Y(500);svg.appendChild(el('line',{x1:pl,x2:pl+iw,y1:ty,y2:ty,stroke:'var(--fg-2)','stroke-width':1.2}));
+  var tt=el('text',{x:pl+4,y:ty-6,'text-anchor':'start','class':'lb',fill:'var(--fg-2)'});tt.textContent='هدف میانگین ۵۰۰';svg.appendChild(tt);
+  S.forEach(function(s){
+    var d='';s.v.forEach(function(v,i){d+=(i?'L':'M')+X(i)+','+Y(v)});
+    svg.appendChild(el('path',{d:d,fill:'none',stroke:s.c,'stroke-width':2.2,'stroke-linejoin':'round'}));
+    s.v.forEach(function(v,i){var c=el('circle',{cx:X(i),cy:Y(v),r:4,fill:s.c,stroke:'var(--surface)','stroke-width':2,tabindex:0});
+      var txt=s.n+' · '+months[i]+': '+fa(v)+' نفر';
+      var show=function(ev){var r=cw.getBoundingClientRect(),b=c.getBoundingClientRect();tip.style.left=(b.left+b.width/2-r.left)+'px';tip.style.top=(b.top-r.top)+'px';tip.textContent=txt;tip.style.opacity=1};
+      c.addEventListener('mouseenter',show);c.addEventListener('focus',show);c.addEventListener('mouseleave',function(){tip.style.opacity=0});c.addEventListener('blur',function(){tip.style.opacity=0});
+      svg.appendChild(el('circle',{cx:X(i),cy:Y(v),r:12,fill:'transparent'}));svg.appendChild(c)});
+    var lb=el('text',{x:X(5)+10,y:Y(s.v[5])+4,'text-anchor':'start','class':'lb',fill:'var(--fg)'});lb.textContent=s.short;svg.appendChild(lb);
+  });
+  $('lgU').innerHTML=S.map(function(s){return '<span><i style="background:'+s.c+'"></i>'+s.n+'</span>'}).join('');
+})();
+</script>
+</body>
+</html>
